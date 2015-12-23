@@ -1,0 +1,504 @@
+\chapter{Error Propagation}
+\label{chap:ErrorPropagation}
+In this chapter, we show how to propagate uncertainties from ``direct'' measurements to uncertainties in quantities calculated from those measurements. 
+
+\section{The Min-Max method}
+We will look at the ``Min-Max'' method as an introduction to propagating uncertainties before looking at a more general method that works in all cases. The Min-Max method is based on considering the maximal change in a calculated quantity that can result from the variation of the measured quantities.
+
+\subsection{Summing and subtracting}
+First, we consider the case of summing (or subtracting) two numbers with uncertainties. For example, we may be placing two masses ($m_1$, $m_2$) on a balance and need to know their sum, $M=m_1+m_2$. If each individual mass, $m_i$, has an uncertainty of $\sigma_{m_i}$, then the absolute maximal value that the sum of the masses could have is:
+\begin{align}
+M^{max}\equiv(m_1+\sigma_{m_1})+(m_2+\sigma_{m_2})
+\end{align}
+which assume that in each case, the ``true'' value of the masses was at the maximum end of the range defined by our uncertainty. Similarly, if the ``true'' value of the masses was at the minimum end of the range, the minimum value that the sum could be is:
+\begin{align}
+M^{min}\equiv(m_1-\sigma_{m_1})+(m_2-\sigma_{m_2})
+\end{align}
+Now that we know the range over which $M$ must lie, we can define a value of $M$ with uncertainty, $\sigma_{M}$, to correspond to the center of the range with an uncertainty that allows the range to be covered:
+\begin{align}
+M&\equiv\frac{1}{2}(M^{max}+M^{min})\nonumber\\
+\sigma_{M}&\equiv\frac{1}{2}(M^{max}-M^{min})
+\end{align}
+Substituting the expressions for $M^{max}$ and $M^{min}$, we have:
+\begin{align}
+M&=\frac{1}{2}\left(\left[(m_1+\sigma_{m_1})+(m_2+\sigma_{m_2})\right]+ \left[(m_1-\sigma_{m_1})+(m_2-\sigma_{m_2})\right]\right)\nonumber\\
+ &=m_1+m_2\nonumber\\
+\sigma_{M}&=\frac{1}{2}\left(\left[(m_1+\sigma_{m_1})+(m_2+\sigma_{m_2})\right]-\left[(m_1-\sigma_{m_1})+(m_2-\sigma_{m_2})\right]\right) \nonumber\\
+ &=\sigma_{m_1}+ \sigma_{m_2}
+\end{align}
+The central value of the calculated quantity, $M$, is thus given by the sum of $m_1$ and $m_2$, and the uncertainty, $\sigma_{M}$, is given by summing the uncertainties $\sigma_{m_1}$ and $\sigma_{m_2}$.
+
+It is easy to show that if there are more than two measurements, say $N$ measurements of quantities $x_i$, each with uncertainty $\sigma_{x_i}$, the best estimate of the sum, $X$, and its uncertainty, $\sigma_X$, are given by:
+\begin{align}
+X=\sum_{i=1}^{i=N}x_i\nonumber\\
+\sigma_X=\sum_{i=1}^{i=N}\sigma_{x_i}
+\end{align}
+
+\begin{example}{}{Using the Min-Max method, show that the best estimate and uncertainty on the difference of two measurements, $x_1$ and $x_2$, with uncertainty $\sigma_{x_1}$ and $\sigma_{x_2}$, are given by $X=x_1-x_2$ and $\sigma_{X} =\sigma_{x_2} + \sigma_{x_2}$}{} 
+The maximum value of the difference is given when $x_1$ has the biggest value in its range, while $x_2$ has the smallest values in its range:
+\begin{align*}
+X^{max}=(x_1+\sigma_{x_1})-(x_2-\sigma_{x_2})
+\end{align*}
+and the minimum value that the difference can have is given by:
+\begin{align*}
+X^{min}=(x_1-\sigma_{x_1})-(x_2+\sigma_{x_2})
+\end{align*}
+The central value and uncertainties are then:
+\begin{align*}
+X&=\frac{1}{2}(X^{max}+X^{min})\nonumber\\
+ &=\frac{1}{2}\left(\left[(x_1+\sigma_{x_1})-(x_2-\sigma_{x_2})\right]+\left[(x_1-\sigma_{x_1})-(x_2+\sigma_{x_2})\right]\right)\nonumber\\
+ &=x_1-x_2\nonumber\\
+\sigma_{X} &=\frac{1}{2}(X^{max}-X^{min})\nonumber\\
+ &=\frac{1}{2}\left(\left[(x_1+\sigma_{x_1})-(x_2-\sigma_{x_2})\right]-\left[(x_1-\sigma_{x_1})-(x_2+\sigma_{x_2})\right]\right)\nonumber\\
+ &=\sigma_{x_1}+ \sigma_{x_2}\nonumber\\
+\end{align*}
+as required.
+\end{example}
+We see that for addition and subtraction, the uncertainties on the individual measurements are always summed, whereas the central value is obtained by summing (or subtracting) the individual measurements as if they had no uncertainty. It should be clear that with this method, the final uncertainty is always ``conservative'', that is, it is never going to be too small. In fact, it is almost always too big. In our example with the sum of two masses, if our measurements of $m_1$ and $m_2$ are truly independent and the errors on the individual measurements are truly random errors, it is very unlikely that the sum is actually at one of the extreme ranges given by the uncertainty. On average, it is much more likely for the error in the measurement of one mass to somewhat offset the error in the measurement of the other (unless there is a systematic bias). Our uncertainty estimated this way is almost always an overestimate of the true uncertainty on the sum, and is in fact an upper limit on the uncertainty. 
+\subsection{Multiplication and division}
+Suppose we measured two sides of a rectangle, $l_1$ and $l_2$ with uncertainties $\sigma_{l_1}$ and $\sigma_{l_2}$, and want to know the area of the rectangle, $A=l_1l_2$, and its uncertainty, $\sigma_{A}$. Multiplication (and division) are best handled by using the relative uncertainties, $\frac{\sigma_{l_1}}{l_1}$ and $\frac{\sigma_{l_2}}{l_2}$. We can write the biggest and smallest possible values for, say, $l_1$, in terms of the relative uncertainty as:
+\begin{align}
+l_1^{max}=l_1\left(1+\frac{\sigma_{l_1}}{l_1}\right)\nonumber\\
+l_1^{min}=l_1\left(1-\frac{\sigma_{l_1}}{l_1}\right)\nonumber\\
+\end{align}
+The highest possible value of the area of the rectangle is thus:
+\begin{align}
+A^{max}&=l_1^{max}l_2^{max}\nonumber\\
+  &=l_1\left(1+\frac{\sigma_{l_1}}{l_1}\right)l_2\left(1+\frac{\sigma_{l_2}}{l_2}\right)\nonumber\\
+  &=l_1l_2\left(1+\frac{\sigma_{l_1}}{l_1}+\frac{\sigma_{l_2}}{l_2}+\frac{\sigma_{l_1}}{l_1}\frac{\sigma_{l_2}}{l_2}\right)\nonumber\\
+  &\approx l_1l_2\left(1+\left[\frac{\sigma_{l_1}}{l_1}+\frac{\sigma_{l_2}}{l_2}\right]\right)
+\end{align}
+where in the last line, we made the approximation that if each relative uncertainty is small, then their product ($\frac{\sigma_{l_1}}{l_1}\frac{\sigma_{l_2}}{l_2}$) is really small and negligible. This is reasonable, for example if each relative uncertainty if of order 10\% (0.1), then their product (0.01) is certainly negligible when compared to their sum (0.2). And often, one would have relative uncertainties well below 10\%.
+
+The minimum value of the area is found similarly:
+\begin{align}
+A^{min}&=l_1^{min}l_2^{min}\nonumber\\
+  &=l_1\left(1-\frac{\sigma_{l_1}}{l_1}\right)l_2\left(1-\frac{\sigma_{l_2}}{l_2}\right)\nonumber\\
+  &=l_1l_2\left(1-\frac{\sigma_{l_1}}{l_1}-\frac{\sigma_{l_2}}{l_2}-\frac{\sigma_{l_1}}{l_1}\frac{\sigma_{l_2}}{l_2}\right)\nonumber\\
+  &\approx l_1l_2\left(1-\left[\frac{\sigma_{l_1}}{l_1}+\frac{\sigma_{l_2}}{l_2}\right]\right)
+\end{align}
+The expressions for $A^{min}$ and $A^{max}$ are symmetric about the central value of $l_1l_2$, so we can easily write the value of $A$ and its uncertainty as:
+\begin{align}
+A \pm \sigma_{A} = l_1l_2\left(1\pm\left[\frac{\sigma_{l_1}}{l_1}+\frac{\sigma_{l_2}}{l_2}\right]\right)
+\end{align}
+We can thus identify that the central value and uncertainty on $A$ are given by:
+\begin{align}
+A&=l_1l_2\nonumber\\
+\sigma_{A} &= A\left(\frac{\sigma_{l_1}}{l_1}+\frac{\sigma_{l_2}}{l_2}\right)
+\end{align}
+More conveniently, we can see that the relative uncertainty of $A$ is given by summing the relative uncertainties on $l_1$ and $l_2$:
+\begin{align}
+\frac{\sigma_{A}}{A}=\frac{\sigma_{l_1}}{l_1}+\frac{\sigma_{l_2}}{l_2}
+\end{align}
+
+\begin{example}{}{Use the Min-Max method to determine the uncertainty on the quotient, $Q=\frac{x_1}{x_2}$, of two numbers, $x_1$ and $x_2$, that have uncertainties $\sigma_{x_1}$ and $\sigma_{x_2}$}{}
+We proceed in the same way as we did for the product, using the relative uncertainties. The biggest value that the quotient can have is:
+\begin{align*}
+Q^{max}&=\frac{x_1^{max}}{x_2^{min}}\nonumber\\
+  &=\frac{x_1\left(1+\frac{\sigma_{x_1}}{x_1}\right)}{x_2\left(1-\frac{\sigma_{x_2}}{x_2}\right)}
+\end{align*}
+Again, we have to assume that the relative uncertainties are small, in particular, we make use of the binomial approximation:
+\begin{align*}
+(1+x)^\alpha\approx 1+\alpha x
+\end{align*}
+which applies when $x$ is small. In our case:
+\begin{align*}
+\frac{1}{1-\frac{\sigma_{x_2}}{x_2}}\approx 1+\frac{\sigma_{x_2}}{x_2}
+\end{align*}
+$Q^{max}$ is thus given by:
+\begin{align*}
+Q^{max}&=\frac{x_1}{x_2}\left(1+\frac{\sigma_{x_1}}{x_1}\right)\left(1+\frac{\sigma_{x_2}}{x_2}\right)\\
+  &\approx \frac{x_1}{x_2}\left(1+\left[\frac{\sigma_{x_1}}{x_1}+\frac{\sigma_{x_2}}{x_2}\right]\right)
+\end{align*}
+where, again, we assumed that the product of the relative uncertainties was negligible. The minimum value of the quotient is found in a similar way:
+\begin{align*}
+Q^{min}&=\frac{x_1^{min}}{x_2^{max}}\nonumber\\
+  &=\frac{x_1\left(1-\frac{\sigma_{x_1}}{x_1}\right)}{x_2\left(1+\frac{\sigma_{x_2}}{x_2}\right)}\\
+  &\approx\frac{x_1}{x_2}\left(1-\frac{\sigma_{x_1}}{x_1}\right)\left(1-\frac{\sigma_{x_2}}{x_2}\right)\\
+  &\approx \frac{x_1}{x_2}\left(1-\left[\frac{\sigma_{x_1}}{x_1}+\frac{\sigma_{x_2}}{x_2}\right]\right)
+\end{align*}
+where we again used the binomial expansion and the fact that the product of the relative uncertainties is negligible. We end up with a very similar result as for multiplication, where the quotient can be written as:
+\begin{align*}
+Q \pm \delta Q = \frac{x_1}{x_2}\left(1\pm\left[\frac{\sigma_{x_1}}{x_1}+\frac{\sigma_{x_2}}{x_2}\right]\right)
+\end{align*}
+and we find that the central value of the quotient is just the quotient of the two numbers without uncertainty and that the relative uncertainty on $Q$ is found by summing the relative uncertainties of the two numbers:
+\begin{align*}
+Q&=\frac{x_1}{x_2}\\
+\frac{\delta Q}{Q} &= \frac{\sigma_{x_1}}{x_1}+\frac{\sigma_{x_2}}{x_2}
+\end{align*}
+\end{example}
+In summary, for multiplication and division, we sum the relative uncertainties to obtain the relative uncertainty on the result, whereas for summation and subtraction we sum the absolute uncertainties.
+
+We also make the same point for multiplication and division as we did for summation and subtraction: the Min-Max method overestimates the uncertainties. It is very unlikely for the ``true'' values of the measured quantities to be at the extrema of the uncertainty range, and this method really gives an upper limit on the uncertainty of the result.
+
+\subsubsection{Uncertainties in functions}
+We can also apply the formalism of the Min-Max method to propagate the uncertainty in a function, although there may not be a trivial way to do it. If we have a function, $F(x,y)$ of two measured quantities, $x$ and $y$ that have uncertainties $\sigma_{x}$ and $\sigma_{y}$, it may not be trivial to find out the particular combination of $x$ and $y$ that maximize and minimize $F$. If these combinations are found, then $F$ and its uncertainty $\sigma_{F}$, are given by:
+\begin{align}
+F&\equiv\frac{1}{2}(F^{max}+F^{min})\nonumber\\
+\sigma_{F}&\equiv\frac{1}{2}(F^{max}-F^{min})
+\end{align}
+
+If $F$ is a monotonic function in both $x$ and $y$, then the situation is relatively straightforward. For example, if $F$ monotonically \textit{increases} as a function of both $x$ and $y$ (e.g. $F(x,y)=\sqrt{x^2+y^2}$), then we have the simple case where:
+\begin{align*}
+F^{max}=F(x^{max},y^{max})\\
+F^{min}=F(x^{min},y^{min})\\
+\end{align*}
+In more complicated situations, it may be necessary to find out the answer numerically, which thankfully is easy with a computer!
+
+\begin{example}{}{Given the function $F(x,y)=\sin(x+\log y)$, and the measured values of $x=0\pm1$ and $y=0.5\pm0.2$, use the Min-Max method to find the uncertainty on $F$}{}
+Since this is not a trivial function, we can solve this numerically using python:
+
+\begin{lstlisting}[frame=single] 
+import numpy as np
+import pylab as pl
+from math import *
+%matplotlib inline
+
+#The function for which we want to find the uncertainties
+def F(x,y):
+    return np.sin(x+np.log(y))
+
+#x and y, and their uncertainties:
+x,delta_x=0.,1
+y,delta_y=0.5,0.2
+
+#generate 50 values within the range for x and y to scan the values of F
+xvalues=np.linspace(x-delta_x,x+delta_x,50)
+yvalues=np.linspace(y-delta_y,y+delta_y,50)
+
+#initialize Fmin and Fmax outside of the possible range (since -1<F<1)
+Fmin,Fmax=10,-10
+
+#Now scan all the values of x and y to find the minimum and maximum of F
+xmin,xmax,ymin,ymax=0,0,0,0
+for xi in xvalues:
+    for yi in yvalues:
+        f=F(xi,yi)
+        if f<Fmin:
+            Fmin=f
+            xmin=xi
+            ymin=yi
+        if f>Fmax:
+            Fmax=f
+            xmax=xi
+            ymax=yi
+            
+print("The range of F is between {0:.2f} and {1:.2f}".format(Fmin,Fmax))
+print("F is thus given by: {0:.2f} +/- {1:.2f}".format(0.5*(Fmax+Fmin),0.5*(Fmax-Fmin)))
+print("These occurred at x,y = {0:.2f},{1:.2f}, and {2:.2f},{3:.2f}".format(xmin,ymin,xmax,ymax))
+\end{lstlisting}
+
+The code finds that the minimum of $F^{min}=-1.00$ occurs at $(x,y)=(-0.92,0.52)$, and the maximum, $F^{max}=0.60$ occurs at $(x,y)=(1.00,0.70)$, giving $F=-0.20\pm0.80$.
+\end{example}
+
+\subsubsection{Summary and comments on the Min-Max method}
+The Min-Max method can be used to ``propagate'' the uncertainties of measured quantities through summation, subtraction, multiplication and division. In these cases, it is straightforward to apply as the central value of the result is always given by the central values of the measurements without uncertainties (e.g. the central value of a sum of measurements is the sum of the central values of the measurements). \textbf{In the case of summation and subtraction, the uncertainty on the result is given by the sum of the uncertainties on the measurements. In the case of multiplication and division, the relative uncertainty of the result is given by the sum of the relative uncertainties of the measurements}. When wants to evaluate the uncertainty in a function, the same formalism can be applied, but the answer may need to be obtained numerically.
+
+The Min-Max method gives the uncertainty on the result under the ``worst case scenario'' that the uncertainties on the measurements are at the extreme values allowed in the uncertainty range, in such a way to make the biggest change in the result. If the errors on the measurements are truly random, it is very unlikely for all the measurements to be at the extrema of their allowed range, so the \textbf{Min-Max method gives a maximum possible value for the uncertainty on the result}. 
+
+\section{Adding in quadrature}
+As we discussed, it is quite unlikely that the uncertainty on a calculated number is as large as that given by the Min-Max method. For example, in the case of a sum of masses, when we use the Min-Max uncertainty, we are effectively claiming that we think it is quite possible that both measurements were either high or low, which is quite unlikely in reality. This is however not impossible. If there was a bias in the scale that we used to weigh the masses, it is in fact quite possible that both measurements are indeed at one end of the range that we quoted with the uncertainties. If this were the case, then the Min-Max method gives a reasonable uncertainty on the sum of the masses. However, if there was indeed a systematic effect that resulted in the true value being systematically at the higher or lower end of our quoted range, then we should rethink how we determined the uncertainties.
+
+Most often, the uncertainties that we determine have some sort of ``statistical nature'' to them. For example, when we quote a measured values as $a\pm \delta a$, we usually mean that $a$ is equally likely to be bigger or smaller than the central value. In fact, when we determine $a$ and $\delta a$ as the mean and error on the mean of multiple measurements, we are explicitly assuming that the true value is normally distributed about the central value. We will define in later chapters what we really mean by ``normally distributed'', but it is related to saying that there is a 68\% chance that the true value is in the quoted range, and that it is more likely for it to be in the center of the range than at the edges. It turns out that most measurements are normally distributed, which justifies the following procedure for adding uncertainties.
+
+If the the uncertainties on multiple measurements are normally distributed and are independent of each other, then those uncertainties should be added in quadrature, rather than added. Addition in quadrature is performed by adding the squares of the uncertainties and then taking the square root of the sum. For the case of two masses being added together, $M=m_1+m_2$, the uncertainty on $M$ is given by:
+\begin{align}
+\sigma_{M} = \sqrt{\sigma_{m_1}^2+\sigma_{m_2}^2}
+\end{align}
+This is also true for the case of subtraction. For multiplication and division, instead of adding the relative uncertainties, we add the relative uncertainties in quadrature. For example, if the area of a rectangle is given by $A=l_1l_2$, then the relative uncertainty in $A$ is given by:
+\begin{align}
+\frac{\sigma_{A}}{A}=\sqrt{\left(\frac{\sigma_{l_1}}{l_1}\right)^2+\left(\frac{\sigma_{l_2}}{l_2}\right)^2}
+\end{align}
+
+Addition in quadrature is not limited to only 2 terms; if there are a multiple measurements, all of the uncertainties can be squared and added together before taking the square root.
+
+The uncertainties added in quadrature are always smaller or equal than the uncertainties that are found by straight addition (think of the Pythagorean theorem). Adding in quadrature is only correct if the various measurements are independent of each other. That is, the measurement of one quantity does not affect the measurement of another quantity whose uncertainty is being added in quadrature. If possible, one should check to see if one values is systematically dependent on the other, in other words, if one of the measurement is correlated to the other.
+
+
+\section{Uncertainty on a function of one variable}
+We now introduce a more general way to propagate uncertainties. We start by considering how an uncertainty, $\sigma_{x}$ on a measurement of $x$ should propagate to an uncertainty $\sigma_{F}$ on a function of $F(x)$. We assume that $F(x \pm \sigma_{x})$ is the possible Min-Max range that $F$ could have when $x$ changes by $\pm\sigma_{x}$. Now this only makes sense if $\sigma_{x}$ is small; for example, if $F=\sin x$ and $\sigma_{x} \approx \pi$, then the maximum change in $F$ most definitely does not occur at $x\pm\sigma_{x}$. However, in the case were $\sigma_{x}$ is small enough, we can always be assured that in that small range, $x\pm\sigma_{x}$,  $F$ is continuous and monotonous (``well behaved''). We can thus use a Taylor series about $F(x)$ to estimate $F(x\pm\sigma_{x})$ (and only keep the first order term):
+\begin{align}
+F(x\pm\sigma_{x})\approx F(x)\pm\frac{dF}{dx}\sigma_{x}+\dots
+\end{align}
+Which tells us that $F$ and its uncertainty are given by:
+\begin{align}
+F \pm \sigma_{F} &= F(x) \pm \frac{dF}{dx}\sigma_{x}\nonumber\\
+\therefore \sigma_{F}&=\frac{dF}{dx} \sigma_{x}
+\end{align}
+That is, $F$ is evaluated at the best estimate value for $x$ and the uncertainty, $\sigma_{F}$ is given by the derivative of $F$ with respect to $x$ multiplied by $\sigma_{x}$.  The derivative is the rate of change of $F$ with respect to $x$, so it makes sense that the change in $F$ due to a change in $x$ is given by the derivative.
+
+\begin{example}{}{Show that the uncertainty on $F=ax$ is given by $\sigma_{F}=a \sigma_{x}$}{}
+The derivative of $F$ with respect to $x$ is:
+\begin{align*}
+\frac{dF}{dx}=a
+\end{align*}
+Hence the uncertainty is given by:
+\begin{align*}
+\sigma_{F}&=\frac{dF}{dx} \sigma_{x}=a \sigma_{x}
+\end{align*}
+as required
+\end{example}
+
+\begin{example}{}{Show that the uncertainty on $F=\sin\theta$ is given by $\sigma_{F}=\cos\theta\delta\theta$}{}
+The derivative of $F$ with respect to $\theta$ is:
+\begin{align*}
+\frac{dF}{d\theta}=\cos\theta
+\end{align*}
+Hence the uncertainty is given by:
+\begin{align*}
+\sigma_{F}&=\frac{dF}{d\theta} \delta \theta=\cos\theta\delta\theta
+\end{align*}
+as required. Note that this only works when $\theta$ is expressed in radians!
+\end{example}
+
+
+\section{The general case: functions of multiple variables}
+
+We now consider the case of a function of multiple variables, for example, $F(x,y)$. Again, we estimate $F(x\pm\sigma_{x}, y\pm\sigma_{y})$ as the possible Min-Max range and assume that both $\sigma_{x}$, and $\sigma_{y}$ must be small (so that $F(x,y)$ is continuous and monotonous in that range of $x$ and $y$). We again use the Taylor series formula (and limit it to the first order terms):
+\begin{align}
+F(x\pm\sigma_{x}, y\pm\sigma_{y})\approx F(x,y)\pm \left(\die{F}{x}\sigma_{x} + \die{F}{Y} \sigma_{y}\right)
+\end{align}
+where we have now used the partial derivatives\footnote{Recall that when you take the partial derivative with respect to one variable, you treat all the others as constants}, since $F$ depends on multiple variables. The central value of $F$ is thus found by evaluating $F(x,y)$ at the central value of $x$ and $y$. The uncertainty from this expression is given by:
+\begin{align}
+\sigma_{F} = \die{F}{x}\sigma_{x} + \die{F}{Y} \sigma_{y} \text{      (upper limit)}
+\end{align}
+This derivation however assumed that both $x$ and $y$ have changed in the ``worst possible way'' so as to lead to the biggest possible change in $F$. It is conceivable that the true values of $x$ and $y$ somewhat offset each other in the change that they cause to $F$. For example, if $F(x,y)=x+y$, and the true value of $x$ is on the high side of $x\pm \sigma_{x}$ and the true value of $y$ is in the low side of $y \pm \sigma_{y}$, then the true value of $F$ is actually quite close to $x+y$. Again, if the uncertainties in $x$ and $y$ are truly random and independent, then it is quite unlikely that they lead to the maximum possibly uncertainty in $F$. Thus, in the case where the uncertainties are random and uncorrelated, it makes more sense to add them in quadrature:
+\begin{align}
+\label{eqn:derivPropagate}
+\sigma_{F} = \sqrt{\left(\die{F}{x}\sigma_{x}\right)^2 + \left(\die{F}{Y} \sigma_{y}\right)^2}\text{      (x and y random and uncorrelated)}
+\end{align}
+This formula applies no matter how many variables $F$ depends on; you can just add more terms to the sum in quadrature. 
+
+\begin{example}{}{Use the derivative method to evaluate a formula for the uncertainty, $\sigma_{F}$, on $F(x,y)=\frac{x}{y}$ if $x$ and $y$ have uncertainties $\sigma_{x}$ and $\sigma_{y}$,}{}
+We have:
+\begin{align*}
+F(x,y)&=\frac{x}{y}\\
+\therefore \die{F}{x}&=\frac{1}{y}\\
+\therefore \die{F}{y}&=\frac{-x}{y^2}
+\end{align*}
+The uncertainty on $F$ is thus:
+\begin{align*}
+\sigma_{F}&= \sqrt{\left(\die{F}{x}\sigma_{x}\right)^2 + \left(\die{F}{Y} \sigma_{y}\right)^2}\\
+  &= \sqrt{\left(\frac{1}{y}\sigma_{x}\right)^2 + \left(\frac{-x}{y^2} \sigma_{y}\right)^2}\\
+\end{align*}
+
+\end{example}
+
+\begin{example}{}{Use the derivative method to evaluate a formula for the uncertainty, $\sigma_{F}$, on $F(x,y)=\sin(x+\ln y)$ if $x$ and $y$ have uncertainties $\sigma_{x}$ and $\sigma_{y}$,}{}
+We have:
+\begin{align*}
+F(x,y)&=\sin(x+\log y)\\
+\therefore \die{F}{x}&=\cos(x+\ln y)\\
+\therefore \die{F}{y}&=\cos(x+\ln y)\frac{d}{dy}x+\log y=\cos(x+\log y)\frac{1}{y}
+\end{align*}
+The uncertainty on $F$ is thus:
+\begin{align*}
+\sigma_{F}&= \sqrt{\left(\die{F}{x}\sigma_{x}\right)^2 + \left(\die{F}{Y} \sigma_{y}\right)^2}\\
+  &= \sqrt{\left(\cos(x+\ln y)\sigma_{x}\right)^2 + \left(\cos(x+\log y)\frac{1}{y} \sigma_{y}\right)^2}\\
+\end{align*}
+
+\end{example}
+
+\begin{example}{}{Use the derivative method to (numerically) evaluate $F$ and its uncertainty, $\sigma_{F}$, for the case where $F(x,y,z)=\sin(x+\ln y)\cos(z)\sqrt{x^2+y^2+2z}$, where the following values have been measured: $x=8\pm0.1$, $y=3\pm0.2$, and $z=10\pm0.3$ }{}
+In this case, it is much easier to just use symbolic computation in python.
+\begin{lstlisting}[frame=single] 
+import sympy as sym
+
+#Declare x,y,z and their uncertainties as symbols
+x,y,z=sym.symbols('x y z') 
+dx,dy,dz=sym.symbols('dx dy dz')
+
+#Define our function:
+F=(sym.sin(x+sym.ln(y))*sym.cos(z))*(sym.sqrt(x**2+y**2+2*z))
+
+#Get the partial derivatives:
+dFdx=sym.diff(F,x)
+dFdy=sym.diff(F,y)
+dFdz=sym.diff(F,z)
+
+#The quadrature sum is given by:
+dF=sym.sqrt((dFdx*dx)**2+(dFdy*dy)**2+(dFdz*dz)**2)
+
+#Create an array of tuples for the numerical values:
+values=[(x,8),(dx,0.1),(y,3),(dy,0.2),(z,10),(dz,0.3)]
+
+#Substitute the values into our expressions for F and dF
+Fval=F.subs(values)
+dFval=dF.subs(values)
+
+#Evaluate F and dF numerically, and print:
+print("F = {:.2f} +/- {:.2f}".format(sym.N(Fval),sym.N(dFval)))
+\end{lstlisting}
+This gives the result $F = -2.59 \pm 1.02$, which would not have been fun to evaluate by hand! You can easily modify this code to calculate the error on any function. 
+\end{example}
+
+\section{Correlated uncertainties}
+We saw the two extreme cases for combining the uncertainties on measured quantities. In the worst case scenario, when one measurement is completely correlated with the other, the uncertainties should be added together. If the measurements are completely independent from each other, then the uncertainties should be added in quadrature. But what if they are ``somewhat'' correlated? That is, what if measuring one quantity to be high usually makes the other one high as well, but not always? In the next chapter, we will formalize our definition of the ``covariance'', $\sigma_{xy}$, which is a measure of how correlated two quantities are. If we have two quantities, $x$ and $y$, that we measure simultaneously $N$ times, giving us two sets of measurements  $x_i=\{x_1, x_2,\dots, x_N\}$ and $y_i=\{y_1, y_2,\dots, y_N\}$, the covariance, $\sigma_{xy}$, is defined to be:
+\begin{align}
+\sigma_{xy}\equiv\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x)(y_i-\bar y)
+\end{align}
+where $\bar x$ and $\bar y$ are the means of the measurements of $x$ and $y$, respectively.
+
+
+Suppose that we are interested in the sum of two masses $M=m_1+m_2$, and that we have made several measurements of $m_1$ and $m_2$ which are tabulated in Table \ref{tab:massSum}. For completeness, we also added a third column with the sum of the masses.
+
+\begin{table}[h]
+\center
+\begin{tabular}{ |c|c|c| }
+  \hline
+  \textbf{$m_1$} & \textbf{$m_2$} & \textbf{$m_1+m_2$}\\
+  \hline
+  399.3 & 193.2& 592.5 \\ 
+  \hline
+  404.6 & 205.1& 609.7 \\ 
+  \hline
+  394.6 & 192.6& 587.2 \\ 
+  \hline
+  396.3 & 194.2& 590.5 \\ 
+  \hline
+  399.6 & 196.6& 596.2 \\ 
+  \hline
+  404.9 & 201.0& 605.9 \\ 
+  \hline
+  387.4 & 184.7& 572.1 \\ 
+  \hline
+  404.9 & 215.2& 620.1 \\ 
+  \hline
+  398.2 & 203.6& 601.8 \\ 
+  \hline
+  407.2 & 207.8& 615.0 \\ 
+  \hline
+\end{tabular}
+\caption{\label{tab:massSum}Measurements of masses and their sum.}
+\end{table}
+We have determined the mean and the standard deviation (Equation \ref{eqn:MeanAndStd}) for the masses to be $\bar m_1 = 399.7$\,kg, $ \sigma_{m1} = 6.01$\,kg, $m_2=199.4$\,kg, and $\sigma_{m2} 8.87$ (we kept a non-significant figure here to propagate in our uncertainty calculations). So what would should we quote for $M$ and its uncertainty? There are three obvious options:
+\begin{enumerate}
+\item The mean and error on the mean of the sum value gives (simply using the third column from the table as independent data) $M=599.1 \pm 4.5$, which is certainly correct.
+\item Adding the standard deviations of $m_1$ and $m_2$ in quadrature and then dividing by the square root of the number of measurements gives $M= 599.1 \pm 3.39$, which is an underestimate.
+\item Adding the standard deviations of $m_1$ and $m_2$ and then dividing by the square root of the number of measurements gives $M= 599.10 \pm 4.71$, which is an over estimate.
+\end{enumerate}
+
+As expected, the error from the sum in quadrature is smaller than the error from the straight sum. Treating the third column as individual measurements and using the error on the mean from those values must certainly be correct, and should in fact be most representative of the actual variation that we get in the sum. This gives an uncertainty that is larger than the quadrature sum, but not as large as the straight sum. So we have a situation that is closer to the worst case scenario of having to add the uncertainties, but not the worst possible case. We say that the two values of $m_1$ and $m_2$ are ``correlated''. 
+
+We can see this graphically very easily by plotting a scatter plot of $m_1$ and $m_2$, as in Figure \ref{fig:correlatedSum}, where we can see that on average, $m_2$ is higher than its mean (199.4) when $m_1$ is higher than its mean (399.7). There is a trend and the values are not randomly distributed. If $m_1$ and $m_2$ really were randomly distributed, we would expect the scatter plot to look like an ellipse. 
+
+\capfig{0.4\textwidth}{figures/correlatedSum.png}{\label{fig:correlatedSum}Two measurements that are not completely independent of each other.}
+
+The correct way to propagate the uncertainty in quantities that are correlated is to first calculate the correlation, $\sigma_{xy}$, and then to use a more general version of equation \ref{eqn:derivPropagate}:
+\begin{align}
+\label{eqn:derivPropagateCorr}
+F&=F(x,y)\nonumber\\
+\sigma_F &= \sqrt{\left(\die{F}{x}\sigma_x\right)^2 + \left(\die{F}{y} \sigma_y\right)^2+2\die{F}{y}\die{F}{y}\sigma_{xy}}
+\end{align}
+where the partial derivatives are evaluated at the central values of $x$ and $x$, and $\sigma_{xy}$ is the covariance between $x$ and $y$. The formula is easily extended for more than 2 variables, where there will be one cross term for each pair of correlated variables.
+
+Using equation \ref{eqn:derivPropagateCorr} for the example of the two masses, the covariance is determined to be 41.10 leading to an uncertainty in the sum of 4.4, which is comparable to the result obtained by treating the third column in Table \ref{tab:massSum} as independent measurements. It is not exact, as the small number of measurements results in a large uncertainty in the estimate of the covariance. It should be noted that we used formula \ref{eqn:derivPropagateCorr} to estimate the standard deviation of the sum, and then divided that by the square root of the number of measurements to obtain the error on the mean of the sum. As we will see in a later chapter, the formulas for combining uncertainties assume that the uncertainties are the standard deviations in the measurements, not the errors on the mean. 
+
+The code below compares the various computations for estimating the error on the sum of the masses:
+\begin{lstlisting}[frame=single] 
+import numpy as np
+from math import *
+#Copy and paste the data, add commas by hand
+data=np.array([
+399.3, 193.2, 592.5,
+404.6, 205.1, 609.7,
+394.6, 192.6, 587.2,
+396.3, 194.2, 590.5,
+399.6, 196.6, 596.2,
+404.9, 201.0, 605.9,
+387.4, 184.7, 572.1,
+404.9, 215.2, 620.1,
+398.2, 203.6, 601.8,
+407.2, 207.8, 615.0])
+#Reshape into the correct format
+data=data.reshape(10,3)
+#Extract the columns:
+m1=data[:,0]
+m2=data[:,1]
+msum=data[:,2]
+#Get the mean and standard deviations of the columns:
+m1mean=m1.mean() #mean
+m1std=m1.std(ddof=1) #std
+m2mean=m2.mean() #mean
+m2std=m2.std(ddof=1) #std
+msmean=msum.mean() #mean
+msstd=msum.std(ddof=1) #std
+msemean=msstd/sqrt(msum.size) #error on the mean
+#Calculate the covariance
+cov=((m1-m1mean)*(m2-m2mean)).sum()/(m1.size-1)
+#Print out comparisons of the uncertainties
+print("m1 = {:.2f} +/- {:.2f}".format(m1mean,m1std))
+print("m2 = {:.2f} +/- {:.2f}".format(m2mean,m2std))
+print("covariance = {:.2f}".format(cov))
+print("Treat as independent measurements: M = {:.2f} +/- {:.2f} (correct)".format(msmean,msemean))
+print("Quadrature: M = {:.2f} +/- {:.2f} (underestimate)".format(msmean,sqrt(m1std**2+m2std**2)/sqrt(msum.size)))
+print("Sum error: M = {:.2f} +/- {:.2f} (overestimate)".format(msmean,(m1std+m2std)/sqrt(msum.size)))
+print("With covariance: M = {:.2f} +/- {:.2f} (correct)".format(msmean,sqrt(m1std**2+m2std**2+2*cov)/sqrt(msum.size)))
+\end{lstlisting}
+the output is:
+\begin{verbatim}
+m1 = 399.70 +/- 6.01
+m2 = 199.40 +/- 8.87
+covariance = 41.10
+Treat as independent measurements: M = 599.10 +/- 4.54 (correct)
+Quadrature: M = 599.10 +/- 3.39 (underestimate)
+Sum error: M = 599.10 +/- 4.71 (overestimate)
+With covariance: M = 599.10 +/- 4.54 (correct)
+\end{verbatim}
+
+
+
+\section{Averaging numbers with uncertainties}
+Suppose that two different experiments have measured the same quantity, $X$, and obtained, say $x_1=10 \pm 0.1$ and $x_2=11 \pm 1$. We assume that both measurements have correctly estimated their uncertainties, and that these each represent a 68\% of the true value being within their quoted uncertainty range. How do we combine both of these measurements into a single average measurement? How do we compute the uncertainty on the average measurement?
+
+If we use the derivative formula to get the average, we find:
+\begin{align*}
+X &= \frac{1}{2} (x_1+x_2)=10.5\\
+\sigma_{X} &= \frac{1}{2}\sqrt{\sigma_{x_1}^2+\sigma_{x_2}^2}=0.5
+\end{align*}
+which does not make much sense. The first measurement, $x_1=10 \pm 0.1$, is clearly more precise than the second one, $x_2=11 \pm 1$. Since we trust both measurements, our average must somehow include the fact that $x_1$ is more precise, and we thus expect that it should be closer to 10 than to 11. We also expect that averaging in a less precise result should not ``blow up'' the uncertainty on our number; at worst it should do nothing to the uncertainty (providing the second measurement is consistent with the first one, which it is in this case). In the extreme case, you can imagine that $x_1$ is well measured, and $x_2$ has measured nothing (in fact they were busy doing other things and didn't have time to perform the experiment); in this extreme case, a bad measurement of $x_2$ should not impact our knowledge of $X$ or the uncertainty that we obtained from the $x_1$ measurement. If the two measurements are consistent, we expect that the overall uncertainty should decrease. 
+
+The correct way to combine multiple measurements with uncertainties is to perform a weighted average of the measurements, where the uncertainties are used as the weights. We will justify this approach in a later chapter. If $n$ measurements of $X$, $\{x_1, x_2 ,\dots\}$ each have uncertainties, $\{\sigma_{x_1}, \sigma_{x_2} ,\dots\}$, then the average value is given by:
+\begin{align*}
+X &= \frac{\sum_{i=1}^{i=n}w_ix_i}{\sum_{i=1}^{i=n}w_i}\\
+\sigma_{X} &= \frac{1}{\sqrt{\sum_{i=1}^{i=n}w_i}}\\
+w_i&\equiv\frac{1}{\sigma_{x_i}^2}
+\end{align*}
+
+If we use this formula for the example two measurement that we had above, we get:
+\begin{align*}
+w_1 &= \frac{1}{0.1^2}=100\\
+w_2 &= \frac{1}{1^2}=1\\
+X &= \frac{\sum_{i=1}^{i=n}w_ix_i}{\sum_{i=1}^{i=n}w_i}=\frac{100\times 10+1\times 11}{101}=10.0099\\
+\sigma_{X} &= \frac{1}{\sqrt{\sum_{i=1}^{i=n}w_i}}=\frac{1}{\sqrt{101}}=0.09950\\
+\end{align*}
+where we kept the extra decimals to show that the uncertainty get a tiny bit smaller, and the central value is shifted very slightly in the direction of $x_2$.
+
+\section{Summary}
+In this chapter, we showed how to propagate the uncertainties from a set of quantities through to results calculated from those quantities. We introduced the Min-Max method as a way to understand the biggest possible change in a calculated quantity resulting from variations in the measured quantities. We also introduced the ``derivative'' method which applies more generally than the Min-Max method. We found that the uncertainty in a calculated quantity is obtained by summing uncertainties in measured quantities. We argued that a quadrature sum of the uncertainties was usually more appropriate in the case where the measured quantities are independent from each other and have random errors. We argued that a straight sum generally provides an upper limit on the uncertainty in a calculated result. 
+
+The uncertainty given by a sum in quadrature generally assumes that the individual uncertainties are normally distributed; that is, that they signify that each measurement has a 68\% chance of being in their quoted range. Consequently, the error given by a quadrature sum also implies that the result has a 68\% chance of being within the determined uncertainty.
+
+The only formula for propagating uncertainties that one really needs to know is the derivative method. If a function, $F(x_1, x_2, \dots)$, depends on $N$ quantities, $x_1, x_2, \dots$, each with uncertainties $\sigma_{x_1}, \sigma_{x_2}, \dots$, then the best estimate of $F$ is obtained by evaluated $F$ at the best estimate values of the $x_i$, and the uncertainty on $F$, $\sigma_{F}$, is given by the following quadratic sum:
+\begin{align}
+\sigma_{F} = \sqrt{\sum_{i=1}^{i-N}\left(\die{F}{x_i}\sigma_{x_i}\right)^2}
+\end{align}
+where $\die{F}{x_i}$ is the partial derivative of $F(x_1, x_2, \dots)$ with respect to $x_i$.
+
+When averaging $n$ measurements $x_i$, each with their own individual uncertainty $\sigma_{x_i}$, the average, $X$, and its uncertainty, $\sigma_{X}$, are given by:
+\begin{align*}
+X &= \frac{\sum_{i=1}^{i=n}w_ix_i}{\sum_{i=1}^{i=n}w_i}\\
+\sigma_{X} &= \frac{1}{\sqrt{\sum_{i=1}^{i=n}w_i}}\\
+w_i&\equiv\frac{1}{\sigma_{x_i}^2}
+\end{align*}
+
+If we have two quantities, $x$ and $y$, that we measure simultaneously $N$ times, giving us two sets of measurements  $x_i=\{x_1, x_2,\dots, x_N\}$ and $y_i=\{y_1, y_2,\dots, y_N\}$, the covariance, $\sigma_{xy}$, is defined to be:
+\begin{align}
+\sigma_{xy}\equiv\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x)(y_i-\bar y)
+\end{align}
+where $\bar x$ and $\bar y$ are the means of the measurements of $x$ and $y$, respectively. If the covariance is non-zero, then we should take into account and modify the formula from the derivative method:
+\begin{align}
+F&=F(X,Y)\nonumber\\
+\sigma_{F} &= \sqrt{\left(\die{F}{x}\sigma_x\right)^2 + \left(\die{F}{Y} \sigma_y\right)^2+2\die{F}{Y}\die{F}{Y}\sigma_{XY}}
+\end{align}
+where $\sigma_x$ and $\sigma_y$ are the standard deviations of the measurements of $x$ and $y$, respectively. In practice, one should estimate whether including the covariance makes a difference, and include it if it is significant.

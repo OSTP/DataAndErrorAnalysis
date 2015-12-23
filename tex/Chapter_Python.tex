@@ -1,0 +1,786 @@
+\chapter{Python}
+This chapter is meant to serve as an introduction to programming in python and to be used as a reference. Do not worry about memorizing all of the commands, this will come automatically with practice.
+
+\section{The basics}
+This section covers some of the basics to get you started.
+\subsection{Variables and the assignment operator}
+In a computer program, one uses ``variables'' and assigns them values. A variable can be thought of as an address inside of the computer's memory that can store a value. If we want to put a value into the computer's memory, we first create a variable and then ``assign'' that variable the desired value. We can then access the value that we stored by telling the program that we are interested in the value that is stored in a particular variable. This is the most basic operation in writing a computer program. In python, the syntax is the following:
+\begin{lstlisting}[frame=single] 
+a = 2 
+\end{lstlisting}
+
+In the above, we have created a variable, \code{a}, and assigned it the value of 2. The equal sign is called the \textbf{``assignment operator''}, and it always ``puts the thing on the right \textbf{into} the thing on the left''. Notice that python automatically recognizes that we are storing a number into the variable \code{a}, and python will thus treat \code{a} like a number. The following code thus has the expected behaviour and the new variable \code{b} will be equal to the number 4.
+
+\begin{lstlisting}[frame=single] 
+a = 2 
+b = 2*a
+\end{lstlisting}
+
+\subsection{Printing to screen}
+Now, you may not believe that the variable \code{b} above is actually equal to 4. Luckily, you can ask the computer program to ``print'' out the value that is stored in a variable, by using the \code{print()} function:
+\begin{lstlisting}[frame=single] 
+a = 2 
+b = 2*a
+print(b)
+\end{lstlisting}
+This will print the value of 4 in the output of the program. \code{print()} is the first example of a function. Functions can take any number of ``arguments'' and then act on them. In this case, we ``passed'' the variable \code{b} to the function \code{print()} (by putting it into the parenthesis) and then the function took care of printing that to the output. The \code{print()} function is quite flexible, and can take any number of arguments of different types, separated by commas:
+\begin{lstlisting}[frame=single] 
+a = 2 
+b = 2*a
+print("The value of a is ",a," and the value of b is ",b)
+\end{lstlisting}
+In this case, we passed 4 different arguments to the \code{print()} function. The second and fourth arguments, our variables \code{a} and \code{b}, are numbers. The first and third arguments are what we call ``strings'' (strings of characters), which we must include in quotation marks, so that python doesn't think that these are variables.
+
+\subsubsection{Formatting numerical output}
+Python cannot guess how many decimals it makes sense to display when you print a number; often, you want to control this. This can be done using the \code{format} ``method''.
+\begin{lstlisting}[frame=single] 
+a = 2 
+b = 3/2
+c = 2/3
+print("first={:.1f}, second= {:.2f}, third={:.4f}".format(a,b,c))
+\end{lstlisting}
+The \code{format} method works as follows. You first define a ``template string'' (in the above case, \code{"a=\{:.1f\}, b= \{:.2f\}, c=\{:.4f\}"}) with quotation marks. You then add a \code{.format()} to the end of it. The \code{format()} method will look inside of the string for occurrences of curly brackets (\{\}). Inside of the curly brackets, you can tell it what format you would like for the number: in our case \code{\{:.nf\}} means that we would like to display $n$ decimals (.n) of a floating point number (f). Thus, \code{\{:.4f\}} displays 4 decimals. The final component, is that one tells \code{format()} which numbers we actually want to format that way, by passing those numbers as arguments to \code{format()} in the same order in which we want them to appear. What really happens is that \code{format()} sequentially replace the curly brackets with the ``formatted version'' of the numbers that it is given (in our case, the variables a,b,c).
+The output of the above command is thus:
+\begin{verbatim}
+first=2.0, second= 1.50, third=0.6667
+\end{verbatim}
+\subsection{Comments}
+As code becomes more complex, it is important to be able to insert some comments so that we can remember what we did (or so that others can understand what your code is doing). In python, comments are preceded with the number (or pound) sign '\#'\footnote{This is not called a hashtag!}, and anything that follows will be ignored by the computer:
+\begin{lstlisting}[frame=single]
+#Here we have a simple program 
+a = 2 #a is set to 2
+b = 2*a #b is twice a
+#Now we print out the result:
+print("The value of a is ",a," and the value of b is ",b)
+\end{lstlisting}
+Always comment your code. You cannot over comment! This is especially important if you are having your code graded in an assignment; if your code is wrong, but one can understand the intention from the comments, you may get significantly higher grades from partial marks.
+\subsection{Lists}
+A particularly useful type of variable in python is the ``list''. This is analogous to ``arrays'' in other programming languages. A list is used to hold, well, a list of values. For example, let's say that we wish to work with a set of measurements, for example radii of circles from example \ref{ex:chapIntro_2pir}, and hold them into a single variable, \code{radii}, we can use a list as follows:
+\begin{lstlisting}[frame=single] 
+radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
+\end{lstlisting}
+Python automatically recognizes that the variable \code{radii} should be a list, since we are trying to assign a set of 10 comma-separated values to it. We can work with the whole list, but we can also get a particular element out of the list, by using the access operator ('{[ ]}') and the index of the element:
+\begin{lstlisting}[frame=single] 
+radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
+print(radii[2])
+\end{lstlisting}
+One thing to note is that the above \code{print()} function printed out the third element of the list and not the second one. This is because \textbf{python indexes the first item in the list with the index 0}. If the list has \code{n} elements in it, then the last element has the index \code{n-1}. If you try to ask for an element that is beyond the size of the list, e.g. \code{radii[10]}, bad things happen. This is because you are really asking for a value stored in the memory of the computer in a location where you have not stored anything. 
+
+A useful operation on a list is to ask how many elements are in the list; this is done with the \code{len()} function:
+\begin{lstlisting}[frame=single] 
+radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
+print("We measured ",len(radii)," radii")
+\end{lstlisting}
+
+\subsubsection{Operations on lists}
+The code below illustrates a variety of operations that can be performed on lists, such as inserting and removing values. Try it for yourself and make sure you understand what is going on.
+\begin{lstlisting}[frame=single] 
+#a list of numbers
+array=[1,2,3,4,5,6]
+#len(array) is the number of elements in the list
+print("The size of the list is ",len(array))
+#lists start a 0
+print("Element 1 of the list is ",array[1])
+#You can print a list:
+print("The list is: ", array)
+#You can append an element to the end:
+array.append(7)
+print("The list is now :",array)
+#Remove the 5th element
+array.pop(5)
+print("The list is now :",array)
+#Remove the last element
+array.pop()
+print("The list is now :",array)
+#Insert the number 9 at position 3
+array.insert(3,9)
+print("The list is now :",array)
+#Reverse the elements in the list
+array.reverse()
+print("The list is now :",array)
+#Sort the list
+array.sort()
+print("The list is now :",array)
+#You can mix variable types in the list (even including other lists)
+mixedarray=["hello",42,array]
+print("The mixed array ",mixedarray)
+print("Some elements from it :", mixedarray[0],
+      mixedarray[1],mixedarray[2][3])
+#You can slice a list to generate a new list
+subarray=array[2:4]
+print("The sub list: ",subarray)
+\end{lstlisting}
+I will point out that in the second last example, we are accessing a list using two indices. This is because you can nest lists inside of each other. A good analogy is to think of a list as a vector. If each entry in the vector is a vector itself, then we really have a matrix. Specifically, you could build a 2x3 matrix in the following way:
+\begin{lstlisting}[frame=single] 
+matrix = [[1,2,3],[4,5,6]]
+print("The first row ",matrix[0])
+print("Element 0,2: ",matrix[0][2])
+\end{lstlisting}
+The \code{matrix} list in this case has 2 elements, and each of those elements is a list of 3 values. \code{matrix[0]} thus refers to the first set of 3 elements, and \code{matrix[0][2]} to the third element of that set. 
+
+\subsection{Type of variables}
+We have already seen a few of the different types of variables that python offers (and it typically can infer from the context what type of variable you intend to use). A few common types of variables are:
+\begin{itemize}
+\item \textbf{integers:} These are signed integer numbers.
+\item \textbf{floats:} These are signed decimal numbers; they usually cannot be represented exactly and are subject to round off errors
+\item \textbf{strings:} These are ``strings'' of characters and the value of the variable is always surrounded by quotes (single or double). For example \code{"someNumber"} is interpreted as a string, whereas \code{someNumber} is interpreted as a variable (that could be of any type)
+\item \textbf{lists:} These are arrays of variables; each element in the array does not have to be of the same type, and lists can be nested. Elements in a list have a well defined position in the list and can be reference by using their index (e.g. \code{array[2]} is the third element of a list since the first element has index 0)
+\item \textbf{dictionaries:} These are similar to lists, but instead of referencing elements by a numbered index, they are referenced by a string (which we call the ``key''). Technically, the key does not need to be a string, but it has to be ``non-mutable''; a string is just the most common usage case. Each key must be unique. Dictionaries use curly braces when they are defined. For example, \code{students = \{'bob':123,'jane':456\}}, and are referenced using square braces: \code{sn=students['bob']}. 
+\item \textbf{tuples:} These are values that are grouped together with a parenthesis and can be indexed in a way similar to a list
+\item \textbf{objects:} These are more complex data types that can be user defined, for example, one could define a ``student'' object with a variety of properties (name, student number, grades) and write code that directly manipulates the objects. Strings and lists are actually objects in python, and that is why they have many available functions to manipulate them.
+\end{itemize}
+
+\section{Controlling the flow}
+At this point, we can do some basic calculations and pretty much anything that a calculator can do. However, we cannot do anything very complex without controlling the flow of our program. This section introduces a few key ways to control the flow of the program.
+\subsection{Scope}
+In python, we can define small little units of code that are only executed in certain conditions. Those units of code are \textbf{preceded by a line that ends with a colon (':') and must be indented to the right} compared to the rest of the code. We say that the part of the code that is indented forms a `scope';  whatever happens in the scope, stays in the scope, just like Vegas. Scopes can be nested within each other. Variable that are defined inside of a scope cease to exist outside the scope. Variables that are defined earlier and outside of the scope, are accessible in the scope. 
+
+\subsection{If-statements}
+One of the most useful types of scope, is the scope defined by an ``if-statement''. Code inside the scope of an if-statement is executed only if the if statement is \code{True}:
+\begin{lstlisting}[frame=single] 
+#define 3 variables:
+a = 2 
+b = 3
+c = 4
+if b > a: #True
+  print("b is bigger than a")
+if c < a: #False
+  print("c is smaller than a")
+if 2*a == c: #True
+  print("2a is equal to c")
+\end{lstlisting}
+In this case, the code inside the scope of the second if-statement is never executed, because the condition before the colon is False. The greater and lesser than symbols are pretty obvious, but note the use of the double equal sign, \code{==}, to test if two values are equal. This is because the single equal sign is already taken (it's the assignment operator), so if we want to test if two things are equal, we must use the ``equality operator'', \code{==}.
+
+\subsection{Loops}
+The other very useful type of scope is the ``loop''. This is where computers really excel at doing repetitive tasks. The most common type of loop is the ``for'' loop, which defines a scope that is executed a specified number of times. A common application is to ``loop'' through all the elements inside of a list. For example:
+
+\begin{lstlisting}[frame=single] 
+radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
+for r in radii:
+  print("r = ",r)
+\end{lstlisting}
+
+Again, the syntax is similar as that for the if-statment. We first have a statement that defines the loop and ends with a colon, followed by a section that is indented to the right (the scope of the for loop). In this case, the \code{for r in radii} statement means the following: ``Create a new variable called \code{r}, and then execute the code in the scope one time for each value inside of \code{radii}, assigning that value to \code{r} each time''. This particular example will print all of the values inside of the list.
+
+A useful function for loops is the \code{range()} function. In its most basic implementation (when passed only 1 argument, \code{n}) it returns a list of numbers from 0 to \code{n-1}. This makes is particularly easy to loop through a list using the index of the elements:
+
+\begin{lstlisting}[frame=single] 
+radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
+n = len(radii)
+for index in range(n):
+  #the variable index will have values 0..9
+  print("Element ",index," has value ", radii[index])
+\end{lstlisting}
+
+\begin{example}{0pt}{Use a for loop to create 2 lists that hold the numbers from 1 to 100 and their squares, respectively}{}
+\begin{lstlisting}[frame=single] 
+numbers=[] # an empty list that we will fill
+squares=[]
+for index in range(100):
+  x=index+1 # since the first value is 0
+  numbers.append(x)
+  squares.append(x*x)
+print("the numbers are ",numbers)
+print("the squares are ",squares)
+\end{lstlisting}
+\end{example}
+\section{Defining your own functions}
+We have already encountered a few functions; \code{print()} and \code{range()}. Functions may take ``arguments'' (they don't have to), typically would do something (using the arguments if applicable), and may return a value (but they don't have to). Functions are extremely useful, especially as a way to make your code re-usable and to avoid re-writing the same code over and over. 
+
+You must first define a function before you can use it. Defining a function is a way for you to personalize python and give it additional functionality. Let's write a simple function to return the factorial of a number
+\begin{lstlisting}[frame=single] 
+#define the factorial function
+def factorial(n):
+    fact=1 # keep track of the factorial
+    for i in range(n):
+        fact = fact*(i+1) #+1 because the first i is zero
+    return fact
+\end{lstlisting}
+Functions are defined using the \code{def} statement, followed by the name of the function (\code{factorial} in this case) and then, if applicable, the arguments that the function needs in parenthesis. The statement ends with a colon and the next line is indented. This defines the scope of the function. To calculate the factorial, we declared a variable that will hold our result (\code{fact}). We then needed to do a for loop to calculate the factorial. Finally, outside of the scope of the for loop but still inside the scope of the function, we used the \code{return} statement to pass the calculated number (\code{fact}) out of the function. The function can then be used as follows:
+\begin{lstlisting}[frame=single] 
+print("3 factorial is ",factorial(3))
+print("10 factorial is ",factorial(10))
+\end{lstlisting}
+You have now added the functionality of calculating factorials into python!
+
+Functions need not take an argument or return a value, for example:
+\begin{lstlisting}[frame=single] 
+#define a function to print a warning
+def printWarning():
+  print("Hey, you should be warned here")
+
+#use the function:
+printWarning()
+\end{lstlisting}
+
+functions can also return multiple values (as a tuple):
+\begin{lstlisting}[frame=single] 
+#define a function of 1 argument
+def squareCube(x):
+  #return a tuple
+  return x*x, x*x*x
+
+#use the function to assign values to 2 variables
+x2 ,x3 =squareCube(5)
+
+print("5 squared is ",x2," 5 cubed is ",x3)
+\end{lstlisting}
+In reality, python is not actually returning multiple values, but rather it is bundling the two values into a tuple. In practice, you can however pretend that it is in fact returning multiple comma-separated values.
+
+
+\section{Importing modules}
+Fortunately, many have come before us to write a lot of useful functions, and made them available for us to use. Python comes already bundled with a large amount of functions already written for us, and these are available through ``modules''. In order to be able to use the functions inside of a module, you ``import'' the module. This is typically done at the top of your program. For example, the \code{math} module has a large number of functions for doing math. To use the square root function for example, you would import the math module as follows:
+\begin{lstlisting}[frame=single] 
+import math
+a=2
+sqrta = math.sqrt(a)
+print("the square root of a is ",sqrta)
+\end{lstlisting}
+
+We may also find it useful to change the name of a package when we import it (e.g. to make it shorter if we have to type it a lot). In this case, we can use the \code{import ... as} format:
+
+\begin{lstlisting}[frame=single] 
+import math as m
+a=2
+sina = m.sin(a)
+print("the sin of a is ",sina)
+\end{lstlisting}
+
+There are other ways to ``import'' functions from modules, but the above ways are the most explicit (that is, it is clear when you call the function \code{math.sqrt()} that the function belongs to the math module).
+
+For completeness, other equivalent ways to achieve the same functionality are:
+\begin{lstlisting}[frame=single] 
+from math import *
+a=2
+sqrta =sqrt(a) # don't need the math. in this case
+print("the square root of a is ",sqrta)
+\end{lstlisting}
+which imports all functions from the math module and makes them available directly (without needing the \code{math.}), or:
+\begin{lstlisting}[frame=single] 
+from math import sqrt
+a=2
+sqrta =sqrt(a) # don't need the math. in this case
+print("the square root of a is ",sqrta)
+\end{lstlisting}
+which imports only the \code{sqrt} function (so for example, \code{sin(a)}) would not work.
+
+It is very easy to create your own modules. Simply place the definitions of your functions into a file called 'mymodule.py' (where 'mymodule' can be whatever name you choose), and you can then use them by simply typing \code{import mymodule} (without the '.py'). For example, you may have a file called 'errorAnalysis.py' with the following content:
+\begin{lstlisting}[frame=single] 
+def factorial(n):
+    fact=1 # keep track of the factorial
+    for i in range(n):
+        fact = fact*(i+1) #+1 because the first i is zero
+    return fact
+    
+def squareCube(x):
+  #return a tuple
+  return x*x, x*x*x    
+\end{lstlisting}
+and you can then use these functions in a program:
+\begin{lstlisting}[frame=single] 
+import errorAnalysis
+
+print("8 factorial is ",errorAnalysis.factorial(8))
+print("square and cube of 5 are ",errorAnalysis.squareCube(5))
+\end{lstlisting}
+
+There a lot of modules available in python, some are included directly and many can be downloaded. The internet is your friend. If you want to do something, chances are someone has already done it. Don't be afraid to ask the internet!
+
+\section{Reading and writing data files}
+Reading and writing data from and to files is very useful, as opposed to directly ``hardcoding'' your data into a program (as we did above for the radii). For example, you and your lab partner may each have  set of measurement that you want to analyse in the same way. In that case, it makes sense to write a common program that can analyse the data, and provide those data to the program from a file. Another obvious scenario is when your experimental apparatus already writes the data to a file; it would make little sense to open the file and type the contents into your program.
+
+Let's say that we have a text file with the following data in it (representing measurements of radius and circumference from an experiment like that in example \ref{ex:chapIntro_2pir}), and let's assume the file is named 'radcirc.dat':
+\begin{verbatim}
+0.9   5.4
+1.0   6.2
+0.95   6.2
+1.1   5.9
+1.2   7.9
+1.0   6.0
+0.8   5.1
+0.85   4.8
+1.05   6.7
+1.0   6.5
+\end{verbatim}
+The data are in 2 columns, one for radius and one for circumference. We now wish to read these values into our program, compute 2$\pi$r from the radius, compare that with the measured circumference, and then output the difference to a new file, called 'results.dat'. This is done with the following:
+\begin{lstlisting}[frame=single] 
+import math #because we need pi, and it's defined in math
+
+#open the file with the data, need quotation marks on the file name!
+dataFile = open('radcirc.dat', 'r') #open in read mode
+
+#open the file to write the output:
+resultFile = open('results.dat','w') #open in write mode
+
+#loop over each line in the file:
+for line in dataFile:
+  #line contains both numbers, so we split them up into list
+  lineData = line.split()
+  #take each value from the list and put them into new variables
+  #we need to convert them to numbers (float) because python assumes
+  #that they are strings of characters:
+  r=float(lineData[0])
+  circ=float(lineData[1])
+  
+  #the predicted circumference is:
+  predicted=2*math.pi*r
+  
+  #the difference with measured one is:
+  difference=predicted - circ
+  print(difference, file=resultFile)
+
+\end{lstlisting}
+The file 'results.dat' now contains a single column with the differences between the predicted and measured circumferences. You can see that we used the \code{print()} function, with an additional ``named argument'' to specify that we would like to print to the file, rather than to the screen; in this case, we passed our file variable (\code{resultFile}) to the argument that is named \code{file}.
+
+If you look at the file 'results.dat', you will find that the numbers have more decimal places that would really be considered significant. We can thus use the \code{format()} method to clean it up.
+
+\begin{lstlisting}[frame=single] 
+import math #because we need pi, and it's defined in math
+
+#open the file with the data, need quotation marks on the file name!
+dataFile = open('radcirc.dat', 'r') #open in read mode
+
+#open the file to write the output:
+resultFile = open('results.dat','w') #open in write mode
+
+#loop over each line in the file:
+for line in dataFile:
+  #line contains both numbers, so we split them up into list
+  lineData = line.split()
+  #take each value from the list and put them into new variables
+  #we need to convert them to numbers (float) because python assumes
+  #that they are strings of characters:
+  r=float(lineData[0])
+  circ=float(lineData[1])
+  
+  #the predicted circumference is:
+  predicted=2*math.pi*r
+  
+  #the difference with measured one is:
+  difference=predicted - circ
+  print("{:.2f}".format(difference), file=resultFile)
+
+\end{lstlisting}
+
+
+\section{Module of use in scientific computing}
+
+Data science needs in industry have led to the rapid development of python modules for data analysis. Traditionally, programming languages like python, which are ``interpreted'' on the fly as the computer tries to run the code, are slower at processing numbers than compilable languages like C++. In order to alleviate this issue somewhat, people have programmed modules that provide ``pythonic'' (easy to program) interfaces for dealing with numbers that, behind the scenes, are much more efficient than regular python code. These interfaces basically figure out what the user is trying to accomplish and then run the calculations using C++ code before passing the result back in python. Some of these interfaces are quite complex and actually allow the code to be run on highly efficient graphical processing units (graphics card); these are highly optimized for matrix algebra and anything where parallel computations are efficient.
+
+The other aspect of data analysis that is often needed is a way to visualize data and make graphs, and there are a variety of modules for that as well. 
+
+A common module (actually, a set of modules) for scientific work in python is ``scipy''. Scipy (a ``stack'' of modules), comes with most scientific python packages (such as Anaconda, Python(x,y), etc.) and includes modules for plotting (matplotlib), scientific calculations (scipy), symbolic math (sympy), efficiently using arrays of number (numpy), and others. We will give a brief overview of numpy and matplotlib since they are the most useful in our context.
+
+\subsection{Working with numbers, numpy}
+In scientific computing, we work predominantly with numbers, and usually a lot of them (think of a list of measurements). We already saw that the python list is a handy way to hold an array of numbers. The list has a lot of useful functions (e.g. dynamically changing the size of the list, searching) that are not very useful in numerical computation, and this added functionality makes lists inefficient for scientific computing. At the core of the numpy module is a type of array that is much more efficient than lists for dealing with numbers. All of the elements in a numpy array must be of the same type. Numpy arrays can also be mult-dimensional (e.g. a matrix or tensor). There are also a variety of functions that can act on numpy arrays, to fill them, evaluate properties about them, and change their shape. Here are a few examples:
+
+\begin{lstlisting}[frame=single] 
+# We import numpy (and by convention shorten it to np, since
+# we use it a lot)
+import numpy as np
+
+# a simple one-dimensional array
+a = np.array([1,2,3,4,5,6])
+
+# we can print the array and see it's "shape":
+print("The array is ",a," and has shape: ",a.shape, "and the second element is ", a[1])
+print("The size of the array is ",a.size)
+
+#we can change the shape to be 2D, e.g. 2x3:
+a=a.reshape(2,3)
+print("The array is :\n",a,"\n and has shape: ",a.shape)
+
+#we access an element of a two d array as expected:
+print("The 1,2 element is ",a[1][2])
+print("The size of the array is ",a.size)
+
+#we can create an array full of zeroes:
+#we specify the shape of the array with a tuple (hence the extra parenthesis)
+z=np.zeros( (4,5) ) # 4 by 5 array of zeros
+print("Zeroes: \n", z)
+
+#we can create an array full of ones:
+#for a 1D array, no need to use a tuple for the shape
+o=np.ones(10) # array of 10 times the number 1
+print("Ones: ",o)
+
+#an array with numbers in a certain range:
+seq1 = np.arange(10,30,5) #numbers from 10 to 30 spaced by 5
+print("Sequence 1: ", seq1)
+
+#if using floats, better to use linspace
+seq2 = np.linspace(0,10,11) #11 numbers from 0 to 10
+print("Sequence 2: ", seq2)
+\end{lstlisting} 
+
+Numpy has a lot of more advanced useful features, such as the ability to directly load a file into an array, to write an array into a file, to calculate properties of the array, and to manipulate arrays. Following, are a few advanced examples for reference.
+
+\subsubsection{Reading and writing to file}
+Here is a simple way to read and write a numpy array directly to a file. In this example, it uses the default format, which is to separate entries in the file with a space. One can specify different delimiters, such as commas, if preferred.
+\begin{lstlisting}[frame=single] 
+import numpy as np
+
+#make a 4x5 array from random numbers that are normally distributed
+a=np.random.normal(7,1,(4,5)) #mean = 7, stdev = 1, shape=(4,5)
+print("a:\n",a)
+
+#now save to file (with 2 decimal places)
+#for Windows, need the '\r\n', otherwise, '\n' works on Mac and Linux:
+np.savetxt('normaldist.dat',a, fmt='%.2f',newline='\r\n')
+
+#read from file:
+b=np.loadtxt('normaldist.dat')
+print("b:\n",b)
+
+\end{lstlisting} 
+
+\subsubsection{Calculating properties of an array}
+Numpy includes some basic functions to calculate simple properties of arrays (such as the mean of the elements or the sum of the elements):
+\begin{lstlisting}[frame=single] 
+import numpy as np
+
+#make an array of 15 random numbers that are normally distributed
+a=np.random.normal(7,1,15) #mean = 7, stdev = 1, shape = 15
+print("a:\n",a)
+
+#the average of those numbers and the standard deviation:
+print("The mean is ",np.mean(a)," the standard deviation is: ",np.std(a))
+
+#the sum of those numbers:
+print("The sum is ",np.sum(a)," and the average is thus: ",np.sum(a)/a.size)
+
+\end{lstlisting} 
+
+\subsubsection{Operations on arrays}
+Numpy arrays can be used in computations (e.g. multiplying or summing arrays together) and operated on with numpy functions (such as taking the square root of all elements).
+ 
+\begin{lstlisting}[frame=single] 
+import numpy as np
+
+#make two arrays of numbers
+a=np.linspace(1,5,5)
+b=np.linspace(6,10,5)
+print("a: ",a)
+print("b: ",b)
+
+#add arrays together, element by element:
+sumAB=a+b
+print("sum: ",sumAB)
+
+#multiply, element by element:
+productAB=a*b
+print("product: ",productAB)
+
+#multiply all elements by a scalar:
+twoA=2*a
+print("2 times a: ",twoA)
+
+#apply a function to elements:
+squareA=np.square(a)
+print("a squared: ",squareA)
+
+\end{lstlisting} 
+
+You can even write a function that is able to act on arrays or on regular numbers. For example, the following will add two numbers ``in quadrature'', or if given two arrays as inputs, it will return an array of the values added in quadrature:
+\begin{lstlisting}[frame=single] 
+import numpy as np
+
+#define a simple function:
+def addInQuad (e1,e2):
+  return np.sqrt(e1*e1+e2*e2)
+
+print("2 and 3 added in quadrature is ",addInQuad(2,3))
+
+#make two arrays of numbers
+a=np.linspace(1,5,5)
+b=np.linspace(6,10,5)
+print("a: ",a)
+print("b: ",b)
+
+#c is an array where each element is the elements of a and b 
+#added in quadrature
+c=addInQuad(a,b)
+print("c: ",c)
+
+\end{lstlisting} 
+\subsection{Making plots with matplotlib and pylab}
+Matplotlib is the de-facto standard modul for plotting in python when doing scientific computing. The pylab module uses the matplotlib module and adds some functionality to give it a Matlab feel. You should note that if you use 'pylab', you are really using matplotlib, and therefore, searching the internet for help with matplotlib might yield the answers that you seek. 
+\subsubsection{Scatter plot and plotting a function}
+Matplotlib can understand numpy arrays. A simple scatter plot can be done with the following code (Fig. \ref{fig_chapPyton_sincos}):
+
+\begin{lstlisting}[frame=single] 
+import numpy as np
+import pylab as pl
+import math 
+
+#create arrays of angles of values from 0 to 2pi
+x=np.linspace(0,2*math.pi,50) #values of x
+
+#use the fact that we can operate element-wise on a whole array:
+y=np.sin(x)
+z=np.cos(x)
+
+#plot (x,y) and (x,z)
+pl.plot(x,y,label="sin(x)") #default is a blue line
+pl.plot(x,z,'ro',label="sin(x)") #plot red circles ('ro') instead
+
+#make it pretty:
+pl.xlabel("angle in radians")
+pl.ylabel("sin or cos")
+pl.title("Trig functions")
+pl.legend(loc='upper center')
+pl.grid(True)
+
+#show the plot:
+pl.show()
+
+\end{lstlisting} 
+
+\capfig{0.4\textwidth}{figures/sincos.png}{\label{fig_chapPyton_sincos}Two data sets plotted with legend}
+\subsubsection{Plot with error bars}
+We can also plot with error bars, and include a legend (Fig. \ref{fig_chapPyton_sinerrors}).
+
+\begin{lstlisting}[frame=single] 
+import numpy as np
+import pylab as pl
+import math 
+
+#plot (x,y) 
+x=np.linspace(0,2*math.pi,50) # 50 values between 0 and 2pi
+y=np.sin(x)
+
+#let's add variable errors in y and fixed errors in x
+dy=0.2*np.sqrt(np.abs(y))
+dx=0.1*np.ones(x.size)
+
+pl.errorbar(x,y,yerr=dy,xerr=dx, fmt='o') 
+pl.title("Plot with error bars")
+pl.show()
+
+\end{lstlisting} 
+\capfig{0.4\textwidth}{figures/sinerrors.png}{\label{fig_chapPyton_sinerrors}Data set with x and y error bars.}
+\subsubsection{Plotting histograms}
+\label{subsub:pythonhist}
+Finally, a particularly useful way to plot data in statistics is the ``histogram''. This is done very easily with matplotlib (see Fig. \ref{fig_chapPyton_normal}):
+
+\begin{lstlisting}[frame=single] 
+import numpy as np
+import pylab as pl
+import math 
+
+#create a set of normally distributed random numbers
+x=np.random.normal(7,1,1000)
+
+#histogram the values
+n,bins,patches=pl.hist(x,bins=40)
+
+#Make it pretty:
+pl.xlabel("value")
+pl.ylabel("frequency of value")
+pl.title("Normally distributed variable")
+
+#Set the axis range
+pl.axis([0,12,0,80])
+
+#show the plot:
+pl.show()
+\end{lstlisting} 
+\capfig{0.4\textwidth}{figures/normal.png}{\label{fig_chapPyton_normal}Histogram of random values normally distributed with a mean of 7 and standard deviation of 1}
+
+The \code{hist()} function plots the histogram and return a tuple \code{(n,bins,patches)}. The first element in the tuple (\code{n}) is an array containing the number of counts in each bin, the second element (\code{bins}) is an array with the left edge of each bin, and the third element (\code{patches}) contains information on drawing the actual histogram (e.g. where to place rectangles) and has no analysis use for us.
+
+The \code{hist()} function takes as first argument the array of values that it should histogram, and it can take a variety of other arguments to control the display of the histogram. A particularly important argument is the \code{bins} argument, which controls the binning of the histogram. If this is a single number, then python will automatically figure out the range of values in the array and create that many equal bins (40 bins in the example above). One can also specify \code{bins} by setting it equal to an array of values which correspond to the left side of the bins that we specify (and the last value in the array in the right edge of the highest bin). For example:
+\begin{lstlisting}[frame=single] 
+#histogram the values
+n,bins,patches=pl.hist(x,bins=[6.5,7,7.1,7.2,7.3,7.4,7.5,8])
+\end{lstlisting}
+would create a histogram with only a subset of the data (from 6.5 to 8), with two wider bins on either side (from 6.5 to 7 and from 7.5 to 8), and a set of smaller bins between 7 and 7.5.
+
+There are also a variety of options for controlling the look of the histogram, and these can be combined onto a single plot, as below, which produces Figure \ref{fig_chapPyton_normal_demo}.
+\begin{lstlisting}[frame=single] 
+import numpy as np
+import pylab as pl
+import math 
+
+#create a set of normally distributed random numbers
+x=np.random.normal(7,1,1000)
+
+#histogram the values with different binning and different styles
+pl.hist(x,bins=40,alpha=0.5,color='red',histtype='stepfilled',label='40 regular bins') #alpha makes it translucent...
+pl.hist(x,bins=[6.5,7,7.1,7.2,7.3,7.4,7.5,8],alpha=0.5,color='blue',label='7 uneven bins')
+#Make it pretty:
+pl.xlabel("value")
+pl.ylabel("frequency of value")
+pl.title("Normally distributed variable - different binning")
+pl.legend()
+pl.grid()
+
+#Set the axis range
+pl.axis([3.5,10.5,0,250])
+#show the plot:
+pl.show()
+\end{lstlisting}
+\capfig{0.4\textwidth}{figures/normal_demo.png}{\label{fig_chapPyton_normal_demo}Two different histograms of the same data.}
+
+We can also normalize the histograms (so that the sum of the bin contents is 1), and we can also plot the ``cumulative'' histogram (where each bin is the sum of the bin contents that are below it). The cumulative histogram is effectively the integral of a normal histogram. The code below illustrates some of the various possibilities for plotting histogram, and also shows how to make ``sub-plots'' in python (which does not only apply for histograms).
+\begin{lstlisting}[frame=single] 
+import numpy as np
+import pylab as pl
+import math 
+%matplotlib inline
+
+#create a set of normally distributed random numbers
+x=np.random.normal(7,1,1000)
+
+#Create different sub plots:
+#Available colours by name are the standard "html colours"
+pl.subplot(221)
+pl.hist(x,bins=40,color='gray',histtype='step')
+pl.title("basic histogram")
+pl.xlabel("value")
+pl.ylabel("frequency of value")
+
+pl.subplot(222)
+pl.hist(x,bins=40,color='burlywood',histtype='stepfilled',normed=True,label='40 bins')
+pl.hist(x,bins=10,color='darkslateblue',alpha=0.5,histtype='bar',normed=True,label='10 bins')
+pl.title("normalized")
+pl.xlabel("value")
+pl.ylabel("frequency of value")
+pl.legend(loc='upper left',prop={'size':8})
+
+pl.subplot(223)
+pl.hist(x,bins=40,color='darkgoldenrod',alpha=0.5,histtype='stepfilled',normed=True,cumulative=True)
+pl.title("normalized and cumulative")
+pl.xlabel("value")
+pl.ylabel("integral of value")
+
+pl.subplot(224)
+pl.hist(x,bins=40,color='chocolate',histtype='stepfilled', log=True)
+pl.grid()
+pl.title("basic - log scale")
+pl.xlabel("value")
+pl.ylabel("frequency of value")
+
+#show the figure:
+pl.tight_layout() #space out the sub plots
+pl.show()
+\end{lstlisting}
+\capfig{0.8\textwidth}{figures/normal_subplot.png}{\label{fig_chapPyton_normal_subplot}Various ways to display a histogram, also showing how to use subplots.}
+
+\subsection{Sympy: Symbolic computations in python}
+In later chapters, we will find that we often need to take derivatives of quantities. As in other software packages such as Matlab, Maple, and Mathematica, it is also possible to evaluate derivatives symbolically in python. This is done using the \code{sympy} (``symbolic python'') package. 
+
+In order to use symbolic computation, one must first import the sympy package, and then define variable that python will represent as symbols. In this example, we define $x$ and $y$ as symbols, as well as a symbolic function $f(x,y)=\sqrt{x^2+y^2}$, that depends on $x$ and $y$:
+
+\begin{lstlisting}[frame=single] 
+import sympy as sym
+x,y = sym.symbols('x y')  #declare variables x and y to be used as symbols
+f = sym.sqrt(x**2+y**2) #a function of x and y
+\end{lstlisting}
+
+The derivatives of $f$ with respect to $x$ and $y$ can be found easily, and manipulated as symbolic expressions (which we sum below):
+\begin{lstlisting}[frame=single] 
+import sympy as sym
+x,y = sym.symbols('x y')  #declare variables x and y to be used as symbols
+f = sym.sqrt(x**2+y**2) #a function of x and y
+#take the partial derivatives of f
+dfdx = sym.diff(f,x)
+dfdy = sym.diff(f,y)
+print("df/dx=",dfdx,"df/dy=",dfdy)
+#add them together
+dSum = dfdx+dfdy
+print("df/dx+df/dy = ",dSum)
+\end{lstlisting}
+
+Finally, we can also substitute in numerical values using the \code{subs()} command on an expression and passing it an array of tuples. We can numerically evaluate an expression using \code{N()}:
+\begin{lstlisting}[frame=single] 
+#substitute in some numbers for x and y
+nValue1 = dSum.subs([(x,2),(y,3)])
+nValue2 = dSum.subs([(x,4),(y,5)])
+print("value 1: {:.2f}, value 2: {:.2f}".format(sym.N(nValue1),sym.N(nValue2)))
+\end{lstlisting}
+
+\subsection{Curve fitting with scipy optimize}
+
+It is often the case that one has a set of data points, $(x_i,y_i)$, and one wants to ``fit'' the data to a model function, $y=f(x)$, and use the data to determine parameters of the model. For example, a set of data may be described by a second order polynomial, $f(x)=a+bx+cx^2$, and you may need to use the data to determine the parameters, $a$, $b$, and $c$ that best fit the data. This can be done using the scipy.optimize module. The first thing to do is to define a python function to represent our model function:
+\begin{lstlisting}[frame=single] 
+import numpy as np
+def model(x,a,b,c):
+    return a+b*x+c*x*x
+\end{lstlisting}
+where you should note that the dependent variable, $x$, is the first argument of the model function, whereas the \textbf{parameters}, are any number of arguments after the first. This is just seen as a function of $x$ with parameters $a$, $b$, and $c$ that we want to determine from the data. 
+
+Let us assume that our data is stored into three one-dimensional numpy arrays, \code{xdata}, \code{ydata}, and \code{ydataErr}, holding the x value of the points, the y values of the points, and the uncertainties on the y values, respectively. The algorithm that varies the model parameters can have some difficulties in finding good fit values for the fit parameters, especially if the fit function is complicated. It is thus often necessary to given the fitter an initial guess for the parameters. The fitter is run with the following code:
+
+\begin{lstlisting}[frame=single] 
+from scipy.optimize import curve_fit
+#Guesses for the parameters
+A,B,C = 5,50,-3
+parGuess = [A,B,C]
+pars, pcov = curve_fit(model, xdata, ydata,sigma=ydataErr,p0=parGuess)
+\end{lstlisting}
+where we imported only the \code{curve\_fit()} function from the \code{scipy.optimize} module. The \code{curve\_fit()} function returns a tuple, \code{pars,pcov}, where \code{pars} are the best fit values for the parameters that we want and \code{pcov} is the covariance matrix of the parameters. The square root of the diagonal elements of the covariance matrix correspond to the errors on the parameters from the fit, which we can easily get:
+\begin{lstlisting}[frame=single] 
+#Get the errors out of the covariance matrix
+perr = np.sqrt(np.diag(pcov))
+#Print out the fitted parameters and errors
+print("Fitted paramaters:",
+     "\na:","{0:.2f} +/- {1:.2f}".format(pars[0],perr[0]),
+     "\nb:","{0:.2f} +/- {1:.2f}".format(pars[1],perr[1]),
+     "\nc:","{0:.2f} +/- {1:.2f}".format(pars[2],perr[2]))
+\end{lstlisting}
+
+Below is a full example that creates ``fake data'', fits those data to the model, and then makes a plot showing the fitted function and the data on the same plot.
+\begin{lstlisting}[frame=single] 
+import numpy as np
+import pylab as pl
+from math import *
+from scipy.optimize import curve_fit #for fitting
+
+#our model (we will also use it to generate data)
+def model(x,a,b,c):
+    return a+b*x+c*x*x
+    #return a+b*np.exp(x/c)
+    
+#Let's make some fake data:
+#Set the "true" parameters for the model:
+A,B,C = 5,50,-3
+
+#generate x-values of the data:
+ndata = 50 #number of data points
+xdata = np.linspace(0,10,ndata)
+
+#generate y points that are normally distributed about the model evaluated at xdata
+#with a sigma of yerr
+yerr=5 #the uncertainty on y values
+ydata = np.random.normal(model(xdata,A,B,C),yerr)
+
+#Now fit this to the model:
+#Need an array to hold the uncertainties on the y points (all are equal to yerr)
+ydataErr=yerr*np.ones(ydata.size)
+#Provide parameter guesses:
+parGuess=[A,B,C]
+pars, pcov = curve_fit(model, xdata, ydata,sigma=ydataErr,p0=parGuess)
+#Get the errors out of the covariance matrix
+perr = np.sqrt(np.diag(pcov))
+
+#Create some text with the fit results to put into our plot
+resultTxt = "Fitted parameters:\n"
+parNames = ["a","b","c"]
+for i in range(pars.size):
+    resultTxt = resultTxt+"{:s}: {:.2f} +/- {:.2f}\n".format(parNames[i],pars[i],perr[i])
+
+#Plot the data with error bars and the result of the fit
+#Generage a curve from the model and the fitted parameters
+yfit = model(xdata,pars[0],pars[1],pars[2])
+pl.errorbar(xdata,ydata,yerr,fmt='o',label='data')
+pl.plot(xdata,yfit,'r',label='fit')
+pl.axis([xdata.min()-1,xdata.max()+1,ydata.min()-yerr-1,1.1*ydata.max()])
+pl.legend(loc='upper left')
+pl.text(5,50,resultTxt,fontsize=14)
+pl.show()
+\end{lstlisting}
+The result is shown in Figure \ref{fig:pol2fitexample}.
+
+\capfig{0.5\textwidth}{figures/pol2fitexample.png}{\label{fig:pol2fitexample}Example of fit to a second order polynomial.}
+ 

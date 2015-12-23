@@ -1,0 +1,58 @@
+\chapter{Introduction}
+\label{chap:Intro}
+
+This book looks at the transition between the physics in textbooks, where everything is exact, to physics in the real world, where nothing can be measured with infinite precision. We thus need a robust framework in which we can apply the laws of physics to the real world, and to test them. We also need a framework that allows us to gather data, understand what the data mean, and then make robust conclusions about what they imply. 
+
+\section{Motivation - ``doing good science''}
+When we ``do science'', we are really interested in modelling the real world. At the basis of the Scientific Method is the idea that we can form a hypothesis (a ``theory'') and then test if that hypothesis is wrong (an ``experiment''). 
+
+For example, an experimenter way want to test the hypothesis that the circumference of a circle is 2$\pi$r. Suppose that they present the following report of their experiment:
+
+\textit{We used a ruler to measure the radius of a circle and obtained 1\,cm. We wrapped a string around the circle and determined the length of the string to be 6.4\,cm. The theory predicts that the circumference should be 2$\pi$(1\,cm)=6.28318530718\,cm, which is clearly not equal to 6.4\,cm. The theory is thus invalidated.}
+
+This trivial example already uncovers a number of aspects that are important in ``doing good science''.  Based on what is stated above, can you decide whether the theory is invalidated by the experiment? I certainly cannot, even though I have a strong belief that the theory is not invalidated by this experiment. Here are a few questions that I would want the experimenter to address:
+\begin{itemize}
+\item What are the uncertainties on the measurements of the radius and circumference, and how were they determined?
+\item What is the precision of the ruler?
+\item Are the digits presented for the predicted value significant?
+\item How was the radius determined?
+\item Can the experiment be performed with a much bigger circle? (why would you ask this?)
+\item What was the diameter of the string?
+\item How was the ruler calibrated? 
+\item Where was the value of $\pi$ taken from?
+\end{itemize}
+
+As you can see, you need to be very precise when you do science. Obviously you should be as precise as possible when performing the measurements, but you should be equally precise in how you report your experimental results. When you write lab reports, or later scientific publications or presentations to your peers, always ask yourself how one could question the validity of your results and then address those concerns.
+
+The subject of this book is ``Data and Error Analysis'', and the goal is to give you a strong foundation for analysing your data and presenting them\footnote{data is the plural of datum, eh} in a way that is scientifically useful. I should note that the word ``error'' in our context is used as a synonym for ``uncertainty'' rather than ``mistake''. The idea of ``error analysis'' is to understand the uncertainties that are involved in the presentation of a result (and to a much lesser extent the tedious ``propagation of errors'' that are so feared in undergraduate laboratories).
+
+\begin{example}{0pt}{How would you present the results of the experiment attempting to test the hypothesis that the circumference of a circle is 2$\pi$r?}{}
+\label{ex:chapIntro_2pir}
+Here is a possible way to present and discuss the results:
+
+{\bf Experimental procedure and uncertainty determination}\\
+We used a stainless steel compass (brand: Acme, model: Pro2000) with a 0.5\,mm diameter graphite tip to draw 10 1\,cm radius circles onto a set of small post-it notes. The radii of the circles were measured using a stainless steel ruler (brand: Acme, model: RRCatcher2000) with 1\,mm graduations. The ruler was used to set the stride of the compass, and was then again used to confirm the radius of the drawn circles (by measuring the distance between the hole made by the compass into the paper and the perimeter of the circles).
+
+The radius of the circles was determined to be 1.0 $\pm$ 0.08 \,cm. We found that the mean measured radius of the 10 circles was 1\,cm with a standard deviation of 0.08\,cm, which we use as central value and uncertainty. We believe this uncertainty is representative of the fact that the circles have a width of 0.5\,mm (due to the size of the graphite tip on the compass) and that the ruler has 1\,mm graduations.  
+
+We then used pieces of string (brand: Acme, model: CatCatcher2000, diameter: 0.8\,mm, material: wool) to measure the circumferences of the 10 circles, by wrapping them around the circles, cutting them to length, and then measuring their lengths with the ruler. We obtained a mean value of 6.4\,cm with a standard deviation of 0.12\,cm (which we use as the central value and uncertainties on the measurement of the circumference) for the 10 circles. The larger variation in the length of the string as compared to that of the radius is likely due to some stretch in the string, the inability to exactly lay it over the circumference, and the inaccuracy in cutting it to the exact length.
+
+Using the accepted value of $\pi$ from Wikipedia \footnote{don't actually use Wikipedia!}, the predicted value of the circumference is:
+\begin{align*}
+2\pi(1.0\pm 0.08)\,\text{cm}=(6.3\pm 0.5)\,\text{cm}
+\end{align*}
+
+We find the predicted value above to be consistent with the measured value of (6.4 $\pm$ 0.12)\,cm. The hypothesis that the circumference of a circle is 2$\pi$r is thus verified within the accuracy of this experiment. Unfortunately, we only had small post-it notes, limiting the size of the circles that we could draw to 1\,cm radius. We recommend performing this experiment with much larger circles to reduce the relative uncertainties in the measurements of the radius and circumference.
+
+\textbf{Comment:} Even this more ``precise'' report on the experiment has holes in it (were the uncertainties in the individual 10 measurements used? What are the 10 values that were measured, were there any outliers? Is using the standard deviation as the uncertainty justified? How was the diameter of the graphite tip and string determined? How was the error in the radius propagated to the uncertainty in the predicted value? Was the ruler calibrated?)
+\end{example}
+
+
+
+
+\section{Motivation - the case for using computers}
+As we have seen, an effective way to understand the uncertainty in a measurement is often to perform the measurement multiple times. In realistic scenarios, this can lead to a lot of data to analyse, which can lead to painful calculations if performed by hand. Even calculating the standard deviation of 10 measurements is not particularly pleasant to do with a calculator, even when it has a function to do so. Furthermore, we often collect data in digital form (e.g. a piece of electronic apparatus recording data to files) and it would be an ineffective use of time to then transcribe those data to analyse them by hand when they are already in a form that can be handled by a computer. Finally, the propagation of errors often involves rather painful formulas with derivatives, squares, square roots that can be handled much more easily and with less chances of making mistakes with a simple computer program. Hopefully, I do not need to convince you further that learning a little programming will make your life a lot easier in the long run, as well as open up more job opportunities.
+
+In this course, we will use the python programming language, which is easy to learn and widely accepted. Most data scientists now use python, it is a de-facto requirement in most technology start-up companies and is heavily used throughout physics. The language is also open source and free, and it is extremely easy to find online help due to its wide acceptance. The next chapter gives a small introduction to python, to give you a basis for this course. You are welcome to use python in any form for this course, but we will provide support for using it through Jupyter Notebooks.
+
+

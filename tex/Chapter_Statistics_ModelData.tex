@@ -1,0 +1,295 @@
+\chapter{Statistics - Modelling Data}
+\label{Chap:statModelData}
+In this chapter, we examine the vast topic of modelling data. We divide the subject into two topics: parameter estimation and model testing. In parameter estimation, we assume that we have a parametric model that can describe our data, and our goal is to determine the parameters of the model. For example, we may expect a linear relationship between two measured quantities and wish to determine the corresponding constant of proportionality. In model testing, we assume that we have a model, and we wish to verify if the data follow the model. For example, we may have data that look like they are linearly related, but we would like to quantify if that is the case.
+ 
+
+\section{Fitting a straight line}
+\subsection{Linear problems}
+It is often possible to model two quantities in an experiment as being linearly related. For example, suppose that we wish to measure the gravitational constant, $g$, by measuring the time, $t$, that it takes for objects to fall a certain distance, $x$. From Newton's Second Law, we expect to have:
+\begin{align}
+x = \frac{1}{2}gt^2
+\end{align}
+which is not a linear relationship between our measured quantities, $x$ and $t$. However, if every time that we measure $t$, we then take the square of the value, we find that $x$ is indeed linearly related to $t^2$ with a slope of $\frac{1}{2}g$. 
+
+In such an experiment, you may have a series of measurements as in Table \ref{tab:gravmeas}, where you varied the height, $x$, from which an object was dropped, and measured the corresponding time, $t$. As a good experimenter, you performed the measurement several times for each value of $x$ in order to measure the time, $t$, as the mean of several measurements with an error on the mean time of $\sigma_t$. You also repeated the measurements at each height until you obtained an error on the mean time of 0.1\,s, which you propagated to $t^2$. You found that the error on the height, $x$, was negligible. 
+
+\begin{table}[h!]
+\center
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{height, $x$ (m)}&\textbf{time, $t$, (s)}&\textbf{$\sigma_t$ (s)}&\textbf{$t^2$ (s$^2$)}&\textbf{$\sigma_{t^2}=\sqrt{2t\sigma_t}$ (s$^2$)}\\
+\hline
+1.0 & 1.1 & 0.1 & 1.2 & 0.2 \\ 
+\hline
+2.0 & 1.3 & 0.1 & 1.6 & 0.3 \\ 
+\hline
+3.0 & 1.3 & 0.1 & 1.7 & 0.3 \\ 
+\hline
+4.0 & 1.5 & 0.1 & 2.2 & 0.3 \\ 
+\hline
+5.0 & 1.5 & 0.1 & 2.3 & 0.3 \\ 
+\hline
+6.0 & 1.6 & 0.1 & 2.4 & 0.3 \\ 
+\hline
+7.0 & 1.8 & 0.1 & 3.1 & 0.4 \\ 
+\hline
+8.0 & 1.8 & 0.1 & 3.3 & 0.4 \\ 
+\hline
+9.0 & 1.8 & 0.1 & 3.1 & 0.4 \\ 
+\hline
+10.0 & 1.9 & 0.1 & 3.7 & 0.4 \\ 
+\hline
+\end{tabular}
+\caption{\label{tab:gravmeas} Example measurements of the time, $t$, that it takes to fall a certain distance, $x$.}
+\end{table}
+
+Since we varied $x$ while measuring $t$, and we assumed that the uncertainty in $x$ is small, it makes more sense to plot $t^2$ vs $x$ and model the data as:
+\begin{align}
+\label{eqn:t2ofx}
+t^2 = \frac{2}{g}x
+\end{align}
+The data from Table \ref{tab:gravmeas} are plotted in Figure \ref{fig:gravmeas}. The slope of the data in this graph is expected to be $\frac{2}{g}$. We will show in this chapter how to determine the slope and uncertainty on the slope from these data. 
+
+\capfig{0.5\textwidth}{figures/gravmeas.png}{\label{fig:gravmeas} Measured time (squared) to fall a certain distance, using data from Table \ref{tab:gravmeas}.}
+
+\subsection{The Method of Least Squares}
+Given set of $N$ pairs of measurements \{$(x_1,y_1), (x_2,y_2), \dots, (x_N,y_N)$\}, we wish to determine the best estimates (and uncertainties) for the slope, $m$, and offset, $b$, of a straight line:
+\begin{align}
+\label{eqn:mbmodel}
+y=mx+b
+\end{align}
+that best matches the data. For simplicity, we assume that $x$ can be measured with negligible uncertainty compared to the uncertainties on $y$. Furthermore, we also assume that each value of $y$, $y_i$, have the same uncertainty, $\sigma_{y}$, that corresponds to a standard error.
+
+Equation \ref{eqn:mbmodel} is our model for the data. At a given value of $x=x_i$, we expect that we should measure $y^{exp}(x_i)=mx_i+b$. However, since we cannot measure $y$ exactly (due to random errors in our measurement), we will measure a value $y_i$ that is close to the expected value. If the errors in our measurement are truly random, and we measure $y$ many times for a fixed value of $x=x_i$, then we expect a normal distribution of $y_i$ with a standard deviation, $\sigma_{y}$. Given a value of $x=x_i$, the probability of measuring a specific value, $y_i$, is given by the normal distribution:
+\begin{align}
+P(x_i,y_i)&=\frac{1}{\sigma_{y}\sqrt{2\pi}}e^{-\frac{(y_i-y^{exp}(x_i))^2}{2\sigma_{y}^2}}
+\end{align}
+where the mean of the distribution is given by $y^{exp}(x_i)=mx_i+b$ for the model in equation \ref{eqn:mbmodel}.
+
+In order to estimate the parameters of our model, $m$ and $b$, we use the principle of maximum likelihood to find the value of $m$ and $b$ that yield the highest joint probability (i.e. likelihood) of obtaining our set of measurements. The joint probability of obtaining our data set is given by:
+\begin{align*}
+P(x_1,x_2,\dots,x_N,y_1,y_2,\dots,y_N)\propto\prod_{i=1}^{i=N}\frac{1}{\sigma_{y}}e^{-\frac{(y_i-y^{exp}(x_i))^2}{2\sigma_{y}^2}}
+\end{align*}
+where we have ignored the normalization constant since we are only interested in the maximal value. As we did in the previous chapter, we take the negative of the logarithm of the likelihood:
+\begin{align}
+-\ln{P(x_1,x_2,\dots,x_N,y_1,y_2,\dots,y_N)}&=\ln(\sigma_y)+\frac{1}{2}\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i))^2}{\sigma_{y}^2}
+\end{align}
+Since we are interested in minimizing the negative log-likelihood in terms of $m$ and $b$, the first term can be ignored, and we can focus on minimizing the chi-squared, $\chi^2$, given by:
+\begin{align}
+\chi^2=\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i))^2}{\sigma_{y}^2}
+\end{align}
+
+Before proceeding, we can pause to think of what it means to minimize $\chi^2$. The formula for chi-squared is a sum over all data points of the square distance between the point, $y_i$, and the model prediction, $y^{exp}(x_i)$. That squared distance is then divided (or scaled) by the uncertainty on the point. Thus, if the points are on average 1 standard deviation away from the model prediction, then they will add approximately 1 unit to the chi-squared. For a good model, we expect the chi-squared to be about equal to the number of points. It should be apparent why the method is called the ``method of least squares'', since we are effectively minimizing the squared distance between model and data when minimizing the chi-squared.
+
+
+Inserting our model explicitly for $y^{exp}(x_i)$:
+\begin{align}
+\chi^2=\sum_{i=1}^{i=N}\frac{(y_i-mx_i-b)^2}{\sigma_{y}^2}
+\end{align}
+By taking the derivative of $\chi^2$ with respect to $m$ and $b$, we can find the values that lead to a minimum:
+\begin{align}
+\frac{d\chi^2}{dm}&=\frac{d}{dm}\sum_{i=1}^{i=N}\frac{(y_i-mx_i-b)^2}{\sigma_{y}^2}=\frac{-2}{\sigma_y^2}\sum_{i=1}^{i=N}x_i(y_i-mx_i-b)\\
+\frac{d\chi^2}{db}&=\frac{d}{db}\sum_{i=1}^{i=N}\frac{(y_i-mx_i-b)^2}{\sigma_{y}^2}=\frac{-2}{\sigma_y^2}\sum_{i=1}^{i=N}(y_i-mx_i-b)
+\end{align}
+Setting these two equations equal to zero:
+\begin{align}
+\sum_{i=1}^{i=N}x_i(y_i-mx_i-b)=\sum_{i=1}^{i=N}x_iy_i-m\sum_{i=1}^{i=N}x_i^2-b\sum_{i=1}^{i=N}x_i&=0\\
+\sum_{i=1}^{i=N}(y_i-mx_i-b)=\sum_{i=1}^{i=N}y_i-m\sum_{i=1}^{i=N}x_i-Nb&=0
+\end{align}
+and rearranging:
+\begin{align}
+m\sum_{i=1}^{i=N}x_i^2+b\sum_{i=1}^{i=N}x_i&=\sum_{i=1}^{i=N}x_iy_i\\
+m\sum_{i=1}^{i=N}x_i+Nb&=\sum_{i=1}^{i=N}y_i
+\end{align}
+which is a system of linear equations that is easily solved for $m$ and $b$:
+\begin{align}
+\label{eqn:LSmb}
+m=\frac{N\sum xy-\sum x\sum y}{N\sum x^2-\left(\sum x\right)^2}\nonumber\\
+b=\frac{\sum x^2\sum y-\sum x \sum xy}{N\sum x^2-\left(\sum x\right)^2}
+\end{align}
+where we have omitted the indices on the $x_i$ and $y_i$ and we have implied that the sums are from $i=1$ to $i=N$. Now that we have formulas for the $m$ and $b$, we can propagate the errors to obtain:
+\begin{align}
+\label{eqn:LSmberror}
+\sigma_m&=\sigma_y\sqrt{\frac{N}{N\sum x^2-\left(\sum x\right)^2}}\nonumber\\
+\sigma_b&=\sigma_y\sqrt{\frac{\sum x^2}{N\sum x^2-\left(\sum x\right)^2}}
+\end{align}
+
+\begin{example}{}{Use equations \ref{eqn:LSmb} and \ref{eqn:LSmberror} to determine the slope and offset for a line that best fit the data in Figure \ref{fig:gravmeas}, and thus determine a value of the gravitational constant $g$ with its uncertainty from the data.}{}
+\label{ex:gravLMfit}
+We want to plot the data of $t^2$ as a function of $y$, and determine the slope and offset of those data. The slope will be equal to $\frac{2}{g}$ (equation \ref{eqn:t2ofx}), and can thus be used to determine our measured value of $g$. We can use equations \ref{eqn:LSmb} and \ref{eqn:LSmberror} to determine the slope and offset, and then use error propagation to convert the error in the slope into an error in $g$. If the error in the slope is $\sigma_m$, the error in $g$, $\sigma_g$, will be given by:
+\begin{align*}
+g&=\frac{2}{m}\\
+\sigma_g&=\sqrt{\left(\frac{dg}{dm}\sigma_m\right)^2}=\frac{2}{m^2}\sigma_m
+\end{align*}
+The rest of the calculations are done easily in python:
+\clearpage
+\begin{lstlisting}[frame=single] 
+import numpy as np
+from math import *
+import pylab as pl
+import scipy.stats as stats
+%matplotlib inline
+
+#Copy and paste data from the table in the notes, add commas:
+datalist=[
+1.0, 1.1, 0.1, 1.2, 0.2,
+2.0, 1.3, 0.1, 1.6, 0.3,
+3.0, 1.3, 0.1, 1.7, 0.3,
+4.0, 1.5, 0.1, 2.2, 0.3,
+5.0, 1.5, 0.1, 2.3, 0.3,
+6.0, 1.6, 0.1, 2.4, 0.3,
+7.0, 1.8, 0.1, 3.1, 0.4,
+8.0, 1.8, 0.1, 3.3, 0.4,
+9.0, 1.8, 0.1, 3.1, 0.4,
+10.0, 1.9, 0.1, 3.7, 0.4,
+]
+#convert this to a numpy array, and change the shape
+data=np.array(datalist)
+data=data.reshape(10,5) #changes the shape to get the data in the same format as table
+#Get the colums out of the table:
+x=data[:,0]#This is the first column of data (x)
+t2=data[:,3]#The 4th column (t^2)
+sigma_t2=data[:,4] #The 5th colum, sigma_t^2
+
+#calculate the slope and offset
+#start by calculating all of the sums
+N=x.size
+x2sum=(x*x).sum()
+xt2sum=(x*t2).sum()
+xsum=x.sum()
+t2sum=t2.sum()
+
+#We will use the mean value of the sigma_t2 as the "error in y"
+
+denominator=N*x2sum-xsum**2
+#slope:
+m=(N*xt2sum-xsum*t2sum)/denominator
+sigma_m=sigma_t2.mean()*sqrt(N/denominator)# using mean error in t^2
+#offset:
+b=(x2sum*t2sum-xsum*xt2sum)/denominator
+sigma_b=sigma_t2.mean()*sqrt(x2sum/denominator)# using mean error in t^2
+
+gmeas=2.0/m
+sigma_g=2/m/m*sigma_m
+
+#The fit results
+text='''Fit results: t$^2$=mx+b
+m= {:.3f} +/- {:.3f}
+b= {:.3f} +/- {:.3f}
+g= {:.1f} +/- {:.1f}'''.format(m,sigma_m,b,sigma_b,gmeas,sigma_g)
+
+#calculate probability of obtaining a value this far away from the accepted value
+dsigma=(9.81-gmeas)/sigma_g
+prob=2.0*stats.norm.sf(dsigma)
+print("Probability to get g {:.1f} sigma or further from accepted value: {:.3f}".format(dsigma,prob))
+
+#plot:
+#The data:
+pl.errorbar(x,t2,yerr=sigma_t2,fmt='o',color='black')
+#The fit:
+pl.plot(x,m*x+b,color='red')
+#The fit with m+/-sigma_c
+pl.plot(x,(m+sigma_m)*x+b,'--',color='red')
+pl.plot(x,(m-sigma_m)*x+b,'--',color='red')
+
+pl.text(0,3,text,fontsize=12)#fit results onto the plot
+pl.xlabel("x, drop distance (m)")
+pl.ylabel("t$^2$, time squared (s$^2$)")
+pl.title("Time to drop a certain distance")
+pl.axis([-1,11,0,5])
+pl.show()
+
+\end{lstlisting}
+The output is:
+\begin{verbatim}
+Probability to get g 2.2 sigma or further from accepted value: 0.027
+\end{verbatim}
+The results of this code, are shown in Figure \ref{fig:gravmeasfit}. Since our formulas in equations \ref{eqn:LSmb} and \ref{eqn:LSmberror} assumed that all points had the same size vertical error bar, we used the mean of the values in the last column of table \ref{tab:gravmeas} as the error. We find that the measurement is $g=7.5\pm1.0\, m/s^2$ which is more than one standard deviation away from the accepted value of $g$. The value is $\frac{9.81-7.5}{1.0}\sigma=2.2\sigma$ away from the expected value, which has a 2.7\% change of occurring. It is not clear if this is due to pure chance or if there is a systematic effect. Given the low probability of obtaining such a shifted result, one should suspect a systematic effect. 
+
+\capfig{0.5\textwidth}{figures/gravmeasfit.png}{\label{fig:gravmeasfit} Measured time (squared) to fall a certain distance, using data from Table \ref{tab:gravmeas} and fit (solid red line) using equation \ref{eqn:LSmb}. The slope of the line is also shown for the values of the slope 1 standard deviation away from the mean value.}
+
+We should also note that the fit returned a non-zero value for the offset of the fit. Although our model expects the offset to be zero, we have found a value of $b=1.0\pm0.2\,s^2$ that is inconsistent with zero by 5$\sigma$. It is thus very likely that there is some systematic offset in the data leading to the time always being measured to be slightly high. Perhaps the person doing the timing systematically stopped the timer late, maybe due to their reaction time. This offset in the timing may also result in a systematic shift of the slope, leading to a systematic shift in the measured value of $g$. 
+
+We see that even if we expect there to be no offset in the model, it is always best to include it. If there is no real systematic effect, then the offset should fit to a value that is consistent with zero. 
+
+\end{example}
+
+The analysis in example \ref{ex:gravLMfit} highlights some interesting aspects of ``fitting'' a straight line to data using the least squares method (also called ``linear regression''). In our physical model, \ref{eqn:t2ofx}, we would expect the data to fit to a straight line with a slope and no offset. It is generally true that even if the model does not have an offset, one should always fit a line with an offset to the data. If the data really are consistent with no offset, then the fitted value of the offset will be zero within its uncertainty. If the fitted offset is inconsistent with zero (as it was in the example by 5 standard deviations), then this is a useful tool to uncover a systematic effect. You should thus always include an offset in the model. 
+
+\subsection{Residuals}
+In order to get an idea of how well our model ``fits'' the data, it is generally a good idea to look at the ``residuals'' of the fit. For a data point, $(x_i,y_i)$, with a model $y(x_i)$, the residuals, $R(x_i)$, are defined as:
+\begin{align}
+R(x_i)\equiv y_i-y(x_i)
+\end{align}
+and correspond to the different between the data and the model prediction. Again, if we assume that the errors in the $x_i$ are negligible, then the error in the residuals are given by:
+\begin{align}
+\sigma_{R(x_i)}=\sigma_{y_i}
+\end{align}
+That is, the error on the residuals are the same as the error in the data points. If the model is a good representation of the data, then the residuals are expected to be normally distributed around 0. If all of the residuals were positive or negative, then one would question whether the model is a good fit to the data. Similarly, if the residuals show a trend, then one would also suspect that there is an issue with the model. The residuals for the fit from example \ref{ex:gravLMfit} are shown in Figure \ref{fig:gravmeasfit_res} and do not show any obvious trend. Within the uncertainties in the data points, we can conclude that a linear model is a good representation of the data. Note that in this particular experiment, we would expect that friction from drag would likely play an effect for high drop heights, and the residual plot may have helped us to identify this effect. The code to plot the residuals from example \ref{ex:gravLMfit} in python is given by:
+\begin{lstlisting}[frame=single] 
+#The residuals have the same error bars:
+pl.errorbar(x,t2-(m*x+b),yerr=sigma_t2,fmt='o',color='black')
+pl.xlabel("drop distance (m)")
+pl.ylabel("residual from fit (s$^2$)")
+pl.title("Residuals from linear fit")
+pl.axis([-1,11,-1,1])
+pl.show()
+\end{lstlisting} 
+
+\capfig{0.5\textwidth}{figures/gravmeasfit_res.png}{\label{fig:gravmeasfit_res}Residuals from the fit in Figure \ref{fig:gravmeasfit}. There is no obvious trend in the residuals and we thus conclude the linear model is a reasonable representation of the data.}
+
+
+\subsection{Correlated parameters}
+
+In the least squares fitting for example \ref{ex:gravLMfit}, we treated the slope, $m$,  and offset, $b$, as independent parameters. That is, we explicitly assumed that we could determine the two parameters independently (the formula for determining $m$ does not depend on the value of $b$). We thus assumed that the chi-squared that we minimized could be minimized independently for the two variables. However, it is likely the case that as $m$ changes, the corresponding value of $b$ that minimizes the chi-squared changes as well. When this is the case, it makes it difficult to really understand how the errors on $m$ and $b$ need to be combined to understand the error on a quantity, $f(m,b)$, that depends on both $m$ and $b$ (such as for example, $y(x)=mx+b$). As you recall, we can only add errors in quadrature when propagating them if the various quantities with errors are independent of each other. If the value of $m$ that minimizes the chi-squared depends on $b$, then $m$ and $b$ are not independent.
+
+This is illustrated for the example \ref{ex:gravLMfit} in Figure \ref{fig:gravmeasfit_chim} which shows the value of chi-squared as a function of $m$ for different values of $b$ (at the best fit value and the best fit value plus 1 standard deviation). When $b$ is also at its fit value ($b=1.0$), we see that the minimum of the chi-squared indeed occurs when $m$ is at its best fit value of $m=0.265$; however, this is no longer the case when $b=1.2$. We thus say the parameters $m$ and $b$ are correlated (rather, in this case, they are anti-correlated, as a larger value of one parameter leads to a lower optimal value of the other parameter). The $\chi^2$ is also shown in Figure \ref{fig:gravmeasfit_chi2d} as a function of both $m$ and $b$, and the tilt in the plot is a sign that the parameters are correlated.
+
+The code to make the two plots in python is:
+\begin{lstlisting}[frame=single] 
+#A function to calculate chi-squared for a given set of data, errors on data, and model predictions
+def chis(ydata,sigma_y,ymodel):
+    return (((ydata-ymodel)/sigma_y)**2).sum()
+
+ydata=t2
+sigma_y=sigma_t2
+
+#an array of values of b and m centered around the best fit value:
+b_vals=np.linspace(b-2*sigma_b,b+2*sigma_b,100)
+m_vals=np.linspace(m-2*sigma_m,m+2*sigma_m,100)
+    
+#Plot the chi-squared vs m, for 2 different values of b    
+pl.plot(m_vals,[chis(ydata,sigma_y,m_vals[i]*x+b) for i in range(m_vals.size)],label="b={:.1f}".format(b))
+pl.plot(m_vals,[chis(ydata,sigma_y,m_vals[i]*x+(b+sigma_b)) for i in range(m_vals.size)],label="b={:.1f}".format(b+sigma_b))
+pl.legend(loc='best')
+pl.xlabel('m')
+pl.ylabel('$\chi^2$')
+pl.title('Minimum of $\chi^2$ as a function of m for different values of b')
+pl.show()
+
+#Make a 2D plot of chi-squared vs m and b:
+mm,bb=np.meshgrid(m_vals,b_vals)
+chi2d=pl.zeros(mm.shape)
+for i in range(m_vals.size):
+    for j in range(b_vals.size):
+        chi2d[i,j]=chis(ydata,sigma_y,m_vals[i]*x+b_vals[j])
+pl.pcolormesh(mm,bb,chi2d,cmap='RdBu')
+pl.axis([m_vals.min(),m_vals.max(),b_vals.min(),b_vals.max()])
+pl.xlabel('m')
+pl.ylabel('b')
+pl.title("$\chi^2$ as a function of m and b")
+pl.colorbar()
+pl.show()
+\end{lstlisting} 
+
+\capfig{0.5\textwidth}{figures/gravmeasfit_chim.png}{\label{fig:gravmeasfit_chim}Chi-squared as a function of the slope from the fit in Figure \ref{fig:gravmeasfit} for different values of the offset. Since the minimum in chi-squared as a function of the slope, $m$, decreases for a higher value of the offset, $b$, we can see that the parameters from the fit are anti-correlated.}
+
+\capfig{0.5\textwidth}{figures/gravmeasfit_chi2d.png}{\label{fig:gravmeasfit_chi2d}Chi-squared as a function of the slope and offset from the fit in Figure \ref{fig:gravmeasfit}. The ``tilt'' in the chi-squared map is the result of the anti-correlation between the two parameters.}
+
+In order to provide the uncertainty in a quantity that depends on $m$ and $b$, we need to know how correlated the two parameters are, since we cannot simply add the error in quadrature. 
+
+\section{Non-linear fits}
+
+
+
+ 
