@@ -1,23 +1,23 @@
 \chapter{Statistics - Modelling Data}
 \label{Chap:statModelData}
-In this chapter, we examine the vast topic of modelling data. We divide the subject into two topics: parameter estimation and model testing. In parameter estimation, we assume that we have a parametric model that can describe our data, and our goal is to determine the parameters of the model. For example, we may expect a linear relationship between two measured quantities and wish to determine the corresponding constant of proportionality. In model testing, we assume that we have a model, and we wish to verify if the data follow the model. For example, we may have data that look like they are linearly related, but we would like to quantify if that is the case.
+In this chapter, we examine the topic of modeling data. We consider the aspects of parameter estimation and of model testing. In parameter estimation, we assume that we have a parametric model that can describe our data, and our goal is to determine the parameters of the model. For example, we may expect a linear relationship between two measured quantities and wish to determine the corresponding constant of proportionality (fitting the data with the model). In model testing, we assume that we have a model, and we wish to verify if the data are consistent with the model. For example, we may have data that look like they are linearly related, but we would like to quantify if that is the case. 
  
 
 \section{Fitting a straight line}
 \subsection{Linear problems}
-It is often possible to model two quantities in an experiment as being linearly related. For example, suppose that we wish to measure the gravitational constant, $g$, by measuring the time, $t$, that it takes for objects to fall a certain distance, $x$. From Newton's Second Law, we expect to have:
+It is often possible to model two quantities in an experiment as being linearly related. For example, suppose that we measure the time, $t$, that it takes for objects to fall a certain distance, $x$. From Newton's Second Law, we expect to have:
 \begin{align}
 x = \frac{1}{2}gt^2
 \end{align}
-which is not a linear relationship between our measured quantities, $x$ and $t$. However, if every time that we measure $t$, we then take the square of the value, we find that $x$ is indeed linearly related to $t^2$ with a slope of $\frac{1}{2}g$. 
+which is not a linear relationship between our measured quantities, $x$ and $t$. However, if every time that we measure $t$, we then take the square of the value, we can turn this into a linear relationship between $x$ and $t^2$, with a slope of $\frac{1}{2}g$. This can be done with a variety of relations that do not appear to be linear at first sight. 
 
-In such an experiment, you may have a series of measurements as in Table \ref{tab:gravmeas}, where you varied the height, $x$, from which an object was dropped, and measured the corresponding time, $t$. As a good experimenter, you performed the measurement several times for each value of $x$ in order to measure the time, $t$, as the mean of several measurements with an error on the mean time of $\sigma_t$. You also repeated the measurements at each height until you obtained an error on the mean time of 0.1\,s, which you propagated to $t^2$. You found that the error on the height, $x$, was negligible. 
+In such an experiment, we may have a series of measurements as in Table \ref{tab:gravmeas}, where we varied the drop height, $x$, from which an object was dropped, and measured the corresponding time, $t$, for it to fall. For each drop height, we measured $t$ multiple times so that we could determine a mean drop time, $\bar t$, with a corresponding standard deviation, $\sigma_t$, and error on the mean, $\sigma_{\bar t}$. We repeated the measurements at each height until we obtained an error on the mean time of 0.1\,s, which we propagated to $t^2$. Let us suppose that we found that the error on the height, $x$, was negligible. 
 
 \begin{table}[h!]
 \center
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-\textbf{height, $x$ (m)}&\textbf{time, $t$, (s)}&\textbf{$\sigma_t$ (s)}&\textbf{$t^2$ (s$^2$)}&\textbf{$\sigma_{t^2}=\sqrt{2t\sigma_t}$ (s$^2$)}\\
+\textbf{height, $x$ (m)}&\textbf{time, $\bar t$, (s)}&\textbf{$\sigma_{\bar t}$ (s)}&\textbf{$t^2$ (s$^2$)}&\textbf{$\sigma_{t^2}=\sqrt{2t\sigma_{\bar t}}$ (s$^2$)}\\
 \hline
 1.0 & 1.1 & 0.1 & 1.2 & 0.2 \\ 
 \hline
@@ -40,10 +40,10 @@ In such an experiment, you may have a series of measurements as in Table \ref{ta
 10.0 & 1.9 & 0.1 & 3.7 & 0.4 \\ 
 \hline
 \end{tabular}
-\caption{\label{tab:gravmeas} Example measurements of the time, $t$, that it takes to fall a certain distance, $x$.}
+\caption{\label{tab:gravmeas} Example measurements of the time, $\bar t$, that it takes to fall a certain distance, $x$.}
 \end{table}
 
-Since we varied $x$ while measuring $t$, and we assumed that the uncertainty in $x$ is small, it makes more sense to plot $t^2$ vs $x$ and model the data as:
+Since we varied $x$ while measuring $t$, and we assumed that the uncertainty in $x$ is small, it makes more sense to plot $t^2$ vs $x$, rather that $x$ vs $t^2$, and so we model the data as:
 \begin{align}
 \label{eqn:t2ofx}
 t^2 = \frac{2}{g}x
@@ -53,14 +53,14 @@ The data from Table \ref{tab:gravmeas} are plotted in Figure \ref{fig:gravmeas}.
 \capfig{0.5\textwidth}{figures/gravmeas.png}{\label{fig:gravmeas} Measured time (squared) to fall a certain distance, using data from Table \ref{tab:gravmeas}.}
 
 \subsection{The Method of Least Squares}
-Given set of $N$ pairs of measurements \{$(x_1,y_1), (x_2,y_2), \dots, (x_N,y_N)$\}, we wish to determine the best estimates (and uncertainties) for the slope, $m$, and offset, $b$, of a straight line:
+Given a set of $N$ pairs of measurements \{$(x_1,y_1), (x_2,y_2), \dots, (x_N,y_N)$\}, we wish to determine the best estimates (and uncertainties) for the slope, $m$, and offset, $b$, of a straight line:
 \begin{align}
 \label{eqn:mbmodel}
 y=mx+b
 \end{align}
-that best matches the data. For simplicity, we assume that $x$ can be measured with negligible uncertainty compared to the uncertainties on $y$. Furthermore, we also assume that each value of $y$, $y_i$, have the same uncertainty, $\sigma_{y}$, that corresponds to a standard error.
+that best matches the data. For simplicity, we assume that $x$ can be measured with negligible uncertainty compared to the uncertainties on $y$. Furthermore, we also assume that each value of $y$, $y_i$, have the same uncertainty, $\sigma_{y}$.
 
-Equation \ref{eqn:mbmodel} is our model for the data. At a given value of $x=x_i$, we expect that we should measure $y^{exp}(x_i)=mx_i+b$. However, since we cannot measure $y$ exactly (due to random errors in our measurement), we will measure a value $y_i$ that is close to the expected value. If the errors in our measurement are truly random, and we measure $y$ many times for a fixed value of $x=x_i$, then we expect a normal distribution of $y_i$ with a standard deviation, $\sigma_{y}$. Given a value of $x=x_i$, the probability of measuring a specific value, $y_i$, is given by the normal distribution:
+Equation \ref{eqn:mbmodel} is our model for the data. At a given value of $x=x_i$, we expect that we should measure $y^{exp}(x_i)=mx_i+b$. However, since we cannot measure $y$ exactly (due to random errors in our measurement), we will measure a value $y_i$ that is close to the expected value. If the errors in our measurement are truly random, and we measure $y$ many times for a fixed value of $x=x_i$, then we expect a normal distribution of $y_i$ with a standard deviation, $\sigma_{y}$. Given a value of $x=x_i$ and our model, the probability of measuring a specific value, $y_i$, is given by the normal distribution:
 \begin{align}
 P(x_i,y_i)&=\frac{1}{\sigma_{y}\sqrt{2\pi}}e^{-\frac{(y_i-y^{exp}(x_i))^2}{2\sigma_{y}^2}}
 \end{align}
@@ -70,7 +70,7 @@ In order to estimate the parameters of our model, $m$ and $b$, we use the princi
 \begin{align*}
 P(x_1,x_2,\dots,x_N,y_1,y_2,\dots,y_N)\propto\prod_{i=1}^{i=N}\frac{1}{\sigma_{y}}e^{-\frac{(y_i-y^{exp}(x_i))^2}{2\sigma_{y}^2}}
 \end{align*}
-where we have ignored the normalization constant since we are only interested in the maximal value. As we did in the previous chapter, we take the negative of the logarithm of the likelihood:
+where we have ignored the normalization constant since we are only interested in the maximal value. As we did in the previous chapter, we can take the negative of the logarithm of the likelihood (which we will then want to minimize):
 \begin{align}
 -\ln{P(x_1,x_2,\dots,x_N,y_1,y_2,\dots,y_N)}&=\ln(\sigma_y)+\frac{1}{2}\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i))^2}{\sigma_{y}^2}
 \end{align}
@@ -114,9 +114,9 @@ where we have omitted the indices on the $x_i$ and $y_i$ and we have implied tha
 \sigma_b&=\sigma_y\sqrt{\frac{\sum x^2}{N\sum x^2-\left(\sum x\right)^2}}
 \end{align}
 
-\begin{example}{}{Use equations \ref{eqn:LSmb} and \ref{eqn:LSmberror} to determine the slope and offset for a line that best fit the data in Figure \ref{fig:gravmeas}, and thus determine a value of the gravitational constant $g$ with its uncertainty from the data.}{}
+\begin{example}{}{Use equations \ref{eqn:LSmb} and \ref{eqn:LSmberror} to determine the slope and offset for a line that best fits the data in Figure \ref{fig:gravmeas}, and thus determine a value of the gravitational constant $g$ with its uncertainty from the data.}{}
 \label{ex:gravLMfit}
-We want to plot the data of $t^2$ as a function of $y$, and determine the slope and offset of those data. The slope will be equal to $\frac{2}{g}$ (equation \ref{eqn:t2ofx}), and can thus be used to determine our measured value of $g$. We can use equations \ref{eqn:LSmb} and \ref{eqn:LSmberror} to determine the slope and offset, and then use error propagation to convert the error in the slope into an error in $g$. If the error in the slope is $\sigma_m$, the error in $g$, $\sigma_g$, will be given by:
+We want to plot the data of $t^2$ as a function of $x$, and determine the slope and offset of those data. The slope will be equal to $\frac{2}{g}$ (equation \ref{eqn:t2ofx}), and can thus be used to determine our measured value of $g$. We can use equations \ref{eqn:LSmb} and \ref{eqn:LSmberror} to determine the slope and offset, and then use error propagation to convert the error in the slope into an error in $g$. If the error in the slope is $\sigma_m$, the error in $g$, $\sigma_g$, will be given by:
 \begin{align*}
 g&=\frac{2}{m}\\
 \sigma_g&=\sqrt{\left(\frac{dg}{dm}\sigma_m\right)^2}=\frac{2}{m^2}\sigma_m
@@ -217,11 +217,11 @@ We see that even if we expect there to be no offset in the model, it is always b
 The analysis in example \ref{ex:gravLMfit} highlights some interesting aspects of ``fitting'' a straight line to data using the least squares method (also called ``linear regression''). In our physical model, \ref{eqn:t2ofx}, we would expect the data to fit to a straight line with a slope and no offset. It is generally true that even if the model does not have an offset, one should always fit a line with an offset to the data. If the data really are consistent with no offset, then the fitted value of the offset will be zero within its uncertainty. If the fitted offset is inconsistent with zero (as it was in the example by 5 standard deviations), then this is a useful tool to uncover a systematic effect. You should thus always include an offset in the model. 
 
 \subsection{Residuals}
-In order to get an idea of how well our model ``fits'' the data, it is generally a good idea to look at the ``residuals'' of the fit. For a data point, $(x_i,y_i)$, with a model $y(x_i)$, the residuals, $R(x_i)$, are defined as:
+In order to get an idea of how well our model ``fits'' the data, it is generally a good idea to look at the ``residuals'' of the fit. For a data point, $(x_i,y_i)$, with a model $y^{exp}(x_i)$, the residuals, $R(x_i)$, are defined as:
 \begin{align}
-R(x_i)\equiv y_i-y(x_i)
+R(x_i)\equiv y_i-y^{exp}(x_i)
 \end{align}
-and correspond to the different between the data and the model prediction. Again, if we assume that the errors in the $x_i$ are negligible, then the error in the residuals are given by:
+and correspond to the difference between the data and the model prediction. Again, if we assume that the errors in the $x_i$ are negligible, then the error in the residuals are given by:
 \begin{align}
 \sigma_{R(x_i)}=\sigma_{y_i}
 \end{align}
@@ -241,9 +241,9 @@ pl.show()
 
 \subsection{Correlated parameters}
 
-In the least squares fitting for example \ref{ex:gravLMfit}, we treated the slope, $m$,  and offset, $b$, as independent parameters. That is, we explicitly assumed that we could determine the two parameters independently (the formula for determining $m$ does not depend on the value of $b$). We thus assumed that the chi-squared that we minimized could be minimized independently for the two variables. However, it is likely the case that as $m$ changes, the corresponding value of $b$ that minimizes the chi-squared changes as well. When this is the case, it makes it difficult to really understand how the errors on $m$ and $b$ need to be combined to understand the error on a quantity, $f(m,b)$, that depends on both $m$ and $b$ (such as for example, $y(x)=mx+b$). As you recall, we can only add errors in quadrature when propagating them if the various quantities with errors are independent of each other. If the value of $m$ that minimizes the chi-squared depends on $b$, then $m$ and $b$ are not independent.
+In the least squares fitting for example \ref{ex:gravLMfit}, we treated the slope, $m$,  and offset, $b$, as independent parameters. That is, we explicitly assumed that we could determine the two parameters independently (the formula for determining $m$ does not depend on the value of $b$). We thus assumed that the chi-squared that we minimized could be minimized independently for the two variables. However, it is likely the case that as $m$ changes, the corresponding value of $b$ that minimizes the chi-squared changes as well. When this is the case, it makes it difficult to really understand how the errors on $m$ and $b$ need to be combined to understand the error on a quantity, $f(m,b)$, that depends on both $m$ and $b$ (such as for example, $y(x)=mx+b$). As you recall, we can only add errors in quadrature when propagating them if the various quantities with errors are independent of each other. If the value of $m$ that minimizes the chi-squared depends on $b$, then $m$ and $b$ are not independent and we would need to know their covariance to propagate their errors (equation \ref{eqn:coverror}).
 
-This is illustrated for the example \ref{ex:gravLMfit} in Figure \ref{fig:gravmeasfit_chim} which shows the value of chi-squared as a function of $m$ for different values of $b$ (at the best fit value and the best fit value plus 1 standard deviation). When $b$ is also at its fit value ($b=1.0$), we see that the minimum of the chi-squared indeed occurs when $m$ is at its best fit value of $m=0.265$; however, this is no longer the case when $b=1.2$. We thus say the parameters $m$ and $b$ are correlated (rather, in this case, they are anti-correlated, as a larger value of one parameter leads to a lower optimal value of the other parameter). The $\chi^2$ is also shown in Figure \ref{fig:gravmeasfit_chi2d} as a function of both $m$ and $b$, and the tilt in the plot is a sign that the parameters are correlated.
+This is illustrated for the example \ref{ex:gravLMfit} in Figure \ref{fig:gravmeasfit_chim} which shows the value of chi-squared as a function of $m$ for different values of $b$ (at the best fit value of $b$ and at the best fit value of $b$ plus 1 standard deviation). When $b$ is also at its best fit value ($b=1.0$), we see that the minimum of the chi-squared indeed occurs when $m$ is at its best fit value of $m=0.265$; however, this is no longer the case when $b=1.2$. We thus say the parameters $m$ and $b$ are correlated (rather, in this case, they are anti-correlated, as a larger value of one parameter leads to a lower optimal value of the other parameter). The $\chi^2$ is also shown in Figure \ref{fig:gravmeasfit_chi2d} as a function of both $m$ and $b$, and the tilt in the plot is a sign that the parameters are correlated.
 
 The code to make the two plots in python is:
 \begin{lstlisting}[frame=single] 
@@ -286,10 +286,258 @@ pl.show()
 
 \capfig{0.5\textwidth}{figures/gravmeasfit_chi2d.png}{\label{fig:gravmeasfit_chi2d}Chi-squared as a function of the slope and offset from the fit in Figure \ref{fig:gravmeasfit}. The ``tilt'' in the chi-squared map is the result of the anti-correlation between the two parameters.}
 
-In order to provide the uncertainty in a quantity that depends on $m$ and $b$, we need to know how correlated the two parameters are, since we cannot simply add the error in quadrature. 
-
 \section{Non-linear fits}
+In the previous section, we used the principle of maximum likelihood and showed that minimizing the chi-squared, $\chi^2$, given by:
+\begin{align}
+\chi^2=\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i))^2}{\sigma_{y_i}^2}
+\end{align}
+was equivalent to finding the maximum value of the likelihood. For the specific case of a linear  model, $y^{exp}(x)=mx+b$, we found that the slope and offset could be obtained analytically by differentiating the formula for the chi-squared. It can be shown that for any polynomial model, and indeed any model that is linear in the parameters that we want to determine, a closed form solution can be obtained from a system of linear equations. However, for model functions that are not linear in the parameters, one must determine the best fit parameter values numerically. In general, the problem is thus to find the values for a set of parameters, $\vec\beta=\{\beta_1, \beta_2,\dots\}$, such that the chi-squared:
+\begin{align}
+\chi^2=\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i,\vec\beta))^2}{\sigma_{y_i}^2}
+\end{align}
+between the data and the model is a minimum. Various clever minimization algorithms exist to do this efficiently rather than systematically exploring all of parameter space. These algorithms are usually based on estimating the derivatives of the chi-squared as a function of the different parameters and searching in the direction with negative derivatives.
+
+As an example, let us suppose that we have measured the energy of many collisions in an accelerator, and made a histogram of the energy of the collisions, between, say, 0\,MeV and 20\,MeV, in 1\,MeV bins (Figure \ref{fig:resdata}). This is a typical situation in particle physics, where we would want to  look for a resonance at a certain energy that would correspond to a specific particle being created. We expect the resonance to be a gaussian peak on top of a sloped background, and thus model the number of counts, $n$, as a function of energy, $E$, as:
+\begin{align}
+\label{eqn:resdataModel}
+n(E)=\beta_0+\beta_1+\beta_4\left( \frac{1}{\beta_3\sqrt{2\pi}}e^{-\frac{(E-\beta_2)^2}{2\beta_3^2}} \right)
+\end{align}
+where we have used $\beta_i$ for the 5 parameters, and labeled the first one with an index of 0 instead of 1, to be consistent with the code in python. Parameters 0 and 1 are thus the slope and offset of the background. Parameter 2 is the mean of the gaussian (the center of the resonance), parameter 3 is the width of the resonance (the standard deviation of the gaussian), and parameter 4 is the normalization of the gaussian (the number of events above background that are from the resonance). 
+
+Since we can view each bin as a separate measurement, we can assign each bin an uncertainty equal to the square root of the number of counts in that bin (as you recall, the uncertainty in a counted quantity is the square root of the quantity). We thus wish to fit our model to the histogram of the number of counts as a function of energy to determine the slope and offset of the background, as well as the mean, standard deviation and normalization of the gaussian. An example of such data is shown in Table \ref{tab:resdata} and plotted in Figure \ref{fig:resdata}.
+
+\begin{table}[h!]
+\center
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Energy, $E$}&\textbf{Counts in 1\,MeV, $n$}&\textbf{Uncertainty,$\sqrt{n}$}\\
+\hline
+1.0 & 4.0 & 2.0\\
+\hline
+2.0 & 3.0 & 1.7\\
+\hline
+3.0 & 2.0 & 1.4\\
+\hline
+4.0 & 3.0 & 1.7\\
+\hline
+5.0 & 5.0 & 2.2\\
+\hline
+6.0 & 2.0 & 1.4\\
+\hline
+7.0 & 4.0 & 2.0\\
+\hline
+8.0 & 2.0 & 1.4\\
+\hline
+9.0 & 10.0 & 3.2\\
+\hline
+10.0 & 16.0 & 4.0\\
+\hline
+11.0 & 12.0 & 3.5\\
+\hline
+12.0 & 6.0 & 2.4\\
+\hline
+13.0 & 3.0 & 1.7\\
+\hline
+14.0 & 3.0 & 1.7\\
+\hline
+15.0 & 3.0 & 1.7\\
+\hline
+16.0 & 3.0 & 1.7\\
+\hline
+17.0 & 5.0 & 2.2\\
+\hline
+18.0 & 5.0 & 2.2\\
+\hline
+19.0 & 2.0 & 1.4\\
+\hline
+20.0 & 5.0 & 2.2\\
+\hline
+\end{tabular}
+\caption{\label{tab:resdata} Simulated data for a histogram of energy observed in an accelerator.}
+\end{table}
+
+\capfig{0.5\textwidth}{figures/resdata.png}{\label{fig:resdata}Simulated data from an accelerator experiment, showing the number of counts in 1\,MeV bins as a function of energy, from table \ref{tab:resdata}.}
+
+We will use the \code{scipy.optimize} module to fit the model to the data and to determine the value of the unknown parameters. The first step is specify the model in python as a function of the dependent variable (in our case the energy) and the unknown parameters. We can make the definition of our function slightly more general by passing the unknown parameters as a tuple:
+\begin{lstlisting}[frame=single] 
+#Define a model for a gaussian + linear background, with 5 parameters:
+def model(x, *pars):
+    offset=pars[0]
+    slope=pars[1]
+    mu=pars[2] #mean
+    sigma=pars[3] #sigma
+    norm=pars[4] #normalization
+    return offset+slope*x+norm*(1.0/sqrt(2.*pi*sigma**2)*np.exp(-((x-mu)**2)/2./sigma**2))
+\end{lstlisting}
+We can load the data into arrays, \code{xdata}, \code{ydata}, and \code{ysigma}, corresponding to the 3 columns in Table \ref{tab:resdata}. The \code{curve\_fit} function can then be used to fit the data for the unknown parameters:
+\begin{lstlisting}[frame=single] 
+from scipy.optimize import curve_fit 
+#Try a guess for our parameters
+#The fit does not converge if we give a crazy guess for the mean
+guess_pars=[1,1,12,1,1]
+
+#Run the fit to the data:
+fit_pars, fit_cov = curve_fit(model,xdata,ydata,sigma=ysigma,p0=guess_pars)
+\end{lstlisting}
+where we have to ``help'' the algorithm a little by specifying reasonable guesses for our unknown parameters (in this case, the algorithm can have trouble if the guess for the mean of the gaussian is unreasonable). Note that we can specify a different error bar for each data point (which we did by passing the y errors on each point using the array \code{ysigma}) . 
+
+The \code{curve\_fit} function returns a tuple with two components. The first component, \code{fit\_pars}, is an array with the best fit values of the parameters (e.g. \code{fit\_pars[0]} corresponds to the offset of the sloped background). \code{fit\_cov} is the ``covariance matrix'' of the fit parameters. Each diagonal element in the covariance matrix corresponds to the variance of that parameter. Thus the square roots of the diagonal elements correspond to the standard deviations of each parameter estimate and can be used as the uncertainty in the corresponding parameter. The off-diagonal elements correspond to the covariance factors between pairs of parameters (for example, the element in the second row and third column of the matrix corresponds to the covariance between the second and third parameter in the fit). The covariance matrix is thus symmetric. If two parameters have a large covariance, then the determination of one of those parameters has a strong influence on the other. 
+
+The following python code performs a fit to the data in Table \ref{tab:resdata} using our model, produces a plot showing the data with the fit and the residuals (Figure \ref{fig:resdata_fit}), and calculates the chi-squared for the fit. 
+\begin{lstlisting}[frame=single] 
+import numpy as np
+from math import *
+import pylab as pl
+from math import *
+from scipy.optimize import curve_fit 
+
+#Define a model for a gaussian + linear background, with 5 parameters:
+def model(x, *pars):
+    offset=pars[0]
+    slope=pars[1]
+    mu=pars[2] #mean
+    sigma=pars[3] #sigma
+    norm=pars[4] #normalization
+    return offset+slope*x+norm*(1.0/sqrt(2.*pi*sigma**2)*np.exp(-((x-mu)**2)/2./sigma**2))
+    
+#Load the table data
+data=np.array([1.0,4.0,2.0,
+2.0,3.0,1.7,
+3.0,2.0,1.4,
+4.0,3.0,1.7,
+5.0,5.0,2.2,
+6.0,2.0,1.4,
+7.0,4.0,2.0,
+8.0,2.0,1.4,
+9.0,10.0,3.2,
+10.0,16.0,4.0,
+11.0,12.0,3.5,
+12.0,6.0,2.4,
+13.0,3.0,1.7,
+14.0,3.0,1.7,
+15.0,3.0,1.7,
+16.0,3.0,1.7,
+17.0,5.0,2.2,
+18.0,5.0,2.2,
+19.0,2.0,1.4,
+20.0,5.0,2.2])
+#extract the data by column
+data=data.reshape(20,3)
+xdata=data[:,0]
+ydata=data[:,1]
+ysigma=data[:,2]
+
+#Try a guess for our parameters
+#The fit does not converge if we give a crazy guess for the mean
+guess_pars=[1,1,12,1,1]
+
+#Run the fit to the data:
+fit_pars, fit_cov = curve_fit(model,xdata,ydata,sigma=ysigma,p0=guess_pars)
+
+#Get the parameter errors out of the covariance matrix:
+fit_err = np.sqrt(np.diag(fit_cov))
+
+#Calculate value of y from the model using the fit parameters:    
+yfit=model(xdata,*fit_pars)   
+
+#Calculate the residuals:
+yres=ydata-model(xdata,*fit_pars)
+
+#Calculate the chi-squared between data and the fit
+chisq=(((ydata-yfit)/ysigma)**2).sum()
+ndof=ydata.size-fit_pars.size-1
+
+#These are the "true" parameters used to make the data (for comparison)
+true_pars=[3.,0.1,10.,0.8,20.]
+
+#Put the results into some text:
+textfit="Fit (true) parameters, $\chi^2$={:.1f}, ndof={}:\n".format(chisq,ndof)
+textfit=textfit+"n(E)=p[0]+p[1]+p[4]*Gauss(E,p[2],p[3])\n"
+for i in range(len(true_pars)):
+    textfit = textfit + "Par {}: {:.2f} +/- {:.2f} ({:.2f})\n".format(i,fit_pars[i],fit_err[i],true_pars[i])
+
+#Plot the fit and the residuals
+pl.figure(figsize=(8,8))
+ax1=pl.subplot2grid((3,1),(0, 0),rowspan=2)
+pl.plot(xi,model(xi,*fit_pars) ,lw=2,color='red')
+pl.errorbar(xdata,ydata,yerr=ysigma,fmt='o',color='black')#data
+pl.ylabel('n, number of collisions in 1 MeV bin')
+pl.title('Fit to the fake data')
+pl.text(-0.5,13,textfit,fontsize=12)
+pl.axis([-1,22,-2,25])
+
+ax2=pl.subplot2grid((3,1),(2, 0),rowspan=1)
+pl.errorbar(xdata,yres,yerr=ysigma,fmt='o',color='black')#residuals
+pl.ylabel('residuals')
+pl.xlabel('E, energy of the collisions (MeV)')
+pl.axis([-1,22,-6,6])
+
+pl.show()
+
+\end{lstlisting}
+
+\capfig{0.5\textwidth}{figures/resdata_fit.png}{\label{fig:resdata_fit} Fit to the data from Table \ref{tab:resdata} and residuals using the model in equation \ref{eqn:resdataModel}. The ``true'' value of the parameters used to make the data are shown in parentheses next to their fitted values.}
+
+By looking at the residuals of the fit, we see no evidence of a trend in the residuals that would indicate that this model is not a good fit for the data. We can conclude from the fit results that the data are consistent with a resonance near 10\,MeV with a confidence level of 6$\sigma$, as evidenced by the uncertainty in the normalization of the gaussian (the fit indicates that the normalization of the gaussian is inconsistent with zero by 6 standard deviations).
 
 \section{Goodness of fit}
+So far, we have concerned ourselves with determining the parameters of a model that best fit a set of data.  We have qualitatively looked at the residuals between the fit and the data to look for a trend in the residuals that would indicate that the model is inadequate. However, we have not determined quantitatively if the model is a \textit{good} fit to the data. Since this is a vast subject, we will only limit ourselves to one method to evaluate the quality of a fit: the value of the $\chi^2$. 
 
- 
+We know that we can determine the parameters of the model, $\vec\beta$, by minimizing the chi-squared between the data and the model. It turns out that we can use the value of the chi-squared evaluated using the best-fit parameters, to tell us about the goodness of the fit. Recall the definition of the chi-squared:
+\begin{align}
+\chi^2=\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i,\vec\beta))^2}{\sigma_{y_i}^2}
+\end{align}
+As we discussed previously, we expect that for a good model, the chi-squared will increase by approximately 1 per data point. On average, we expect the data points to differ from the model prediction by approximately 1 standard deviation; thus each term in the sum contributes approximately 1 to the chi-squared.
+
+We now introduce the ``number of degrees of freedom'', $\nu$, for the fit as:
+\begin{align}
+\nu\equiv N-n-1
+\end{align}
+where $N$ is the number of data points and $n$ is the number of parameters that we are fitting, and the minus 1 is related to the $N-1$ that we have in the definition of the variance. The number of degrees of freedom tells us something about how much we can vary the parameters in the model based on the number of data points. For example, if we have 2 data points we can always find a straight line (with two parameters, slope and offset) that will exactly go through those two points, and we really have no freedom to vary those parameters. In this situation, we have no ``degrees of freedom'' (in fact we have $\nu=-1$ because of the ``minus 1'' in the definition of $\nu$). In a case with no (or few) degrees of freedom, we cannot really say much about how our model fits the data, since there is very little liberty in our model. Conversely, if our model appears to fit the data well when we have a large number of degrees of freedom, we can be more confident in our model. 
+
+Although it is beyond the scope of this text, one can show that the chi-squared should scale roughly as the number of degrees of freedom, rather than the actual number of data points. We can define the ``reduced chi-squared'', as the chi-squared divided by the number of degrees of freedom. In the fit from Figure \ref{fig:resdata_fit}, we found a chi-squared of 6.8 for 14 degrees of freedom. The reduced chi-squared was thus 6.8/14=0.5. If the reduced chi-squared was substantially bigger than 1, we would conclude that the model is not likely a good fit to the data. One should however be careful: a small reduced chi-squared does not necessarily imply that the model is a good fit! If you think about it, the denominator in the chi-squared is the error on each data point. Thus, if there errors are very large, the chi-squared will be small, and we cannot conclude anything about the model since the error in the data are too large.
+
+We can be quantitative about the expected value of chi-squared for a given number of degrees of freedom. Let us suppose that our 5 parameter model from equation \ref{eqn:resdataModel} is in fact the correct model for the data from our experiment. That is, if we repeat the experiment a number of times, we will be able to fit the data to our model and obtain a ``reasonable'' chi-squared. However, each time that we repeat the experiment, due to statistical variations in the data, we will not obtain exactly the same chi-squared; rather, we will obtain a distribution of different values of chi-squared. The distribution of chi-squared that we obtain is well understood and governed by the ``chi-square distribution'', given by the following probability density function:
+\begin{align}
+P^{\chi^2}(x,\nu)=\frac{x^{\frac{\nu}{2}-1}e^{-\frac{x}{2}}}{2^{\frac{\nu}{2}}\Gamma\left(\frac{\nu}{2}\right)}
+\end{align}
+where $\Gamma()$ is called the ``gamma function''. Figure \ref{fig:chi2n} shows the chi-squared distribution for different number of degrees of freedom.
+\capfig{0.5\textwidth}{figures/chi2n.png}{\label{fig:chi2n} Probability density functions for the chi-squared distribution for different numbers of degrees of freedom.}
+
+The chi-squared distribution for 14 degrees of freedom is shown in Figure \ref{fig:chi2n14}. For our example from Figure \ref{fig:resdata_fit}, we obtained a chi-squared of 6.8. By looking at the cumulative chi-square distribution in Figure \ref{fig:chi2n14}, we can see that the probability of obtaining a $\chi^2=6.8$ \textit{or less} is 6\%. Conversely, there is a 94\% chance of obtaining a chi-squared of 6.8 or bigger simply from statistical variations in the data if the model is correct. This effectively informs us about the quality of our fit. If the model is correct, we got lucky and obtained a very good fit, and 94\% of the time, we would get a worse chi-squared. We can define the ``p-value'' to be 1 minus the cdf for the chi-squared distribution (which we also called the ``survival fraction'' in general), which in this case is 94\%.
+
+The p-value is the probability of obtaining a worse chi-squared than we did, if the the model is correct. We have to make our decision on whether we have a good fit based on a statistical criterion. Typically, we could say that if the p-value is less than 5\%, then the model is not likely to be a good fit. But again, we should take this with a grain of salt and generally make sure that we understand everything about the fit (such as the residuals and the covariance matrix) rather than making a conclusion based on a ``hard'' threshold on the p-value.
+
+\capfig{0.5\textwidth}{figures/chi2n14.png}{\label{fig:chi2n14} Probability density and cumulative density functions for the chi-squared distribution for 14 degrees of freedom (as in the case for the fit in Figure \ref{fig:resdata_fit}).}
+
+\clearpage
+\section{Summary}
+In this chapter, we used the principle of maximum likelihood to evaluate the parameters, $\vec\beta$, of a model, $y^{exp}(x,\vec\beta)$, to fit a set of $N$ pairs of data points, \{$(x_1,y_1), (x_2,y_2), \dots, (x_N,y_N)$\}. We found that this led to the requirement that we minimize the chi-squared, $\chi^2$, given by:
+\begin{align}
+\chi^2=\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i,\vec\beta))^2}{\sigma_{y_i}^2}
+\end{align}
+which is a sum of the squared distance between the points and the model, divided by the error in the data points. For this reason, the method is also called the ``Method of Least Squares''. In the case where the model is linear in the unknown parameters, one can minimize the chi-squared analytically (by taking the derivatives with respect to the parameters and setting them equal to zero) and obtain a set of coupled linear equations for the parameters. We showed this explicitly for the model:
+\begin{align}
+y^{exp}(x,m,b)=mx+b
+\end{align}
+where we found that the least squares estimates of $m$ and $b$, if all of the errors in the $y_i$ are equal to $\sigma_y$, are given by:
+\begin{align}
+m=\frac{N\sum xy-\sum x\sum y}{N\sum x^2-\left(\sum x\right)^2}\nonumber\\
+b=\frac{\sum x^2\sum y-\sum x \sum xy}{N\sum x^2-\left(\sum x\right)^2}
+\end{align}
+Using the formalism to propagate errors, we found that the errors in the parameters are given by:
+\begin{align}
+\sigma_m&=\sigma_y\sqrt{\frac{N}{N\sum x^2-\left(\sum x\right)^2}}\nonumber\\
+\sigma_b&=\sigma_y\sqrt{\frac{\sum x^2}{N\sum x^2-\left(\sum x\right)^2}}
+\end{align}
+We found that we could qualitatively discuss the goodness of a model by considering the residuals between the model estimates of the $y_i$ and the measured values. If the residuals show no trend and are evenly (normally) distributed about 0, then the model is likely a good representation of the data.
+
+We also argued that there may be correlations between fitted parameters, and that one must take this into account (through their measured covariance), if propagating the errors from the parameters.
+
+We also considered the general case of models that are not linear in the parameters, and showed that one can use numerical techniques to minimize the chi-squared in theses cases, and to calculate the covariance matrix.
+
+We finished by discussing one method to evaluate the goodness of the fit of the model to the data. We saw that the value of the chi-squared itself is a good indication of the fit. In particular, one expects that the chi-squared should be equal to approximately the number of the degrees of freedom in the model, $\nu$:
+\begin{align}
+\nu\equiv N-n-1
+\end{align}
+where $N$ is the number of data points and $n$ is the number of parameters. We saw that if a model is correct, we will obtain a well-defined distribution of chi-squared values when the model is fit to various data sets with statistical fluctuations. We introduced the p-value as the probability that if the model is correct, one would obtain an equal or worse value of chi-squared (the p-value is one minus the cdf of the chi-squared distribution). We cautiously recommended that in general, if the p-value is less than 5\%, then the model is unlikely to be a good representation of the data.

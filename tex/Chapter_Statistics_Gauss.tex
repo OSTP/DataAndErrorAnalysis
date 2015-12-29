@@ -1,4 +1,5 @@
 \chapter{Statistics - The Normal Distribution}
+\label{chap:StatsNormal}
 So far, we have examined two types of statistical distributions, the binomial and Poisson distributions. We reserved this chapter to cover one of the most important distributions in physics and science: the normal distribution (or gaussian distribution). The assumption that data follow a normal distribution is what leads to a lot of the rules for error analysis that we introduced in earlier chapters (e.g. adding in quadrature, 68\% confidence levels, etc), and this distribution is thus fundamental in understanding many of the topics in error analysis.
 
 The binomial and Poisson distributions are functions of a discrete variable (we used $k$ in the previous chapter as the discrete variable). For example, it only made sense to ask what is the probability of obtaining $k$ heads in $N$ coin tosses if $k$ is an integer. $P^{binom}(k,N,p)$ thus truly represents the probability of obtaining $k$ heads in $N$ tosses. If we sum the probabilities for all of the possible values of $k$, we get 1, as expected (the probability of having some sort of outcome has to be 1). 
@@ -300,7 +301,7 @@ P_z(z)&=\frac{1}{\sqrt{\sigma_x^2+\sigma_y^2}\sqrt{2\pi}}e^{-\frac{(z-(\mu_x+\mu
 &=\frac{1}{\sqrt{\sigma_x^2+\sigma_y^2}\sqrt{2\pi}}e^{-\frac{(z-(\mu_x+\mu_y))^2}{2(\sigma_x^2+\sigma_y^2)}}
 \end{align*}
 where we have recognized that the remaining integral corresponded to the integral of a normal distribution, which is equal to 1. We are thus left with $P_z(z)$ given by a normal distribution with mean $\mu_z=\mu_x+\mu_y$ and standard deviation $\sigma_z=\sqrt{\sigma_x^2+\sigma_y^2}$, as anticipated. Thus, adding errors in quadrature is a prescription for obtaining an error on a calculated quantity that corresponds to the standard deviation in that quantity assuming that it is normally distributed.
-
+\subsection{Function of normally distributed quantities}
 Although we just proved\footnote{Minus the lengthy algebra!} that the sum of two quantities is normally distributed, we can generalize the result for any function of two variables. If a quantity $F(x,y)$ depends on independent and normally distributed quantities $x$ and $y$, and the standard deviations on $x$ and $y$ are ``small'', then we can use a Taylor series to approximate the value of $F$ for $x$ and $y$ near their mean values, $\mu_x$ and $\mu_y$:
 \begin{align*}
 F(x,y) \approx F(\mu_x,\mu_y)+\die{F}{x}(x-\mu_x)+\die{F}{y}(y-\mu_y)
@@ -315,8 +316,52 @@ The first term is constant and will only shift the mean of the distribution of t
 \end{align}
 just as we had prescribed in Chapter \ref{chap:ErrorPropagation}. This result is easily extended if $F$ depends on more than two variables.
 
+\subsection{The general case: function of non-normally distributed quantities}
+Let us suppose that we have a function, $F(x,y)$, of two variables that are not normally distributed. We have made $N$ measurements, \{$x_1, x_2, \dots, x_N$\} and \{$y_1, y_2, \dots, y_N$\} and wish to determine the best estimate for $F$ and its uncertainty, $\sigma_F$. Although $x$ and $y$ (and presumably $F$) are not normally distributed, we can still use the mean of the measurements, $\bar x$ and $\bar y$, as the best estimate and the standard deviation in the measurements, $\sigma_X$ and $\sigma_y$, as their uncertainty (they just will not correspond to 68\% confidence levels). We can evaluate $F(x,y)$ at all of the values of $x$ and $y$, and obtain the mean, $\bar F(x,y)$, and standard deviation, $\sigma_F$, as the best estimate and uncertainty for $F(x,y)$. 
+
+We assume that the standard deviations of $\sigma_x$ and $\sigma_y$ are relatively small; that is, all of the measurements of $x$ and $y$ are close to their respective means. The value of $F(x_i,y_i)$ evaluated at one of the data points can thus be approximated by a Taylor series of $F(x,y)$ evaluated near $\bar x$ and $\bar y$:
+\begin{align}
+F(x_i,y_i)\approx F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)
+\end{align} 
+where the partial derivatives are evaluates at $\bar x$ and $\bar y$.
+
+The mean value of $F(x,y)$ is thus given by:
+\begin{align}
+\bar F(x_y)&=\frac{1}{N}\sum_{i=1}^{i=N}F(x_i,y_i)\nonumber\\
+&=\frac{1}{N}\sum_{i=1}^{i=N} \left[ F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)  \right]\nonumber\\
+&=\left[F(\bar x,\bar y)\frac{1}{N}\sum_{i=1}^{i=N}1 \right]+\left[\die{F}{x}\frac{1}{N}\sum_{i=1}^{i=N}(x_i-\bar x) \right]+\left[\die{F}{y}\frac{1}{N}\sum_{i=1}^{i=N}(y_i-\bar y) \right]\nonumber\\
+&=F(\bar x,\bar y)
+\end{align}
+where the last two terms in the sum are identically zero, since:
+\begin{align}
+\bar x &\equiv \frac{1}{N}\sum_{i=1}^{i=N}x_i\nonumber\\
+\bar y &\equiv \frac{1}{N}\sum_{i=1}^{i=N}y_i\nonumber\\
+\end{align} 
+Thus the mean value, $\bar F(x,y)$, is given by evaluating $F(x,y)$ at the mean values, $\bar x$ and $\bar y$.
+
+We now evaluate the variance of $F(x,y)$ (and we can take the square root later to get the standard deviation), by using the definition of the variance:
+\begin{align}
+\sigma_F&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[F(x_i,y_i)-\bar F(x,y)\right]^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)-F(\bar x,\bar y)\right]^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)\right]^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[\left(\die{F}{x}(x_i-\bar x)\right)^2+\left(\die{F}{y}(y_i-\bar y)\right)^2+2 \die{F}{x}\die{F}{y}(x_i-\bar x) (y_i-\bar y) \right]\nonumber\\
+&=\left(\die{F}{x}\right)^2\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x)^2+\left(\die{F}{y}\right)^2\frac{1}{N-1}\sum_{i=1}^{i=N}(y_i-\bar y)^2\nonumber\\
+&+2\die{F}{x}\die{F}{y}\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x) (y_i-\bar y)\nonumber\\
+&=\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}
+\end{align}
+where we have used the definition of the covariance factor, $\sigma_{xy}$:
+\begin{align}
+\sigma_{xy}\equiv\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x) (y_i-\bar y)
+\end{align}
+We thus arrive at the formula for propagating the uncertainty in a general function of variables that are not necessarily normally distributed and independent:
+\begin{align}
+\label{eqn:coverror}
+\sigma_F=\sqrt{\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
+\end{align} 
+This formula can always be used and reduces to our previous formula when the variables are normally distributed and independent (with a covariance of zero). The formula is trivially extended to the case of more than variables by simply adding a covariance term for each pair of variables. 
+
 \section{Determining parameters of the normal distribution from data}
-Given a set of $N$ measurements, \{$x_1, x_2, \dots,x_N$\}, of a normally distributed quantity, we wish to estimate the ``true'' value of the mean and standard deviation, $\mu_x$ and $\sigma_x$, of the normal distribution that describes the data. As we will see, the sample mean and the sample standard deviation are good estimates of the mean and standard deviation of the underlying normal distribution.
+Given a set of $N$ measurements, \{$x_1, x_2, \dots, x_N$\}, of a normally distributed quantity, we wish to estimate the ``true'' value of the mean and standard deviation, $\mu_x$ and $\sigma_x$, of the normal distribution that describes the data. As we will see, the sample mean and the sample standard deviation are good estimates of the mean and standard deviation of the underlying normal distribution.
 
 \subsection{The principle of maximum likelihood}
 Given a probability density function, $P(x,\vec\alpha)$, we wish to determine the set of parameters (represented as a vector, $\vec\alpha$) that best describes a set of data that is modelled by that pdf.  For example, the pdf may be that for the normal distribution, $P^{norm}(x,\mu_x,\sigma_x)$, for which we wish to estimate $\mu_x$ and $\sigma_x$, given a set of $N$ measurements, \{$x_1, x_2, \dots,x_N$\}.
@@ -551,7 +596,12 @@ If the best estimate ($x$) and uncertainty ($\delta x$) in a quantity are the me
 \mu_F &=F(\mu_x,\mu_y)\nonumber\\
 \sigma_F^2&=\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2
 \end{align}
-as long as the error in $x$ and $y$ given by $\sigma_x$ and $\sigma_y$ are small.
+as long as the error in $x$ and $y$ given by $\sigma_x$ and $\sigma_y$ are small. We extended this formula for the general case where $x$ and $y$ are not necessarily normally distributed and independent and found that the best estimate of $F(x,y)$ and uncertainty in the function are given by:
+\begin{align}
+\bar F&=F(\bar x, \bar y)\nonumber\\
+\sigma_F&=\sqrt{\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
+\end{align} 
+where $\sigma_x$ and $\sigma_y$ are the standard deviations of measurements of $x$ and $y$, respectively, and $\sigma_{xy}$ is the covariance factor between $x$ and $y$. The result is easily extended to more than two variables, by including covariance factors for each pair of variables.
 
 We showed how to use normally distributed data to determine estimates for the mean and standard deviation of a normal distribution that describes those data. We showed that the sample mean and the square root of the sample variance give the maximum likelihood estimates of the mean and standard deviation of the normal distribution. We showed that the formula for the error on the mean gives the correct error on the estimate of the mean of the normal distribution.
 
