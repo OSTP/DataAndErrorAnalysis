@@ -2,13 +2,13 @@
 \label{Chap:statData}
 \section{Data and Statistics}
 
-Statistical analysis is useful in many field, including physics, because virtually any measurement that is performed multiple times will show a variation, either due to the imperfection of the measuring apparatus, because of variations in the samples, or because the quantity truly has a variance (e.g. speed of gas molecules at a specific temperature and pressure).
+Statistical analysis is useful in many field, including physics, because virtually any measurement that is performed multiple times will show a variation, either due to the imperfection of the measuring apparatus, because of variations in the samples, or because the quantity truly has a variance (e.g. the speed of gas molecules at a specific temperature and pressure).
 
 For example, if you wanted to model the length of 8 month old cats and set out to measure cats, you would get a variation in your measurements: you would get variations between different cat breeds, you would get variations because the cats will have different lengths of hair, you would get variations because some of the cats would move more than others while you try to measure them, and most likely, you will get variations because not all 8 month old cats are identical. Even if you tried to minimize systematic effects (e.g. by shaving and sedating all the cats and working with a single breed), you will still get variations. 
 
 The goal of statistics would be to understand if your measurements allow you to infer something about a model for cat length, perhaps that 8 month old cats are on average L +/- dL long. Maybe you would find that the average cat length is different between countries, or different types of cat owners. As a scientist, you want to be assured that you can make rigorous statements about your findings and rigorously test different cat length models even when the data are expected to show a spread.
 
-For the specific case of many measurements of a single value (e.g cat length), there are several common quantities that can be calculated to provide some description of the set (i.e. the distribution) of measurements that were obtained. We start by introducing those quantities (such as the mean and standard deviation), and then describe some useful ways to visualize the data such as histograms.
+For the specific case of many measurements of a single value (e.g cat length), there are several common quantities that can be calculated to provide some description of the set (i.e. the distribution) of measurements that were obtained. We start by introducing those quantities (such as the mean and standard deviation), and then describe the use of the histogram to visualize data of a statistical nature.
 
 \section{Basic statistical parameters}
 
@@ -18,7 +18,7 @@ The mean and variance are the most common quantities to characterize a distribut
 \begin{align}
  \bar{x} \equiv \frac{1}{N} \sum_{i=1}^{i=N} x_i  
 \end{align}
-This is simply the arithmetic average. The ``sample variance'', $\sigma_x^2$, is defined as:
+which is simply the algebraic average. The ``sample variance'', $\sigma_x^2$, is defined as:
 \begin{align}
  \text{var}\equiv \sigma_X^2 = \frac{1}{N-1} \sum_{i=1}^{i=N} (x_i-\bar{x})^2 
 \end{align}
@@ -26,7 +26,7 @@ and the ``sample standard deviation'', $\sigma_x$, is defined as the square root
 \begin{align}
  \sigma_x\equiv\sqrt{\text{var}}
 \end{align}
-While the sample mean gives the average value of the data, the sample variance and standard deviation indicate the average distance between the data and the sample mean. That is, whether the measured values are all really close to the sample mean, or whether they are all spread out. 
+While the sample mean gives the average value of the measurement, the sample variance and standard deviation indicate the average distance between the measurements and the sample mean. That is, whether the measured values are all really close to the sample mean, or whether they are spread out. The sample standard deviation is also a representative measure of the uncertainty in a single measurement. 
 
 Note the $(N-1)$ in the definition of the sample variance, instead of $N$. This is a subtlety that arises from the fact that the formula for the sample variance uses the sample mean as determined from the data. If $N$ is large, there will not be a big difference in the result from including the correct $N-1$.
 
@@ -45,72 +45,59 @@ The variance and standard deviation are measurements of how spread out the measu
 \begin{align}
  \sigma_{\bar x}= \frac{\sigma_x}{\sqrt N}
 \end{align}
-The error on the mean related to our estimate of how well we have determined the mean. In particular, it shows that as we make more measurements, the error on the mean goes down (as the square root of the number of measurements); this at least make intuitive sense (why it is a square root is less intuitive).
+We will prove this result in Chapter \ref{chap:StatsNormal}, but we can observe here that it makes intuitive sense. As we gather more samples, then the error on the mean decreases (as the square root of the number of samples), which makes sense. 
  
 \subsection{Mode and Median}
 
-The mode and median are also or use to describe data. The mode is the number that occurs the most often (sometimes also called the "most probable value"). The median of the data set is the value for which there are an equal number of values that are bigger and smaller. For a set of measurements that are normally (gaussian) distributed, the mean, mode and median overlap.
+The mode and median are also of use to describe data that have a distribution of values. The mode is the value that occurs the most often (sometimes also called the "most probable value"). The median of the data set is the value for which there are an equal number of values that are bigger and smaller. For a set of measurements that are normally (gaussian) distributed (as described in Chapter \ref{chap:StatsNormal}), the mean, mode and median overlap. In general, all three parameters can be different. 
 
-\begin{example}{}{Calculate the mean, variance, error on the mean, mode and median of the following measurements: \{1.1, 1.2, 1.0, 1.3, 1.4, 1.5, 1.2, 1.3, 1.3, 1.1, 1.0, 1.6 \}}{}
+\begin{example}{}{Calculate the mean, variance, error on the mean, mode and median for the following set of measurements: \{1.1, 1.2, 1.0, 1.3, 1.4, 1.5, 1.2, 1.3, 1.3, 1.1, 1.0, 1.6 \}}{}
 \label{ex:meanvardata}
-We can solve this using a simple python program:
+We can compute these quantities using a simple python program:
 \begin{lstlisting}[frame=single] 
 import numpy as np
+import scipy.stats as stats
 from math import *
-
-xi=np.array([1.1, 1.2, 1.0, 1.3, 1.4,1.5, 1.2, 1.3, 1.3, 1.1, 1.0, 1.6])
+#Copy the data from the book into a numpy array
+xi=np.array([1.1, 1.2, 1.0, 1.3, 1.4, 1.5, 1.2, 1.3, 1.3, 1.1, 1.0, 1.6])
 N=xi.size
-
-#Calculate the mean:
-xmean=0
-for x in xi:
-    xmean=xmean+x
-xmean=xmean/N
+#Use the numpy mean() function to get the mean:
+xmean=xi.mean()
 print("mean: {:.2f}".format(xmean))
-#This agrees with what numpy calculates:
-print("mean from np: {:.2f}".format(xi.mean()))
+#The variance (note that we have to specify ddof=1, which results in using the 
+# N-1 in the denominator instead of N)
+xvar=xi.var(ddof=1)
+print("variance: {:.3f}".format(xvar))
+#The standard deviation is either the square root of the variance, or we can
+#get it from numpy
+xstd=xi.std(ddof=1)
+print("std. dev.: {:.3f}".format(xstd))
+#The error on the mean
+xmeanerr=xstd/sqrt(N)
+print("error on the mean: {:.3f}".format(xmeanerr))
 
-
-#calculate the variance and standard deviation
-var=0
-for x in xi:
-    var=var+(x-xmean)**2
-var=var/(N-1)
-std=sqrt(var)
-print("variance: {:.3f}".format(var))
-print("std. dev.: {:.3f}".format(std))
-#This does not agree with what np calculates (because np uses N in the denominator by default)
-print("variance from np: {:.3f}".format(xi.var()))
-print("std. dev. from np: {:.3f}".format(xi.std()))
-#To correctly use the numpy version, specify the " delta degrees of freedom"
-print("variance from np (correct): {:.3f}".format(xi.var(ddof=1)))
-print("std. dev. from np (correct): {:.3f}".format(xi.std(ddof=1)))
-
-#The error on the mean is:
-print("error on the mean: {:.3f}".format(std/sqrt(N)))
-
-#Sort the array to make it easier to get the mode and median:
-xi=np.sort(xi)
-print(xi)
+#Sort the array to make it easier to see the mode and median:
+xi_sorted = np.sort(xi)
+print("Sorted:",xi_sorted)
+#The median can be found by:
+xmedian=np.median(xi)
+print("The median is:",xmedian)
+#The mode must be found using the scipy.stats module
+xmode,modecount=stats.mode(xi)
+print("The mode is:",xmode[0])
 \end{lstlisting}
-which gives the following output:
+The output is:
 \begin{verbatim}
 mean: 1.25
-mean from np: 1.25
 variance: 0.035
 std. dev.: 0.188
-variance from np: 0.033
-std. dev. from np: 0.180
-variance from np (correct): 0.035
-std. dev. from np (correct): 0.188
 error on the mean: 0.054
-[ 1.   1.   1.1  1.1  1.2  1.2  1.3  1.3  1.3  1.4  1.5  1.6]
+Sorted: [ 1.   1.   1.1  1.1  1.2  1.2  1.3  1.3  1.3  1.4  1.5  1.6]
+The median is: 1.25
+The mode is: 1.3
 \end{verbatim}
 
-We have also shown how to obtain the values using the built-in numpy functions, rather than having to write the for loops. Note that by default, numpy uses $N$ in the denominator instead of $N-1$ when calculating the sample variance. One needs to specify the ``delta degrees of freedom'' parameter, \code{ddof}, which is the number to subtract from $N$ (in our case it's 1).
-
-We could also write code to determine the median and mode, but by printing out the array with the values sorted, we can see that the number 1.3 appears the most often, so it is the mode. We can also see that half of the numbers are equal or smaller to 1.2 and that half of the numbers are equal or larger than 1.3; the median is this somewhere between 1.2 and 1.3; we can safely claim that it is 1.25.
-
+Note that by default, the \code{numpy} module uses $N$ in the denominator instead of $N-1$ when calculating the sample variance and standard deviation. One needs to specify the ``delta degrees of freedom'' parameter, \code{ddof}, which is the number to subtract from $N$ (in our case it's 1).
 
 \end{example}
 
@@ -118,11 +105,11 @@ We could also write code to determine the median and mode, but by printing out t
 
 The skewness and kurtosis are higher order "moments" of the data that describe how symmetric the data are with respect to the mode (skewness) and whether the data are grouped tightly at the mode (kurtosis).
 
-A moment of the data is defined as:
+The $\alpha$ ``sample moment'' of the data is defined as:
 \begin{align}
- m_\alpha=\frac{1}{N} \sum_{i=1}^{i=N} (x_i-\bar{x})^\alpha 
+ m_\alpha=\frac{1}{N-1} \sum_{i=1}^{i=N} (x_i-\bar{x})^\alpha 
 \end{align}
-The skewness is defined as:
+The sample variance is thus the ``second'' sample moment. The skewness is defined as:
 \begin{align}
  \text{skew} = \frac{m_3}{m_2^{3/2}} 
 \end{align}
@@ -141,7 +128,7 @@ Let us suppose that we have two quantities, $x$ and $y$, that we measure simulta
 \begin{align}
 \sigma_{xy}\equiv\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x)(y_i-\bar y)
 \end{align}
-where $\bar x$ and $\bar y$ are the means of the measurements of $x$ and $y$, respectively. The $N-1$ in the denominator has the same origin as when calculating the variance, and is required to recover the correct formula for the variance if $y=x$. The covariance is thus positive when $x$ and $y$ tend to both be larger or smaller than their mean at the same time, and negative when $x$ and $y$ tend to be in opposite directions from their means at the same time (e.g. $x_i$ bigger than the mean when $y_i$ is smaller than the mean). The covariance is near 0 when a value of $x$ bigger or smaller than $\bar x$ does not lead to a value of $y$ that is predictably bigger or smaller than $\bar y$. When the covariance is positive we say that $x$ and $y$ are correlated, whereas when it is negative, we say that they are ``anti-correlated''.
+where $\bar x$ and $\bar y$ are the means of the measurements of $x$ and $y$, respectively. The $N-1$ in the denominator has the same origin as when calculating the variance, and is required to recover the correct formula for the variance if $y=x$. The covariance is thus positive when $x$ and $y$ tend to both be larger or smaller than their mean at the same time (for example $x_i$ bigger than $\bar x$ means that $y_i$ is likely bigger than $\bar y$). The covariance is negative when $x$ and $y$ tend to be in opposite directions from their means at the same time (e.g. $x_i$ bigger than $\bar x$ leads to $y_i$ being smaller than $\bar y$). The covariance is near 0 when a value of $x$ bigger or smaller than $\bar x$ does not lead to a value of $y$ that is predictably bigger or smaller than $\bar y$. When the covariance is positive we say that $x$ and $y$ are correlated, whereas when it is negative, we say that they are ``anti-correlated''.
 
 The correlation factor, $\rho_{xy}$, sometimes also called $r$ or $R$ or ``the r-factor'', is simply the covariance divided by the standard deviations of $x$ and $y$, $\sigma_x$ and $\sigma_y$, respectively. This leads to $\rho_{xy}$ being bound between -1 and 1. A correlation factor of 1 means that $x$ and $y$ are perfectly correlated, a value of 0 indicates that they are un-correlated, and a value of -1 that they are perfectly uncorrelated. The correlation factor, $\rho_{xy}$ is given by:
 \begin{align}
@@ -154,20 +141,23 @@ The quantities can easily be evaluated in python using the following code:
 \begin{lstlisting}[frame=single] 
 import numpy as np
 import pylab as pl
+
+#copy the values into numpy arrays:
 xi=np.array([1.1, 1.2, 1.0, 1.3, 1.4,1.5, 1.2, 1.3, 1.3, 1.1, 1.0, 1.6])
 yi=np.array([1.3, 0.9, 0.9, 1.0, 1.6, 1.1, 1.2, 1.2, 1.2, 0.9, 0.9, 1.1])
+#get the mean and standard deviations:
 xmean=xi.mean()
 ymean=yi.mean()
 xstd=xi.std(ddof=1)
 ystd=yi.std(ddof=1)
-
+#calculate the covariance and correlation:
 covxy=((xi-xmean)*(yi-ymean)).sum()/(xi.size-1)
 corxy=covxy/xstd/ystd
-
+#make some text with the results
 text='''
 Covariance: {:.2f}
 Correlation: {:.1f}'''.format(covxy,corxy)
-
+#plot these as a scatter plot, including the text
 pl.scatter(xi,yi)
 pl.xlabel('x')
 pl.ylabel('y')
@@ -181,11 +171,11 @@ The above code determined the covariance to be 0.02 and the correlation to be 0.
 
 \end{example}
 
-It is important to note that the correlation is a measure of whether two quantities appear to be related in some manner. For example, a positive correlation between $x$ and $y$ indicates that if one measures a high value of $x$, then one is also likely to measure a high value of $y$. This does not mean that a high value of $x$ \textit{causes} a high value of $y$. ``Correlation does not imply causation'' is a popular slogan in statistics (strongly emphasized in medical studies). Measuring the correlation should never be confused with trying to model one variable as a function of the other. For example, it is likely that the length of cats is correlated with their weights, but a simple confirmation of a strong correlation factor in no way implies that the length of cats causes them to be heavier. For example, it could be measured that going to sleep with one shoe on is correlated with having a headache in the morning. It would be wrong to conclude that sleeping with a shoe on causes headaches. Perhaps, there is a third variable that leads to both observations, for example, going to bed drunk. 
+It is important to note that the correlation is a measure of whether two quantities appear to be related in some manner. For example, a positive correlation between $x$ and $y$ indicates that if one measures a high value of $x$, then one is also likely to measure a high value of $y$. This does not mean that a high value of $x$ \textit{causes} a high value of $y$. ``Correlation does not imply causation'' is a popular slogan in statistics (strongly emphasized in social studies). Measuring the correlation should never be confused with trying to model one variable as a function of the other. For example, it is likely that the length of cats is correlated with their weights, but a simple confirmation of a strong correlation factor in no way implies that the length of cats causes them to be heavier. For example, it could be measured that going to sleep with one shoe on is correlated with having a headache in the morning. It would be wrong to conclude that sleeping while wearing a shoe causes headaches. Perhaps, there is a third variable that leads to both observations, for example, going to bed intoxicated. 
 
 
 \section{The histogram}
-The histogram is a way to visualize a set of measurements of the same quantity. With repeated measurements, we generally obtain a ``distribution'' of values and the histogram is  way to visualize that distribution. In example \ref{ex:meanvardata}, we had the following measurements: $x_i=$\{ 1., 1., 1.1, 1.1, 1.2, 1.2, 1.3, 1.3, 1.3, 1.4, 1.5, 1.6 \} (which we sorted) for the value of some parameter, $x$. One way to visualize these data is to count how many times each value occurs and to make a table, as in Table \ref{tab:measfreq}
+The histogram is a way to visualize a set of measurements of the same quantity. With repeated measurements, we generally obtain a ``distribution'' of values and the histogram is  way to visualize that distribution. In example \ref{ex:meanvardata}, we had the following measurements: $x_i=$\{ 1., 1., 1.1, 1.1, 1.2, 1.2, 1.3, 1.3, 1.3, 1.4, 1.5, 1.6 \} for the value of some parameter, $x$. One way to visualize these data is to count how many times each value occurs and to make a table, as in Table \ref{tab:measfreq}
 \begin{table}[!ht]
 \center
 \begin{tabular}{|c|c|}
@@ -209,18 +199,21 @@ value & frequency\\
 \end{tabular}
 \caption{\label{tab:measfreq}Frequency of occurrence of each measurement.}
 \end{table}
-We can now plot this into what we call a ``histogram'', as in Figure \ref{fig:simplehist}.
+
+We can visualize this table easily using a ``histogram'', as in Figure \ref{fig:simplehist}.
 \capfig{0.5\textwidth}{figures/simplehist.png}{\label{fig:simplehist}A simple histogram of the measurements from Example \ref{ex:meanvardata} and Table \ref{tab:measfreq}.}
 
 Histograms are drawn as ``bar charts'', since measurements at different values on the x-axis are unrelated (it would not be meaningful to treat the columns in Table \ref{tab:measfreq} as x and y values for data points and connect them with a line). We call each bar on the chart a ``bin'', since it ``holds'' the number of times each measurement occurred. The histogram is a good way to visualize a distribution of values; in our case, we can see that the value 1.3 comes up the most, and that the values below 1.3 come up more often than the ones above (the distribution is asymmetric about the mode). With only 12 measurements, it is not too difficult to sort the values and come to these conclusions without drawing a histogram; in the case where we have many measurements, histograms become an extremely useful visualization (and analysis) tool.
 
-In the case that we just illustrated, we counted the occurrences of specific values, such as 1.3 or 1.2. If we had measured these numbers with additional precision (more decimals), it is likely that they would be each different. In this case, it would not make sense to count how many time each specific value occurs, since each value would occur only once. What we really want to do, is count how many times we get a value that is within a certain range. That is, we define the left and right edge for each bin, and then count how many times we get a value within that range. The histogram in Figure \ref{fig:simplehist} was actually defined to have 7 bins: the first bin from 0.95 to 1.05, the second bin from 1.05 to 1.15, etc, in such a way that the numbers 1.0, 1.1, etc ended up at the center of each bin. In Figure \ref{fig:simplehist_rebin}, we have made a histogram of the same data, but using only 3 unequally-sized bins, from 0.9 to 1.1, from 1.1 to 1.4, and from 1.4 to 1.7, which results in an equally valid histogram of the data. 
+In the case that we just illustrated, we counted the occurrences of specific values, such as 1.3 or 1.2. If we had measured these numbers with additional precision (more decimals), it is likely that they each would be different. In this case, it would not make sense to count how many times each specific value occurred, since each value would likely occur only once. What we really want to do, is count how many times we get a value that is within a certain range. That is, we define the left and right edge for each bin, and then count how many times we get a value within that range. The histogram in Figure \ref{fig:simplehist} was in fact defined to have 7 bins: the first bin from 0.95 to 1.05, the second bin from 1.05 to 1.15, etc, in such a way that the numbers 1.0, 1.1, etc ended up at the center of each bin. In Figure \ref{fig:simplehist_rebin}, we have made a histogram of the same data, but using only three, unequally-sized, bins: from 0.9 to 1.1, from 1.1 to 1.4, and from 1.4 to 1.7, which results in an equally valid histogram of the data. 
  
 \capfig{0.5\textwidth}{figures/simplehist_rebin.png}{\label{fig:simplehist_rebin}The same histogram as in Figure \ref{fig:simplehist} but with different size bins.}
 
-As you can see, we have some liberty in how we define the ``binning'' of our histogram. If you make all of the bins really narrow, then they would typically have counts of either 0 or 1. If you make the bins way too wide, then all the measurements will end up into one bin, and the histogram will not help you visualize anything. In general, you will need to play with the binning for plotting data so that the histogram looks reasonable. A good rule of thumb is that the bins should have at least 5 counts in them. Ideally, you should also try to have equally sized bins (rather that varying bin widths as in Figure \ref{fig:simplehist_rebin}), as it makes it easier to analyse the histogram. Refer to section \ref{subsub:pythonhist} for all of the commands to make histograms in python, as well as the code at the end of this section.
+As you can see, we have some liberty in how we define the ``binning'' of our histogram. If we make all of the bins really narrow, then they would typically have counts of either 0 or 1 and we would not see much structure in the data. Conversely, if we make the bins very wide, then all the measurements will end up into one bin, and the histogram will not help us to  visualize anything either.
 
-It is sometimes useful to ``normalize'' a histogram such that the area of the bins of the histogram sums to 1. If each bin, $i$, contains $n_i$ counts (the bin height) and has a bin width, $dx_i$, then the area under a histogram, $A$, is simply given by summing the area of each rectangular bin:
+In general, we need to play with the binning for plotting data so that the histogram looks reasonable. A good rule of thumb is that the bins should have at least 5 counts in them. Ideally, we should also try to have equally sized bins (rather that varying bin widths as in Figure \ref{fig:simplehist_rebin}), as it makes it easier to analyse the histogram. Refer to section \ref{subsub:pythonhist} for all of the commands to make histograms in python, as well as the code at the end of this section.
+
+It is sometimes useful to ``normalize'' a histogram such that the area of the bins of the histogram sum to 1. If each bin, $i$, contains $n_i$ counts (the bin height) and has a bin width, $dx_i$, then the area under a histogram, $A$, is simply given by summing the area of each rectangular bin:
 \begin{align}
 A = \sum_{i=1}^{i=N}n_idx_i
 \end{align}
@@ -232,16 +225,18 @@ where $\sum_{i=1}^{i=N}n_i$ is equal to the number of measurements (the sum of t
 
 \capfig{0.5\textwidth}{figures/simplehist_normed.png}{\label{fig:simplehist_normed}The same histogram as in Figure \ref{fig:simplehist} but normalized to have an area of 1.}
 
-As we will see in the next chapters, a normalized histogram can be thought of as a ``probability density function''. If we assume that the data in the histogram are representative of the distribution of measurements that we would get if we repeated the measurements, then the normalize bin contents are representative of the probability of obtaining a certain measurement. For example, using Figure \ref{fig:simplehist_normed}, we could quote that the probability of obtaining a measurement between 1.25 and 1.35 is given by (bin content)$\times$ (bin width) = 2.5 $\times$ 0.1 = 25\%. In our original 12 measurements, we had obtained the number 1.3 three times, or 25\% of the time.
+As we will see in the next chapters, a normalized histogram can be thought of as a ``probability density function''. If we assume that the data in the histogram are representative of the distribution of measurements that we would get if we repeated the measurements, then the normalized bin contents are representative of the probability of obtaining a certain measurement that would fall in that bin. For example, using Figure \ref{fig:simplehist_normed}, we could quote that the probability of obtaining a measurement between 1.25 and 1.35 is given by (bin content)$\times$ (bin width) = 2.5 $\times$ 0.1 = 25\%. In our original 12 measurements, we had obtained the number 1.3 three times, or 25\% of the time.
 
 The example python code below shows how to obtain the histograms shown in this section:
 \begin{lstlisting}[frame=single] 
 import numpy as np
 import pylab as pl
+#Make the histograms in Figures 5-2, 5-3, 5-4
 #The data:
-xi=np.array([1.1, 1.2, 1.0, 1.3, 1.4, 1.5, 1.2, 1.3, 1.3, 1.1, 1.0, 1.6])
+xi=np.array([1.1, 1.2, 1.0, 1.3, 1.4,1.5, 1.2, 1.3, 1.3, 1.1, 1.0, 1.6])
 
 #Make a histogram with equal bin width and plot it:
+#Here we specify the edges of the bins:
 pl.hist(xi, bins=[0.95,1.05,1.15,1.25,1.35,1.45,1.55,1.65],color='gray')
 pl.axis([0.9,1.7,0,4])
 pl.grid()
@@ -249,24 +244,31 @@ pl.xlabel("Measurement")
 pl.ylabel("Number of occurrences")
 pl.show()
 
-#Use 3 unequal bins
-pl.hist(xi, bins=[0.9,1.1,1.4,1.7],color='gray',normed=False)
+#Use 3 unequal bins which we specify
+#Also get the number of counts in each bin:
+n,bins,patches=pl.hist(xi, bins=[0.9,1.1,1.4,1.7],color='gray',normed=False)
 pl.axis([0.9,1.7,0,8])
 pl.grid()
 pl.xlabel("Measurement")
 pl.ylabel("Number of occurrences")
 pl.show()
+print("Bins used:",bins)
+print("Counts in each bin",n)
 
-#Use original binning, but normalize:
+#Use original binning, but normalize the histogram:
 pl.hist(xi, bins=[0.95,1.05,1.15,1.25,1.35,1.45,1.55,1.65],color='gray', normed=True)
 pl.axis([0.9,1.7,0,4])
 pl.grid()
 pl.xlabel("Measurement")
-pl.ylabel("Number of occurrences")
+pl.ylabel("Normalized number of occurrences")
 pl.title("Normalized histogram")
 pl.show()
 \end{lstlisting}
-
+The output is:
+\begin{verbatim}
+Bins used: [ 0.9  1.1  1.4  1.7]
+Counts in each bin [ 2.  7.  3.]
+\end{verbatim}
 
 \section{Comparing statistical data to a model}
 We now have a few tools that can allow us to compare statistical data to a model (or between different data sets). For example, if one researcher has measured the lengths of 8 month old Canadian sphynx cats and another researcher has measured the lengths of 8 month old American sphynx cats, we can think about whether the Canadian and American cats are statistically similar. We could compare the mean lengths of the two samples using the corresponding errors on the mean to see if they agree. If the means agree within their respective errors on the mean, we could still conclude that Canadian and American cats are different if the shapes of the normalized histograms of the measurements were very different (e.g. you could get the same mean, but vastly different distributions).
