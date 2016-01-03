@@ -1,5 +1,6 @@
 # DataAndErrorAnalysis
 
+An undergraduate textbook providing an introduction to basic data an error analysis in physics. The textbook makes use and encourages the use of python, and we provide a set of Jupyter notebooks for each chapter.
 
 ## TERMS AND CONDITIONS
 
