@@ -1,3 +1,9 @@
+%Copyright 2016 R.D. Martin
+%This book is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+%
+%This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
+
+
 \documentclass[11pt]{report}
 \usepackage{paralist}
 \usepackage{calc}
@@ -183,6 +189,23 @@
   {\vspace{2ex}\\}
 
 
+\def\secondpage{\clearpage\null\vfill
+\pagestyle{empty}
+\begin{minipage}[b]{0.9\textwidth}
+\footnotesize\raggedright
+\setlength{\parskip}{0.5\baselineskip}
+Copyright \copyright \the\year\ R.D. Martin\par
+This book is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
+\end{minipage}
+\vspace*{2\baselineskip}
+\cleardoublepage
+\rfoot{\thepage}}
+
+\makeatletter
+\g@addto@macro{\maketitle}{\secondpage}
+\makeatother
           
 \usepackage[paper=letterpaper,
             %includefoot, % Uncomment to put page number above margin
@@ -197,6 +220,7 @@
 \begin{document}
 \title{Data and Error Analysis}
 \author{Ryan D. Martin}
+
 \maketitle
 
 \tableofcontents

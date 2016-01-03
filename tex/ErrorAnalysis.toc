@@ -1,99 +1,99 @@
-\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}
-\contentsline {section}{\numberline {1.1}Motivation - ``doing good science''}{4}{section.1.1}
-\contentsline {section}{\numberline {1.2}Motivation - the case for using computers}{6}{section.1.2}
-\contentsline {chapter}{\numberline {2}Python}{7}{chapter.2}
-\contentsline {section}{\numberline {2.1}The basics}{7}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Variables and the assignment operator}{7}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}Printing to screen}{7}{subsection.2.1.2}
-\contentsline {subsubsection}{\numberline {2.1.2.1}Formatting numerical output}{8}{subsubsection.2.1.2.1}
-\contentsline {subsection}{\numberline {2.1.3}Comments}{9}{subsection.2.1.3}
-\contentsline {subsection}{\numberline {2.1.4}Lists}{9}{subsection.2.1.4}
-\contentsline {subsubsection}{\numberline {2.1.4.1}Operations on lists}{10}{subsubsection.2.1.4.1}
-\contentsline {subsection}{\numberline {2.1.5}Type of variables}{11}{subsection.2.1.5}
-\contentsline {section}{\numberline {2.2}Controlling the flow}{12}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Scope}{12}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}If-statements}{12}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Loops}{13}{subsection.2.2.3}
-\contentsline {section}{\numberline {2.3}Defining custom functions}{14}{section.2.3}
-\contentsline {section}{\numberline {2.4}Importing modules}{15}{section.2.4}
-\contentsline {section}{\numberline {2.5}Reading and writing data files}{17}{section.2.5}
-\contentsline {section}{\numberline {2.6}Module of use in scientific computing}{19}{section.2.6}
-\contentsline {subsection}{\numberline {2.6.1}Working with numbers, numpy}{19}{subsection.2.6.1}
-\contentsline {subsubsection}{\numberline {2.6.1.1}Reading and writing to file}{20}{subsubsection.2.6.1.1}
-\contentsline {subsubsection}{\numberline {2.6.1.2}Calculating properties of an array}{21}{subsubsection.2.6.1.2}
-\contentsline {subsubsection}{\numberline {2.6.1.3}Operations on arrays}{22}{subsubsection.2.6.1.3}
-\contentsline {subsection}{\numberline {2.6.2}Making plots with matplotlib and pylab}{23}{subsection.2.6.2}
-\contentsline {subsubsection}{\numberline {2.6.2.1}Scatter plot and plotting a function}{23}{subsubsection.2.6.2.1}
-\contentsline {subsubsection}{\numberline {2.6.2.2}Plot with error bars}{24}{subsubsection.2.6.2.2}
-\contentsline {subsubsection}{\numberline {2.6.2.3}Plotting histograms}{24}{subsubsection.2.6.2.3}
-\contentsline {subsection}{\numberline {2.6.3}Sympy: Symbolic computations in python}{27}{subsection.2.6.3}
-\contentsline {subsection}{\numberline {2.6.4}Curve fitting with scipy optimize}{29}{subsection.2.6.4}
-\contentsline {chapter}{\numberline {3}Determining uncertainties and presenting data}{33}{chapter.3}
-\contentsline {section}{\numberline {3.1}The importance of uncertainties}{33}{section.3.1}
-\contentsline {section}{\numberline {3.2}Determining uncertainties}{34}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}What do we mean by ``uncertainty''?}{34}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Systematic uncertainties}{35}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Uncertainties from scales - ``Half of the smallest division''}{36}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}Repeatable measurements - ``Mean and uncertainty on the mean''}{37}{subsection.3.2.4}
-\contentsline {subsection}{\numberline {3.2.5}Counting experiments - The square root rule}{38}{subsection.3.2.5}
-\contentsline {section}{\numberline {3.3}Overestimating uncertainties is also bad!}{38}{section.3.3}
-\contentsline {section}{\numberline {3.4}Reporting uncertainties, significant figures}{39}{section.3.4}
-\contentsline {section}{\numberline {3.5}Comparing measured quantities}{40}{section.3.5}
-\contentsline {section}{\numberline {3.6}Summary}{42}{section.3.6}
-\contentsline {chapter}{\numberline {4}Error Propagation}{44}{chapter.4}
-\contentsline {section}{\numberline {4.1}The Min-Max method}{44}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}Summing and subtracting}{44}{subsection.4.1.1}
-\contentsline {subsection}{\numberline {4.1.2}Multiplication and division}{46}{subsection.4.1.2}
-\contentsline {subsubsection}{\numberline {4.1.2.1}Uncertainties in functions}{48}{subsubsection.4.1.2.1}
-\contentsline {subsubsection}{\numberline {4.1.2.2}Summary and comments on the Min-Max method}{50}{subsubsection.4.1.2.2}
-\contentsline {section}{\numberline {4.2}Adding in quadrature}{50}{section.4.2}
-\contentsline {section}{\numberline {4.3}Uncertainty in a function of one variable}{51}{section.4.3}
-\contentsline {section}{\numberline {4.4}The general case: functions of multiple variables}{52}{section.4.4}
-\contentsline {section}{\numberline {4.5}Correlated uncertainties}{55}{section.4.5}
-\contentsline {section}{\numberline {4.6}Averaging numbers with uncertainties}{58}{section.4.6}
-\contentsline {section}{\numberline {4.7}Summary}{60}{section.4.7}
-\contentsline {chapter}{\numberline {5}Statistics - Presenting Data}{62}{chapter.5}
-\contentsline {section}{\numberline {5.1}Data and Statistics}{62}{section.5.1}
-\contentsline {section}{\numberline {5.2}Basic statistical parameters}{63}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Mean and variance}{63}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Error on the mean}{64}{subsection.5.2.2}
-\contentsline {subsection}{\numberline {5.2.3}Mode and Median}{64}{subsection.5.2.3}
-\contentsline {subsection}{\numberline {5.2.4}Moments, Skewness and Kurtosis}{65}{subsection.5.2.4}
-\contentsline {subsection}{\numberline {5.2.5}Covariance and correlation}{66}{subsection.5.2.5}
-\contentsline {section}{\numberline {5.3}The histogram}{68}{section.5.3}
-\contentsline {section}{\numberline {5.4}Comparing statistical data to a model}{71}{section.5.4}
-\contentsline {section}{\numberline {5.5}Summary}{71}{section.5.5}
-\contentsline {chapter}{\numberline {6}Statistics - Distributions}{73}{chapter.6}
-\contentsline {section}{\numberline {6.1}The binomial distribution}{73}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Statistical properties of the binomial distribution}{77}{subsection.6.1.1}
-\contentsline {section}{\numberline {6.2}The Poisson distribution}{79}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Statistical properties of the Poisson distribution}{84}{subsection.6.2.1}
-\contentsline {section}{\numberline {6.3}Statistical hypothesis testing}{85}{section.6.3}
-\contentsline {section}{\numberline {6.4}Summary}{87}{section.6.4}
-\contentsline {chapter}{\numberline {7}Statistics - The Normal Distribution}{89}{chapter.7}
-\contentsline {section}{\numberline {7.1}Properties of the normal distribution}{92}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}Statistical properties}{93}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {7.1.2}Area underneath the normal distribution pdf}{93}{subsection.7.1.2}
-\contentsline {section}{\numberline {7.2}Why most measurements are normally distributed}{96}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}The Central Limit Theorem}{98}{subsection.7.2.1}
-\contentsline {section}{\numberline {7.3}Combining normally distributed quantities}{100}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Addition of a number to a normally distributed quantity}{100}{subsection.7.3.1}
-\contentsline {subsection}{\numberline {7.3.2}Multiplication of a number with a normally distributed quantity}{100}{subsection.7.3.2}
-\contentsline {subsection}{\numberline {7.3.3}Sum of normally distributed quantities}{101}{subsection.7.3.3}
-\contentsline {subsection}{\numberline {7.3.4}Function of normally distributed quantities}{103}{subsection.7.3.4}
-\contentsline {subsection}{\numberline {7.3.5}The general case: function of non-normally distributed quantities}{104}{subsection.7.3.5}
-\contentsline {section}{\numberline {7.4}Determining parameters of the normal distribution from data}{105}{section.7.4}
-\contentsline {subsection}{\numberline {7.4.1}The principle of maximum likelihood}{105}{subsection.7.4.1}
-\contentsline {subsection}{\numberline {7.4.2}Estimating the mean and standard deviation of a normal distribution from data}{106}{subsection.7.4.2}
-\contentsline {subsection}{\numberline {7.4.3}The error on the mean}{109}{subsection.7.4.3}
-\contentsline {section}{\numberline {7.5}Averaging multiple measurements with standard errors}{112}{section.7.5}
-\contentsline {section}{\numberline {7.6}Summary}{115}{section.7.6}
-\contentsline {chapter}{\numberline {8}Statistics - Modelling Data}{117}{chapter.8}
-\contentsline {section}{\numberline {8.1}Fitting a straight line}{117}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}Linear problems}{117}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}The Method of Least Squares}{118}{subsection.8.1.2}
-\contentsline {subsection}{\numberline {8.1.3}Residuals}{124}{subsection.8.1.3}
-\contentsline {subsection}{\numberline {8.1.4}Correlated parameters}{124}{subsection.8.1.4}
-\contentsline {section}{\numberline {8.2}Non-linear fits}{126}{section.8.2}
-\contentsline {section}{\numberline {8.3}Goodness of fit}{131}{section.8.3}
-\contentsline {section}{\numberline {8.4}Summary}{135}{section.8.4}
+\contentsline {chapter}{\numberline {1}Introduction}{5}{chapter.1}
+\contentsline {section}{\numberline {1.1}Motivation - ``doing good science''}{5}{section.1.1}
+\contentsline {section}{\numberline {1.2}Motivation - the case for using computers}{7}{section.1.2}
+\contentsline {chapter}{\numberline {2}Python}{8}{chapter.2}
+\contentsline {section}{\numberline {2.1}The basics}{8}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Variables and the assignment operator}{8}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}Printing to screen}{8}{subsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.2.1}Formatting numerical output}{9}{subsubsection.2.1.2.1}
+\contentsline {subsection}{\numberline {2.1.3}Comments}{10}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}Lists}{10}{subsection.2.1.4}
+\contentsline {subsubsection}{\numberline {2.1.4.1}Operations on lists}{11}{subsubsection.2.1.4.1}
+\contentsline {subsection}{\numberline {2.1.5}Type of variables}{12}{subsection.2.1.5}
+\contentsline {section}{\numberline {2.2}Controlling the flow}{13}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Scope}{13}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}If-statements}{13}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Loops}{14}{subsection.2.2.3}
+\contentsline {section}{\numberline {2.3}Defining custom functions}{15}{section.2.3}
+\contentsline {section}{\numberline {2.4}Importing modules}{16}{section.2.4}
+\contentsline {section}{\numberline {2.5}Reading and writing data files}{18}{section.2.5}
+\contentsline {section}{\numberline {2.6}Module of use in scientific computing}{20}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}Working with numbers, numpy}{20}{subsection.2.6.1}
+\contentsline {subsubsection}{\numberline {2.6.1.1}Reading and writing to file}{21}{subsubsection.2.6.1.1}
+\contentsline {subsubsection}{\numberline {2.6.1.2}Calculating properties of an array}{22}{subsubsection.2.6.1.2}
+\contentsline {subsubsection}{\numberline {2.6.1.3}Operations on arrays}{23}{subsubsection.2.6.1.3}
+\contentsline {subsection}{\numberline {2.6.2}Making plots with matplotlib and pylab}{24}{subsection.2.6.2}
+\contentsline {subsubsection}{\numberline {2.6.2.1}Scatter plot and plotting a function}{24}{subsubsection.2.6.2.1}
+\contentsline {subsubsection}{\numberline {2.6.2.2}Plot with error bars}{25}{subsubsection.2.6.2.2}
+\contentsline {subsubsection}{\numberline {2.6.2.3}Plotting histograms}{25}{subsubsection.2.6.2.3}
+\contentsline {subsection}{\numberline {2.6.3}Sympy: Symbolic computations in python}{28}{subsection.2.6.3}
+\contentsline {subsection}{\numberline {2.6.4}Curve fitting with scipy optimize}{30}{subsection.2.6.4}
+\contentsline {chapter}{\numberline {3}Determining uncertainties and presenting data}{34}{chapter.3}
+\contentsline {section}{\numberline {3.1}The importance of uncertainties}{34}{section.3.1}
+\contentsline {section}{\numberline {3.2}Determining uncertainties}{35}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}What do we mean by ``uncertainty''?}{35}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Systematic uncertainties}{36}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Uncertainties from scales - ``Half of the smallest division''}{37}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Repeatable measurements - ``Mean and uncertainty on the mean''}{38}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Counting experiments - The square root rule}{39}{subsection.3.2.5}
+\contentsline {section}{\numberline {3.3}Overestimating uncertainties is also bad!}{39}{section.3.3}
+\contentsline {section}{\numberline {3.4}Reporting uncertainties, significant figures}{40}{section.3.4}
+\contentsline {section}{\numberline {3.5}Comparing measured quantities}{41}{section.3.5}
+\contentsline {section}{\numberline {3.6}Summary}{43}{section.3.6}
+\contentsline {chapter}{\numberline {4}Error Propagation}{45}{chapter.4}
+\contentsline {section}{\numberline {4.1}The Min-Max method}{45}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Summing and subtracting}{45}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Multiplication and division}{47}{subsection.4.1.2}
+\contentsline {subsubsection}{\numberline {4.1.2.1}Uncertainties in functions}{49}{subsubsection.4.1.2.1}
+\contentsline {subsubsection}{\numberline {4.1.2.2}Summary and comments on the Min-Max method}{51}{subsubsection.4.1.2.2}
+\contentsline {section}{\numberline {4.2}Adding in quadrature}{51}{section.4.2}
+\contentsline {section}{\numberline {4.3}Uncertainty in a function of one variable}{52}{section.4.3}
+\contentsline {section}{\numberline {4.4}The general case: functions of multiple variables}{53}{section.4.4}
+\contentsline {section}{\numberline {4.5}Correlated uncertainties}{56}{section.4.5}
+\contentsline {section}{\numberline {4.6}Averaging numbers with uncertainties}{59}{section.4.6}
+\contentsline {section}{\numberline {4.7}Summary}{61}{section.4.7}
+\contentsline {chapter}{\numberline {5}Statistics - Presenting Data}{63}{chapter.5}
+\contentsline {section}{\numberline {5.1}Data and Statistics}{63}{section.5.1}
+\contentsline {section}{\numberline {5.2}Basic statistical parameters}{64}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Mean and variance}{64}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Error on the mean}{65}{subsection.5.2.2}
+\contentsline {subsection}{\numberline {5.2.3}Mode and Median}{65}{subsection.5.2.3}
+\contentsline {subsection}{\numberline {5.2.4}Moments, Skewness and Kurtosis}{66}{subsection.5.2.4}
+\contentsline {subsection}{\numberline {5.2.5}Covariance and correlation}{67}{subsection.5.2.5}
+\contentsline {section}{\numberline {5.3}The histogram}{69}{section.5.3}
+\contentsline {section}{\numberline {5.4}Comparing statistical data to a model}{72}{section.5.4}
+\contentsline {section}{\numberline {5.5}Summary}{72}{section.5.5}
+\contentsline {chapter}{\numberline {6}Statistics - Distributions}{74}{chapter.6}
+\contentsline {section}{\numberline {6.1}The binomial distribution}{74}{section.6.1}
+\contentsline {subsection}{\numberline {6.1.1}Statistical properties of the binomial distribution}{78}{subsection.6.1.1}
+\contentsline {section}{\numberline {6.2}The Poisson distribution}{80}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Statistical properties of the Poisson distribution}{85}{subsection.6.2.1}
+\contentsline {section}{\numberline {6.3}Statistical hypothesis testing}{86}{section.6.3}
+\contentsline {section}{\numberline {6.4}Summary}{88}{section.6.4}
+\contentsline {chapter}{\numberline {7}Statistics - The Normal Distribution}{90}{chapter.7}
+\contentsline {section}{\numberline {7.1}Properties of the normal distribution}{93}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Statistical properties}{94}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}Area underneath the normal distribution pdf}{94}{subsection.7.1.2}
+\contentsline {section}{\numberline {7.2}Why most measurements are normally distributed}{97}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}The Central Limit Theorem}{99}{subsection.7.2.1}
+\contentsline {section}{\numberline {7.3}Combining normally distributed quantities}{101}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Addition of a number to a normally distributed quantity}{101}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Multiplication of a number with a normally distributed quantity}{101}{subsection.7.3.2}
+\contentsline {subsection}{\numberline {7.3.3}Sum of normally distributed quantities}{102}{subsection.7.3.3}
+\contentsline {subsection}{\numberline {7.3.4}Function of normally distributed quantities}{104}{subsection.7.3.4}
+\contentsline {subsection}{\numberline {7.3.5}The general case: function of non-normally distributed quantities}{105}{subsection.7.3.5}
+\contentsline {section}{\numberline {7.4}Determining parameters of the normal distribution from data}{106}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}The principle of maximum likelihood}{106}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}Estimating the mean and standard deviation of a normal distribution from data}{107}{subsection.7.4.2}
+\contentsline {subsection}{\numberline {7.4.3}The error on the mean}{110}{subsection.7.4.3}
+\contentsline {section}{\numberline {7.5}Averaging multiple measurements with standard errors}{113}{section.7.5}
+\contentsline {section}{\numberline {7.6}Summary}{116}{section.7.6}
+\contentsline {chapter}{\numberline {8}Statistics - Modelling Data}{118}{chapter.8}
+\contentsline {section}{\numberline {8.1}Fitting a straight line}{118}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Linear problems}{118}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}The Method of Least Squares}{119}{subsection.8.1.2}
+\contentsline {subsection}{\numberline {8.1.3}Residuals}{125}{subsection.8.1.3}
+\contentsline {subsection}{\numberline {8.1.4}Correlated parameters}{125}{subsection.8.1.4}
+\contentsline {section}{\numberline {8.2}Non-linear fits}{127}{section.8.2}
+\contentsline {section}{\numberline {8.3}Goodness of fit}{132}{section.8.3}
+\contentsline {section}{\numberline {8.4}Summary}{136}{section.8.4}
