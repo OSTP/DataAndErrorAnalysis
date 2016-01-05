@@ -190,7 +190,7 @@
 
 
 \def\secondpage{\clearpage\null\vfill
-\pagestyle{empty}
+%\pagestyle{empty}
 \begin{minipage}[b]{0.9\textwidth}
 \footnotesize\raggedright
 \setlength{\parskip}{0.5\baselineskip}
@@ -220,10 +220,10 @@ This book is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 \begin{document}
 \title{Data and Error Analysis}
 \author{Ryan D. Martin}
-
+\pagenumbering{roman}
 \maketitle
-
 \tableofcontents
+\pagenumbering{arabic}
 \include{Chapter_Introduction}
 %\include{Chapter_Introduction_Problems}
 \include{Chapter_Python}
