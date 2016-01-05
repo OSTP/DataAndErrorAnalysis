@@ -907,6 +907,7 @@ Below is a full example that creates ``fake data'', fits those data to the model
 \begin{lstlisting}[frame=single] 
 import numpy as np
 import pylab as pl
+import matplotlib.gridspec as gridspec  # for unequal plot boxes
 from math import *
 from scipy.optimize import curve_fit #for fitting
 
@@ -926,11 +927,8 @@ xdata = np.linspace(0,10,ndata)
 
 #generate y coordinates that are normally distributed about the model evaluated at xdata
 #with a sigma of yerr
-yerr=5 #the uncertainty on y values
+yerr=5*np.ones(xdata.size)#5 #the uncertainty on y values
 ydata = np.random.normal(model(xdata,*pars_true),yerr)
-
-#Need an array to hold the uncertainties on the y points (all are equal to yerr)
-ydataErr=yerr*np.ones(ydata.size)
 
 #Guesses for the parameters (use the true values here)
 pars_guess = pars_true
@@ -938,7 +936,7 @@ pars_guess = pars_true
 ##############
 #Run the fit:#
 ##############
-pars_fit, pcov = curve_fit(model, xdata, ydata,sigma=ydataErr,p0=pars_guess)
+pars_fit, pcov = curve_fit(model, xdata, ydata,sigma=yerr,p0=pars_guess)
 
 #Get the errors out of the covariance matrix (sqrt of the diagonal elements)
 pars_err = np.sqrt(np.diag(pcov))
@@ -962,24 +960,27 @@ yres = ydata-yfit
 
 #Set the size of the figure
 pl.figure(figsize=(8,8))
-#Divide the figure into 3 rows, use the top 2 rows for the data
-ax1=pl.subplot2grid((3,1),(0, 0),rowspan=2)
+#Divide the figure into 2 rows, with 1 row 3 times higher for the data
+gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
+pl.subplot(gs[0])
 #Plot the data with error bars
 pl.errorbar(xdata,ydata,yerr=yerr,fmt='o',label='data',color='black')
 #Plot the fit line
 pl.plot(xdata,yfit,'r',label='fit',lw=3)
-pl.axis([xdata.min()-1,xdata.max()+1,ydata.min()-yerr-1,1.1*ydata.max()])
+#Set the axes range to be pretty:
+pl.axis([xdata.min()-1,xdata.max()+1,ydata.min()-yerr[0]-1,1.1*ydata.max()])
 pl.legend(loc='upper left')
-pl.text(5,50,resultTxt,fontsize=14)
+#Placement of the textbox may not be ideal:
+pl.text(xdata.mean(),ydata.min(),resultTxt,fontsize=14)
 pl.title("Fit of the data")
 pl.xlabel('x')
 pl.ylabel('y')
 #Use the bottom row of the figure for the residuals:
-ax2=pl.subplot2grid((3,1),(2, 0),rowspan=1)
+pl.subplot(gs[1])
 pl.errorbar(xdata,yres,yerr=yerr,fmt='o',color='black')#residuals
 pl.ylabel('residuals')
 pl.xlabel('x')
-pl.axis([xdata.min()-1,xdata.max()+1,-20,20])
+pl.axis([xdata.min()-1,xdata.max()+1,-5*yerr.max(),5*yerr.max()])
 pl.tight_layout()
 pl.show()
 \end{lstlisting}

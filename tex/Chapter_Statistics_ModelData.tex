@@ -394,6 +394,7 @@ from math import *
 import pylab as pl
 from math import *
 from scipy.optimize import curve_fit 
+import matplotlib.gridspec as gridspec  # for unequal plot boxes
 
 #Define a model for a gaussian + linear background, with 5 parameters:
 def model(x, *pars):
@@ -462,7 +463,8 @@ for i in range(len(true_pars)):
 
 #Plot the fit and the residuals
 pl.figure(figsize=(8,8))
-ax1=pl.subplot2grid((3,1),(0, 0),rowspan=2)
+gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
+pl.subplot(gs[0])
 pl.plot(xi,model(xi,*fit_pars) ,lw=2,color='red')
 pl.errorbar(xdata,ydata,yerr=ysigma,fmt='o',color='black')#data
 pl.ylabel('n, number of collisions in 1 MeV bin')
@@ -470,14 +472,13 @@ pl.title('Fit to the fake data')
 pl.text(-0.5,13,textfit,fontsize=12)
 pl.axis([-1,22,-2,25])
 
-ax2=pl.subplot2grid((3,1),(2, 0),rowspan=1)
+pl.subplot(gs[1])
 pl.errorbar(xdata,yres,yerr=ysigma,fmt='o',color='black')#residuals
 pl.ylabel('residuals')
 pl.xlabel('E, energy of the collisions (MeV)')
 pl.axis([-1,22,-6,6])
 
 pl.show()
-
 \end{lstlisting}
 
 \capfig{0.5\textwidth}{figures/resdata_fit.png}{\label{fig:resdata_fit} Fit to the data from Table \ref{tab:resdata} and residuals using the model in equation \ref{eqn:resdataModel}. The ``true'' value of the parameters used to make the data are shown in parentheses next to their fitted values.}
