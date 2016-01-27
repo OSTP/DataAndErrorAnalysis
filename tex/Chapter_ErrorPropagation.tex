@@ -443,7 +443,7 @@ The correct way to propagate the uncertainty in quantities that are correlated i
 \begin{align}
 \label{eqn:derivPropagateCorr}
 F&=F(x,y)\nonumber\\
-\sigma_F &= \sqrt{\left(\die{F}{x}\sigma_x\right)^2 + \left(\die{F}{y} \sigma_y\right)^2+2\die{F}{y}\die{F}{y}\sigma_{xy}}
+\sigma_F &= \sqrt{\left(\die{F}{x}\sigma_x\right)^2 + \left(\die{F}{y} \sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
 \end{align}
 where the partial derivatives are evaluated at the central values of $x$ and $y$, and $\sigma_{xy}$ is the covariance between $x$ and $y$. The formula is easily extended for more than 2 variables, where there will be one cross term for each pair of correlated variables. We will derive this formula in Chapter \ref{chap:StatsNormal}.
 
@@ -494,8 +494,8 @@ print("With covariance: M = {:.2f} +/- {:.2f} (correct)".format(msmean,sqrt(m1st
 \end{lstlisting}
 the output is:
 \begin{verbatim}
-m1 = 399.70 +/- 6.01
-m2 = 199.40 +/- 8.87
+m1 = 399.70 +/- 1.90
+m2 = 199.40 +/- 2.81
 covariance = 45.67
 Treat as independent measurements: M = 599.10 +/- 4.54 (correct)
 Quadrature: M = 599.10 +/- 3.39 (underestimate)
@@ -505,8 +505,8 @@ With covariance: M = 599.10 +/- 4.54 (correct)
 
 It is worth noting that the covariance, $\sigma_{m_1m_2}$, is negative if the variables are ``anti-correlated''; that is, if one value being predictably higher than its mean leads to the other variable being predictably lower than its mean. A negative covariance can lead to a smaller overall uncertainty in equation \ref{eqn:derivPropagateCorr} than one would get if the variables were independent (by adding in quadrature). Such an example is illustrated by the data in Table \ref{tab:massSum2} and shown in the scatter plot in Figure \ref{fig:correlatedSum2}. The output of the program above, using the data from Table \ref{tab:massSum2} is:
 \begin{verbatim}
-m1 = 397.60 +/- 11.33
-m2 = 196.94 +/- 17.14
+m1 = 397.60 +/- 3.58
+m2 = 196.94 +/- 5.42
 covariance = -148.24
 Treat as independent measurements: M = 594.55 +/- 3.54 (correct)
 Quadrature: M = 594.55 +/- 6.50 (overestimate)
@@ -597,6 +597,6 @@ If we have two quantities, $x$ and $y$, that we measure simultaneously $N$ times
 where $\bar x$ and $\bar y$ are the means of the measurements of $x$ and $y$, respectively. If the covariance is non-zero, then we need to take it into account and have to modify the formula from the derivative method:
 \begin{align}
 F&=F(x,y)\nonumber\\
-\sigma_{F} &= \sqrt{\left(\die{F}{x}\sigma_x\right)^2 + \left(\die{F}{y} \sigma_y\right)^2+2\die{F}{y}\die{F}{y}\sigma_{xy}}
+\sigma_{F} &= \sqrt{\left(\die{F}{x}\sigma_x\right)^2 + \left(\die{F}{y} \sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
 \end{align}
 where $\sigma_x$ and $\sigma_y$ are the standard deviations of the measurements of $x$ and $y$, respectively. If there are more than two variables, one can simply add more terms to the sum (including 1 covariance factor between each pair of variables). This is the most general formula and is always correct. Furthermore, it does not require the individual variables to be normally distributed; this formula gives the correct estimate of the standard deviation in a result, regardless of the distributions for the underlying measurements. In practice, one should estimate whether including the covariance makes a difference, and include it if it is significant.
