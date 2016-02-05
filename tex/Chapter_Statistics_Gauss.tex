@@ -37,11 +37,11 @@ The normal distribution is much more straightforward to evaluate than the binomi
 \begin{example}{}{Compare the probability of obtaining 140 heads in 300 coin tosses (of a fair coin) evaluated using the binomial and normal distributions.}{}
 We need to evaluate the binomial probability given by $P^{binom}(k=140,N=300,p=0.5)$:
 \begin{align*}
-P^{binom}(k=140,N=300,p=0.5)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}=0.046
+P^{binom}(k=140,N=300,p=0.5)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}=0.02367
 \end{align*}
 If you try to evaluate this with your calculator, it might crash when trying to evaluate $300!$, so this is best evaluated using a computer (see below).
 
-The parameters for the normal distribution in terms of the parameters from the binomial distribution are given by $\mu_x=Np=150$ and $\sigma_x=\sqrt{Np(1-p)}=8.7$. We can evaluate the probability for the normal distribution, $P^{norm}(x,\mu_x,\sigma_x)dx$ using $x=150$ and $dx=1$, which we interpret as the probability of obtaining $x$ between 150 and 151, since the probability of obtaining an exact value of $x$ is zero. Of course, with $dx=1$, we only really evaluate $P^{norm}(x,\mu_x,\sigma_x)$ at the given value of $x$, but we should always remember that we have implicitly chosen $dx=1$, and our result is the probability of having $x$ between $x$ and $x+dx$. 
+The parameters for the normal distribution in terms of the parameters from the binomial distribution are given by $\mu_x=Np=150$ and $\sigma_x=\sqrt{Np(1-p)}=8.7$. We can evaluate the probability for the normal distribution, $P^{norm}(x,\mu_x,\sigma_x)dx$ using $x=140$ and $dx=1$, which we interpret as the probability of obtaining $x$ between 140 and 141, since the probability of obtaining an exact value of $x$ is zero. Of course, with $dx=1$, we only really evaluate $P^{norm}(x,\mu_x,\sigma_x)$ at the given value of $x$, but we should always remember that we have implicitly chosen $dx=1$, and our result is the probability of having $x$ between $x$ and $x+dx$. 
 
 The simple python program below evaluates the two probabilities:  
 \begin{lstlisting}
@@ -75,7 +75,7 @@ The mean of measurements that follow the normal distribution with mean $\mu$ and
 \end{align}
 and their variance is given by:
 \begin{align}
-\sigma_x^2 = \int_{-\infty}^{+\infty}(x-\bar x)^2P^{norm}(x,\mu_x,\sigma_x)dx=\sigma^2
+\sigma^2 = \int_{-\infty}^{+\infty}(x-\bar x)^2P^{norm}(x,\mu_x,\sigma_x)dx=\sigma_x^2
 \end{align}
 That is, the mean and standard deviation of measurements that are normally distributed are precisely the mean and standard deviation of the normal distribution.
 
@@ -85,7 +85,7 @@ As we stated earlier, the total area underneath the normal distribution pdf must
 P(x_a \leq x \leq x_b) = \int_{x_a}^{x_b}P^{norm}(x,\mu_x,\sigma_x)dx
 \end{align}
 
-\begin{example}{}{On average, 25 students skip any given Error Analysis class. Use the Poisson and normal distributions to evaluate the probability that 30 students will skip class on a given day, and compare the results. When using the normal distribution, compare the probabilities obtained by doing the integral from $x=30$ to $x=31$ and that obtained by evaluating the pdf at $x=30$.}{}
+\begin{example}{}{On average, 25 students skip any given Error Analysis class. Use the Poisson and normal distributions to evaluate the probability that 30 students will skip class on a given day, and compare the results. When using the normal distribution, compare the probabilities obtained by doing the integral from $x=30$ to $x=31$ and that obtained by evaluating the pdf at $x=30$ with $dx=1$.}{}
 This problem is well modeled by the Poisson distribution, $P^{Poisson}(k,n)$, with the expected number of students skipping class, $n=25$. Evaluating the probability of having $k=30$ students gives:
 \begin{align*}
 P^{Poisson}(k=30,n=25)=\frac{n^k e^{-n}}{k!} =0.0454

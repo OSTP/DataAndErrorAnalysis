@@ -7,11 +7,11 @@
 \label{chap:StatsDistributions}
 In the previous chapter, we considered a sample of data that consisted of measurements of a certain quantity (e.g. cat length), and defined a few simple variables to describe that sample (e.g. mean, variance). Those were general quantities that can be applied to any sample of measurements.
 
-In many physical situations, the data will follow particular "distributions". That is, if one makes a histogram of the measurements, the shape of that histogram will be well described by a function. Certain physical processes lead to very specific distribution functions, and we will examine two of those in this chapter (The binomial and the Poisson distributions).
+In many physical situations, the data will follow particular "distributions". That is, if one makes a histogram of the measurements, the shape of that histogram will be well described by a function. Certain physical processes lead to very specific distribution functions, and we will examine two of those in this chapter (the binomial and the Poisson distributions).
 
 \section{The binomial distribution}
 
-The binomial distribution is used to describe the result of an experiment that can go in one of two ways (for example, flipping a coin can be either heads or tails). Very generally, a lot of processes can be thought of as binomial even if there are more than two possible outcomes. If you are interested in the number 5 coming up when rolling a single dice, even though there are 6 possible outcome, you can think of it as a binomial problem (you either get 5 or you do not).
+The binomial distribution is used to describe the result of an experiment that can go in one of two ways (for example, flipping a coin can be either heads or tails). Very generally, a lot of processes can be thought of as binomial even if there are more than two possible outcomes. If you are interested in the number 5 coming up when rolling a single dice, even though there are 6 possible outcomes, you can think of it as a binomial problem (you either get 5 or you do not).
 
 The binomial distribution describes \textbf{how often we will get $k$ successes in $N$ independent trials, when we expect $pN$ successes}. We call $p$ the probability of getting the "successful" outcome, and reserve a more formal description of probability for a later chapter. For example, if we have a coin and we are interested in the number of times that we get ``heads'', we can think of $k$ as the number of times we get heads in $N$ coin tosses. We can think of $p$ as the fraction of times we get heads (either that we expect or that we measured). If we have a biased coin that, on average, gives 70\% heads, then $p=0.7$ which can be measured by tossing the coin many times and measuring the fraction of time that we get heads (this would be the ``frequentist'' definition of the probability, $p$). 
 
@@ -49,7 +49,7 @@ P^{binom}(k,N,p)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}
 \end{align}
 which is called the \textbf{binomial probability} mass function\footnote{Since this is a function of a discrete variable, $k$, we call it a ``probability mass function'' instead of a ``probability density function''.}.
 
-Let us suppose that we run a food stand that sells three different kinds of poutines: a classic poutine, a poutine with pulled pork, and a vegetarian poutine (with vegetarian gravy). Our historical data show that 70\% of customers purchase a classic poutine, 20\% of customers purchase the pork poutine, and 10\% purchase the vegetarian option. It is one hour before closing time and we are running low on pork; we only have enough pork for 5 poutines and want to know if we should send someone to buy more. From our previous data, we also know that in the hour before closn, we should expect about 15 customers. Thus, we can ask ourselves, what is the probability that we will get $k=5$ customers out of $N=15$ customers that order pork poutines in the next hour? Using the binomial distribution, we can easily estimate that quantity to be:
+Let us suppose that we run a food stand that sells three different kinds of poutines: a classic poutine, a poutine with pulled pork, and a vegetarian poutine (with vegetarian gravy). Our historical data show that 70\% of customers purchase a classic poutine, 20\% of customers purchase the pork poutine, and 10\% purchase the vegetarian option. It is one hour before closing time and we are running low on pork; we only have enough pork for 5 poutines and want to know if we should send someone to buy more. From our previous data, we also know that in the hour before closing, we should expect about 15 customers. Thus, we can ask ourselves, what is the probability that we will get $k=5$ customers out of $N=15$ customers that order pork poutines in the next hour? Using the binomial distribution, we can easily estimate that quantity to be:
 \begin{align*}
 P(k=5,N=15,p=0.2)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}=0.103
 \end{align*}
@@ -254,9 +254,9 @@ n&=19.7
 \end{align*}
 Evaluating the probability from the Poisson distribution with $n=19.7$ and $k=15$ gives 5.6\%.
 
-In order to get the probability of observing 15 or more events, we must sum the Poisson probabilities for $k=15,16,\dots$ to infinity. The infinite sum can be avoided by instead summing the probabilities for $k=0,1,\dots,14$ and subtracting that from 1. The result is that the probability of getting 15 or more decays in 1 month is 82.7\%.
+In order to get the probability of observing 15 or more events, we must sum the Poisson probabilities for $k=15,16,\dots$ to infinity. The infinite sum can be avoided by instead summing the probabilities for $k=0,1,\dots,14$ and subtracting that from 1. The result is that the probability of getting 15 or more decays in 1 month is 88.3\%.
 
-We thus conclude that we have a good (83\%) chance to detect double-beta decay given the requirement that we want to see at least 15 counts so that our signal is distinguishable from the background\footnote{In reality, achieving a background rate of 10 counts per month in a germanium detector is very challenging, and it is not nearly as easy to observe double-beta decay.}. The python code below shows how to calculate everything and uses the function \code{sf} to sum the probabilities of obtaining $k=15$ counts or more:
+We thus conclude that we have a good (88.3\%) chance to detect double-beta decay given the requirement that we want to see at least 15 counts so that our signal is distinguishable from the background\footnote{In reality, achieving a background rate of 10 counts per month in a germanium detector is very challenging, and it is not nearly as easy to observe double-beta decay.}. The python code below shows how to calculate everything and uses the function \code{sf} to sum the probabilities of obtaining $k=15$ counts or more:
 \begin{lstlisting}[frame=single] 
 import numpy as np
 import scipy.stats as stats # to use Poisson
@@ -281,7 +281,8 @@ print("The decay rate is {:.1f} per month".format(rate/12))
 n=rate/12 #The expected number of decays in 1 month
 
 print("The prob. of observing exactly 15 decays in one month is: {:.3f}".format(stats.poisson.pmf(15,n)))
-print("The prob. of observing 15 or more decays in one month is: {:.3f}".format(stats.poisson.sf(15,n)))
+#For sf, need k -> k-1 if we want to include k:
+print("The prob. of observing 15 or more decays in one month is: {:.3f}".format(stats.poisson.sf(14,n)))
 \end{lstlisting}
 The output is:
 \begin{verbatim}
@@ -290,7 +291,7 @@ Lambda is 3.85e-22
 The decay rate is 236.3 per year
 The decay rate is 19.7 per month
 The prob. of observing exactly 15 decays in one month is: 0.056
-The prob. of observing 15 or more decays in one month is: 0.827
+The prob. of observing 15 or more decays in one month is: 0.883
 \end{verbatim}
 
 \end{example}
@@ -398,28 +399,70 @@ One other interesting property of the Poisson distribution is that if you measur
 \section{Statistical hypothesis testing}
 We can now apply our understanding of distributions to statistical hypothesis testing. The general idea is that given the result of a measurement, we want to be able to make a quantitative statement about how likely the result is based on a hypothesis. If the result is very unlikely according to the hypothesis, then we would conclude that the hypothesis is not supported by the data. 
 
-For example, a pharmaceutical company may claim that they have developed a new pill that can help people to perform very well on IQ tests . As sceptical scientists, we decide to test whether the pill is actually effective and devise the following test: we choose 16 people, give them a first IQ test, then give them the pill, and finally give them a second, different but equivalent, IQ test. Suppose that we find that 9 out of the 16 people have performed ``significantly'' better on the second IQ test; can we conclude that the pill works?
+For example, a pharmaceutical company may claim that they have developed a new pill that can help people to perform very well on IQ tests . As sceptical scientists, we decide to test whether the pill is actually effective and devise the following test: we choose 16 people, give them a first IQ test, then give them the pill, and finally give them a second, different but equivalent, IQ test. Suppose that we find that 10 out of the 16 people have performed ``significantly'' better on the second IQ test; can we conclude that the pill works?
 
-We need to state this problem into a hypothesis that predicts the distribution of outcomes, and then evaluate the probability of our outcome (9 out 16 people performing better). If the probability is high, then the hypothesis is supported (note that it is never proven). When possible, one should try to make a ``null hypothesis'', which is usually easier to model. Typically, the null hypothesis is that ``there is no effect''.
+We need to state this problem into a hypothesis that predicts the distribution of outcomes, and then evaluate the probability of our outcome (10 out 16 people performing better). If the probability is high, then the hypothesis is supported (note that it is never proven). When possible, one should try to make a ``null hypothesis'', which is usually easier to model. Typically, the null hypothesis is that ``there is no effect'', and the results are the outcome of chance.
 
-In our case, our null hypothesis is that the pill has no effect, or rather that the results are from pure chance. We must thus ask ourselves what is the probability that, out of pure chance, 9 out 16 participants would perform better on a second IQ test? If we imagine that the IQ tests have many questions, it is unlikely that someone would get exactly the same score twice in a row. It seems reasonable that it is equally likely that they will perform a little better or a little worse on the second test. Let us thus assume that there is a 50\% chance that they will perform a little bit better just from pure chance.
+In our case, our null hypothesis is that the pill has no effect, or rather that the results are from pure chance. We must thus ask ourselves what is the probability that, out of pure chance, 10 out 16 participants would perform better on a second IQ test? If we imagine that the IQ tests have many questions, it is unlikely that someone would get exactly the same score twice in a row. It seems reasonable that it is equally likely that they will perform a little better or a little worse on the second test. Let us thus assume that there is a 50\% chance that they will perform a little bit better just from pure chance.
 
-We can model our experiment as a binomial problem: we have 16 people ($N$ trials), and we had 9 people do better on the second test ($k$ successes), and under our null hypothesis there is a 50\% chance of performing better on the second test ($p$). The binomial probability, $P^{binom}(k=9,N=16,p=0.5)$ is easily found to be 17\%. There is thus a 17\% chance that we would obtain our result even in the pill did not work (or an 83\% probability that our null hypothesis is wrong and that the result are not from pure chance).
+We can model our experiment as a binomial problem: we have 16 people ($N$ trials), and we had 10 people do better on the second test ($k$ successes), and under our null hypothesis there is a 50\% chance of performing better on the second test ($p$). The binomial probability, $P^{binom}(k=10,N=16,p=0.5)$ is easily found to be 12\%. There is thus a 12\% chance that exactly 10 out 16 people would do better on the IQ test out of chance.
 
-Is 17\% a high enough probability for us to support the null hypothesis that the results are from pure chance? Of course, that is an arbitrary question. One way to think about whether a probability is ``high'' is to ask yourself if you would risk your life at that probability. Would you get in a car if you knew you had a 17\% chance of getting into a fatal accident? Probably not (I hope). At 17\%, we would generally accept the null hypothesis as plausible, and conclude that the results are consistent with pure chance. In science, a common ``bar'' is that the null hypothesis must be no more than 5\% plausible for it to be rejected, although depending on how ``revolutionary'' the result, that bar can be much higher. For example, for discovering a new particle in physics, the null hypothesis (there is no new particle) must usually be no more than 0.00006\% likely.
+However, this null hypothesis does not quite cover the possibility that 11 (or 12, or more) people could have done better on the test. The better (and correct) question to ask is, what is the probability that 10 \textbf{or more} people out of 16 scored better on the test out of pure chance? We thus need to sum the binomial probabilities corresponding to the possibilities of 10 or more successes. If we sum those probabilities for $k=10, 11, \dots, 16$, with $N=16$ and $p=0.5$, we find that the probability of 10 or more people doing better on the test, out of pure chance, is 23\%.
 
-Why would we not think about this the other way around, namely that the hypothesis that the pill works is confirmed with 83\% probability, well exceeding our 5\% bar? Remember, our model is that there is a 50\% chance of doing better on an IQ test simply due to chance. Our model is not ``given this pill, there is a x\% chance of doing better on the test''. The 83\% probability cannot be interpreted as the probability that the pill works, which would be a completely different hypothesis. The ``opposite'' of ``the results are from pure chance'' is \textit{not} that ``the pill works''. Perhaps there are other effects that lead to our result that are not the pill itself (maybe the subjects took the pill with some water, were then better hydrated, and performed better, or it was a placebo effect). 
+Is 23\% a high enough probability for us to support the null hypothesis that the results are from pure chance? Of course, that is an arbitrary question. One way to think about whether a probability is ``high'' is to ask yourself if you would risk your life at that probability. Would you get in a car if you knew you had a 23\% chance of getting into a fatal accident? Probably not (I hope). At 23\%, we would generally accept the null hypothesis as plausible, and conclude that the results are consistent with pure chance. In science, a common ``bar'' is that the null hypothesis must be no more than 5\% plausible for it to be rejected, although depending on how ``revolutionary'' the result, that bar can be much higher. For example, for discovering a new particle in physics, the null hypothesis (there is no new particle) must usually be no more than 0.00006\% likely. It is a somewhat accepted practice to call a result ``significant'' if the null hypothesis is no more than 5\% probable, and ``highly significant'' if the null hypothesis is no more than 1\% probable.
 
-We did not quite analyse our data correctly, since we earlier claimed that 9 of the test subjects performed \textit{significantly} better, not just marginally better. The definition of ``significantly'' would presumably come from the designers of the IQ test. IQ tests are statistical tests in themselves, so let us assume that if someone gets a score of $X$, then the test is designed such that one can attribute an uncertainty to the score, $\delta X$, such that over repeated tests, there is a 68\% chance that a given participant scores in the range $X \pm \delta X$. When we claimed that 9 of the test subjects performed significantly better, we really meant that they performed with a score higher than their original score plus the uncertainty.
+Why would we not think about this the other way around, namely that the hypothesis that the pill works is confirmed with 77\% probability (100-23), well exceeding our 5\% bar? Remember, our model is that there is a 50\% chance of doing better on an IQ test simply due to chance. Our model is not ``given this pill, there is a x\% chance of doing better on the test''. The 77\% probability cannot be interpreted as the probability that the pill works, which would be a completely different hypothesis. The ``opposite'' of ``the results are from pure chance'' is \textit{not} that ``the pill works''. Perhaps there are other effects (other than chance) that lead to our result that are not the pill itself (maybe the subjects took the pill with some water, were then better hydrated, and performed better, or it was a placebo effect). 
 
-To take this into account, we must thus use a different probability than $p=0.5$ in our null hypothesis that subjects would perform significantly better just out of pure chance. In this case, out of pure chance, there is a 32\% chance of a participant scoring outside of the range $X \pm \delta X$, and a 50\% probability that it is on the higher side of the range. The correct binomial probability to use is thus $p=0.5\times 0.32=0.16$, and it represents the probability of scoring significantly higher out of pure chance. Evaluating $P^{binom}(k=9,N=16,p=0.16)$ gives 0.02\%, which is certainly low. It is thus unlikely that the null hypothesis is correct, in other words, it is unlikely that by pure chance 9 out of 16 participants would score significantly higher on the IQ test. We would then lean to the conclusion that the pill likely has some effect (but as good scientists, we would want to make sure that any other possible effect have been controlled in the test; for example, that there is no placebo effect from the pill, that the water taken with the pill had no effect, etc.).
+We did not quite analyse our data correctly, since we earlier claimed that 10 of the test subjects performed \textit{significantly} better, not just marginally better. The definition of ``significantly'' would presumably come from the designers of the IQ test. IQ tests are statistical tests in themselves, so let us assume that if someone gets a score of $X$, then the test is designed such that one can attribute an uncertainty to the score, $\delta X$, such that over repeated tests, there is a 68\% chance that a given participant scores in the range $X \pm \delta X$. When we claimed that 10 of the test subjects performed significantly better, we really meant that they performed with a score higher than their original score plus the uncertainty.
+
+To take this into account, we must thus use a different probability than $p=0.5$ in our null hypothesis that subjects would perform significantly better just out of pure chance. In this case, out of pure chance, there is a 32\% (100-68) chance of a participant scoring outside of the range $X \pm \delta X$, and a 50\% probability that it is on the higher side of the range. The correct binomial probability to use is thus $p=0.5\times 0.32=0.16$, and it represents the probability of scoring significantly higher out of pure chance. Evaluating the sum of the probabilities $P^{binom}(k,N=16,p=0.16)$ for $k=10, 11, \dots, 16$ gives 0.0034\%, which is certainly low. It is thus unlikely that the null hypothesis is correct, in other words, it is unlikely that by pure chance 10 or more out of 16 participants would score significantly higher on the IQ test. We would then lean to the conclusion that the pill likely has some effect (but as good scientists, we would want to make sure that any other possible effect have been controlled in the test; for example, that there is no placebo effect from the pill, that the water taken with the pill had no effect, etc.).
+
+The python code below shows how to calculate the probabilities for this example.
+\begin{lstlisting}[frame=single] 
+import scipy.stats as stats # to use Poisson
+
+#Probability of 10 out of 16 people doing better on IQ test if the probability of doing better is 50%:
+print("Prob that 10 out 16 people do a little better:{:.2f}".format(stats.binom.pmf(10,16,0.5)))
+print("Prob that at least 10 out 16 people do a little better:{:.2f}".format(stats.binom.sf(9,16,0.5)))
+
+#Probability of 10 out of 16 people doing better on IQ test if the probability of doing better is 16%:
+print("Prob that 10 out 16 people do significantly better:{:.6f}".format(stats.binom.pmf(10,16,0.16)))
+print("Prob that at least 10 out 16 people do significantly better:{:.6f}".format(stats.binom.sf(9,16,0.16)))
+\end{lstlisting}
+The output is:
+\begin{verbatim}
+Prob that 10 out 16 people do a little better:0.12
+Prob that at least 10 out 16 people do a little better:0.23
+Prob that 10 out 16 people do significantly better:0.000031
+Prob that at least 10 out 16 people do significantly better:0.000034
+\end{verbatim}
 
 \begin{example}{}{The 2013 Ontario Road Safety Annual Report shows the following number of fatal car collisions by month: \{35,17,26,24,39,27,61,44,37,46,42,31\}, which add up to 429 for the year. Upon looking at the data, a politician decides that their next campaign will be based on banning driving in July since that is a particularly deadly month for driving in Ontario (61 deaths). Can you support the politician's claim that July is a bad month for driving?}{}
-We must first develop a null hypothesis, namely that no month is particularly worse for driving. If the data are consistent with the null hypothesis, then there is little reason to support the politician's claim. We thus need to evaluate the probability of having 61 fatal accidents in a particular month under the hypothesis that all months are equal. 
+We must first develop a null hypothesis, namely that no month is particularly worse for driving. If the data are consistent with the null hypothesis, then there is little reason to support the politician's claim. We thus need to evaluate the probability of having 61 or more fatal accidents in a particular month under the hypothesis that all months are equal. 
 
-In our null hypothesis, we expect the rate of accidents each month to be approximately equal to the average rate. Since we had 429 accidents in the year, we would expect 429/12=36 accidents per month as the average rate. Given that we expect 36 accidents in a month under the null hypothesis, what is the probability of having 61 accidents? This is found using the Poisson distribution. Evaluating $P^{Poisson}(k=61,n=36)$, we find a probability of 0.004\%, which is certainly small. The null hypothesis is not supported by the data, so we conclude that it is highly likely that some months (July in particular) are more fatal than others on Ontario roads, based on the 2013 data.
+In our null hypothesis, we expect the rate of accidents each month to be approximately equal to the average rate. Since we had 429 accidents in the year, we would expect 429/12=36 accidents per month as the average rate. Given that we expect 36 accidents in a month under the null hypothesis, what is the probability of having 61 or more accidents? This is found using the Poisson distribution, $P^{Poisson}(k,n)$. In the Poisson distribution, the value of $k$ can go up to infinity, so it is not practical to sum the probabilities from $k=61, 62, \dots, \infty$. It is easiest to simply use the cumulative probability distribution, which is the sum of the probabilities from $k=0, 1, \dots, 61$, and then subtract that from 1.  Evaluating the cumulative distribution and subtracting it from 1, we find that the probability of having 61 or more accidents, when we expect 36, is 0.0091\%, which is certainly small. The null hypothesis is not supported by the data, so we conclude that it is highly likely that some months (July in particular) are more fatal than others on Ontario roads, based on the 2013 data.
 
-As good scientists, we would still want to look at the data from other years to see if they also do not support the null hypothesis. In 2012, there were a total of 505 accidents in the year, and 50 accidents in July. Going through the same exercise, gives a probability for the null hypothesis of $P^{Poisson}(k=50,n=505/12=42)$=2.8\%, which is orders of magnitude higher than 2013, although still barely lower than our 5\% bar (if that is the bar that we choose). As you can see, you need to be very careful when making claims based on statistical data. Based on these two years, it does however seem that July is a more deadly month. Can you think of a reason why?
+As good scientists, we would still want to look at the data from other years to see if they also do not support the null hypothesis. In 2012, there were a total of 505 accidents in the year (an expected 42 accidents per month), and 50 accidents in July. Going through the same exercise, gives the probability for there to be 50 or more accidents in a month, when we expect 42, to be 12.5\%, which is orders of magnitude higher than 2013 and well above our 5\% bar (if that is the bar that we choose). As you can see, you need to be very careful when making claims based on statistical data, and some arbitrary bar!
+
+The code below shows how to calculate the relevant probabilities in python (using the survival fraction):
+\begin{lstlisting}[frame=single] 
+import scipy.stats as stats # to use Poisson
+
+#Probability of having 61 accidents in a month when we expect 36:
+print("Prob of 61 accidents when we expect 36:{:.6f}".format(stats.poisson.pmf(61,36)))
+print("Prob of at least 61 accidents when we expect 36:{:.6f}".format(stats.poisson.sf(60,36)))
+
+#Probability of having 50 accidents in a month when we expect 42:
+print("Prob of 50 accidents when we expect 42:{:.4f}".format(stats.poisson.pmf(50,42)))
+print("Prob of 50 accidents when we expect 42:{:.4f}".format(stats.poisson.sf(49,42)))
+\end{lstlisting}
+The output is:
+\begin{verbatim}
+Prob of 61 accidents when we expect 36:0.000039
+Prob of at least 61 accidents when we expect 36:0.000091
+Prob of 50 accidents when we expect 42:0.0275
+Prob of 50 accidents when we expect 42:0.1250
+\end{verbatim}
 \end{example}
 
 
@@ -445,4 +488,4 @@ The mean and variance of a quantity that is Poisson distributed are given by:
 \end{align}
 The variance of the Poisson distribution is equal to its mean, $n$. The standard deviation is thus $\sqrt{n}$, which is the origin of the square root uncertainty in counted quantity.
 
-Finally, we introduced the concept of statistical hypothesis testing, which involved determining the probability of a particular outcome given a particular hypothesis. We argued that it is usually easier to model the null hypothesis, that is, to determine the probability of the results occurring out of pure chance. We cautioned against drawing conclusions simply based on the probability of the null hypothesis being below a given bar (5\% is often used). 
+Finally, we introduced the concept of statistical hypothesis testing, which involved determining the probability of a particular outcome given a particular hypothesis. We argued that it is usually easier to model the null hypothesis, that is, to determine the probability of the results occurring out of pure chance. We cautioned against drawing conclusions simply based on the probability of the null hypothesis being below a given bar (5\% is often used). Generally, the null hypothesis is of the form: ``what is the probability of getting x or more successes out of pure chance?''.
