@@ -41,7 +41,7 @@ P^{binom}(k=140,N=300,p=0.5)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}=0.02367
 \end{align*}
 If you try to evaluate this with your calculator, it might crash when trying to evaluate $300!$, so this is best evaluated using a computer (see below).
 
-The parameters for the normal distribution in terms of the parameters from the binomial distribution are given by $\mu_x=Np=150$ and $\sigma_x=\sqrt{Np(1-p)}=8.7$. We can evaluate the probability for the normal distribution, $P^{norm}(x,\mu_x,\sigma_x)dx$ using $x=140$ and $dx=1$, which we interpret as the probability of obtaining $x$ between 140 and 141, since the probability of obtaining an exact value of $x$ is zero. Of course, with $dx=1$, we only really evaluate $P^{norm}(x,\mu_x,\sigma_x)$ at the given value of $x$, but we should always remember that we have implicitly chosen $dx=1$, and our result is the probability of having $x$ between $x$ and $x+dx$. 
+The parameters for the normal distribution in terms of the parameters from the binomial distribution are given by $\mu_x=Np=140$ and $\sigma_x=\sqrt{Np(1-p)}=8.7$. We can evaluate the probability for the normal distribution, $P^{norm}(x,\mu_x,\sigma_x)dx$ using $x=140$ and $dx=1$, which we interpret as the probability of obtaining $x$ between 140 and 141, since the probability of obtaining an exact value of $x$ is zero. Of course, with $dx=1$, we only really evaluate $P^{norm}(x,\mu_x,\sigma_x)$ at the given value of $x$, but we should always remember that we have implicitly chosen $dx=1$, and our result is the probability of having $x$ between $x$ and $x+dx$. 
 
 The simple python program below evaluates the two probabilities:  
 \begin{lstlisting}
@@ -71,7 +71,7 @@ The normal distribution has several properties that make it straightforward to u
 \subsection{Statistical properties}
 The mean of measurements that follow the normal distribution with mean $\mu$ and standard deviation $\sigma$ is given by
 \begin{align}
-\bar x = \int_{-\infty}^{+\infty}xP^{norm}(x,\mu_x,\sigma_x)dx=\mu
+\bar x = \int_{-\infty}^{+\infty}xP^{norm}(x,\mu_x,\sigma_x)dx=\mu_x
 \end{align}
 and their variance is given by:
 \begin{align}
@@ -131,7 +131,7 @@ As we will see, it is often useful to compute the probability of obtaining a val
  \begin{align}
 P(\mu_x-\sigma_x \leq x \leq \mu_x+\sigma_x) = \int_{\mu_x-\sigma_x}^{\mu_x+\sigma_x}P^{norm}(x,\mu_x,\sigma_x)dx=0.68
 \end{align}
-which is a fixed number, regardless of the actual values of $\mu_x$ and $\sigma_x$. This is the origin of our seemingly arbitrary use of 68\% as our usual confidence interval. Since many measurements are normally distributed (as we will see in the next section), the use of the standard deviation as the error (or quoted uncertainty) corresponds to a 68\% chance of a value being within one standard deviation of the mean. Table \ref{tab:normsigma} shows the probability for a measurement to lie within a certain number of standard deviations from the mean.
+which is a fixed number, regardless of the actual values of $\mu_x$ and $\sigma_x$. This is the origin of our seemingly arbitrary use of 68\% as our usual confidence interval. Since many measurements are normally distributed (as we will see in the next section), the use of the standard deviation as the error (or quoted uncertainty) corresponds to a 68\% chance of a value being within one standard deviation of the mean. Table \ref{tab:normsigma} shows the probability for a measurement to lie within a certain number of standard deviations from the mean. This is illustrated in Figure \ref{fig:gaus_sigmas}.
 \begin{table}[h!]
 \center
 \begin{tabular}{|c|c|}
@@ -147,6 +147,8 @@ which is a fixed number, regardless of the actual values of $\mu_x$ and $\sigma_
 \end{tabular}
 \caption{\label{tab:normsigma}Probability that a normally distributed measurement will fall within a certain number, $n$, of standard deviations from the mean.}
 \end{table}
+\capfig{0.4\textwidth}{figures/gaus_sigmas.png}{\label{fig:gaus_sigmas} Illustration of the area under the normal distribution within 1, 2, and 3 standard deviations from the mean.}
+
 
 As you can see, the probability of being further than 3$\sigma_x$ is already quite small, and quickly becomes vanishingly small (as can also be seen in Figure \ref{fig:normaldist}). In particle physics, it is often required that a measurement have a validity of at least 5$\sigma_x$ to be considered a discovery. For example, this would mean that in order to claim that a new particle has been discovered, the probability of the data given the null hypothesis must be at least 5$\sigma_x$ from the mean expected if there were no new particle. A new particle may be discovered as a resonant peak in a spectrum; we would thus require that the peak indicating the presence of a particle be at least 5 times larger than the random fluctuations in the spectrum (under the assumption that those fluctuations are normally distributed).
 

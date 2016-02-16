@@ -1,0 +1,208 @@
+%Copyright 2016 R.D. Martin
+%This book is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+%
+%This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
+\chapter{Statistics - Probabilities and the Bayesian approach}
+\label{Chap:statProbability}
+So far, we have used probability density functions to describe the distribution of the outcomes that we expect in a given situation, and we were able to specify a probability for a given outcome. For example, we could assign that the probability of rolling the number 5 with a dice was $\frac{1}{6}$. But what do we really mean by ``probability''? How do we determine that the probability is $\frac{1}{6}$? In this chapter, we take a closer look at the meaning of the word ``probability'', how to define it, and how to interpret a probability.
+
+\section{Kolmogorov's axioms}
+We begin by using Kolomogorov's three axioms to define probabilities. Given a set, $S$ (for example, a list of possible outcomes), and a subset $A$ of the set, we define the probability $P(A)$ as a real number with the following properties:
+\begin{enumerate}
+\item $P(A) \geq 0$ is a non-negative real number for any element $A$
+\item The sum of the probabilities of all mutually exclusive subsets in $S$ is equal to 1, $P(S) = 1$
+\item For any two mutually exclusive subsets, $A$ and $B$, of $S$, the probability assigned to their union, $A \cup B$, is given by the sum of their individual probabilities: $P(A \cup B) = P(A) + P(B) $ (an element of the subset $A$ must not be an element of the subset $B$ for them to be mutually exclusive). 
+
+\end{enumerate}
+
+For example, if $S=\{1,2,3,4,5,6\}$ is the set of possible outcomes of dice rolls, the probability of rolling a 5 is defined $P(5)$. The probability of obtaining a roll that is a 5 or a 6 is defined as $ P(5\cup 6)= P(5) + P(6)$. Finally, the sum of all the $P(i)$ is 1. Intuitively, we feel that neither of these outcomes is special compared to the others, so we can assign them all the same value, which by axiom 2, means that $P(i) = 1/6$. We can also define E as the subset of even numbers, $E = 2 \cup 4 \cup 6$, so that $P(E) = P(2) + P(4) + P(6)=\frac{1}{2}$.
+
+We introduce the ``complement of A'', $!A$, to correspond to all elements in the set $S$ that are mutually exclusive with $A$. We also introduce the ``intersection of two subsets'', $A \cap B$, to correspond to the subset of elements that are elements of $A$ and of $B$ (shown in Figure \ref{fig:SetIntersection}). Note that the intersection of two mutually exclusive subsets is empty. From these definitions and using the axioms, one can derive additional properties of probabilities:
+\begin{enumerate}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+\item $P(!A) = 1 - P(A)$
+\item $P(A\; \cup\; !A) =1$
+\item $0\leq P(A) \leq 1$
+\item $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
+\end{enumerate}
+The last property holds for the case where $A$ and $B$ are not necessarily mutually exclusive subsets. 
+\capfig{0.4\textwidth}{figures/SetIntersection.png}{\label{fig:SetIntersection} Illustration of the intersection of two subsets.}
+
+We can introduce the ``conditional property'', $P(A|B)$, which is read as ``the probability of $A$ given $B$'', which is given by:
+\begin{align}
+\label{eqn:conditional}
+P(A|B) = \frac{P(A \cap B)}{P(B)}
+\end{align}
+
+One way to think of the conditional probability, is to first think of taking an element from $B$, and then asking what is the probability that it is also a part of $A$. Only the fraction of the elements of $B$ that are in the intersection of $A$ and $B$ satisfy the conditional probability. 
+
+
+$A$ and $B$ are said to be ``independent'' if:
+\begin{align}
+P(A \cap B) = P(A)P(B)
+\end{align}
+
+If $A$ and $B$ are independent, then the conditional probability simplifies to:
+\begin{align}
+P(A|B) &= \frac{P(A \cap B)}{P(B)} \nonumber\\
+&=\frac{P(A)P(B)}{P(B)} \nonumber\\
+&=P(A)
+\end{align}
+That is, if $A$ and $B$ are independent, the probability of $A$ given $B$ is just the probability of $A$ and does not depend on $B$.
+
+\section{Bayes' Theorem}
+In general, the conditional probability $P(A|B)$ is not equal to $P(B|A)$, however, the two are related. The relationship is easily found using equation \ref{eqn:conditional} to write the probability of the intersection, $P(A \cap B)$ in terms of the conditional probability:
+\begin{align}
+P(A|B) &= \frac{P(A \cap B)}{P(B)}\nonumber\\
+\therefore P(A \cap B) &= P(A|B)P(B)
+\end{align}
+and since $P(A\cap B) = P(B\cap A)$, we can write:
+\begin{align}
+P(A|B)P(B) = P(B|A)P(A)
+\end{align}
+This is often re-arranged in the form:
+\begin{align}
+\label{eqn:Bayes}
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+\end{align}
+and is called ``Bayes' Theorem''. Bayes' theorem not only gives us a way to invert the conditional probability, but as we will see, it gives us an entirely new way to interpret probabilities. The ability to invert the conditional probability also highlights some properties of probabilities that are counter-intuitive. 
+\begin{example}{}{Suppose that there is a rare disease, that only 1\% of the population carries, and a test that is 99\% accurate when someone has the disease (for someone with the disease, the test will be positive 99\% of the time). Furthermore, the test has a false positive rate of 2\% (for someone without the disease, there is a 2\% chance that the test will be positive). If someone tests positive for the disease, what is the probability of actually having the disease?}{}
+\label{ex:BayesDisease}
+We need to calculate the probability of having the disease given that we have tested positive. Bayes' theorem tells us:
+\begin{align*}
+P(have\; disease|tested\; positive) &= \frac{P(tested\; positive | have\; disease)P(have\; disease)}{P(tested\; positive)}
+\end{align*}
+We know the following:
+\begin{itemize}
+\item $P(tested\; positive | have\; disease)=0.99$
+\item $P(have\; disease)=0.01$
+\end{itemize}
+The quantity $P(tested\; positive)$ is not given to us directly, and corresponds to the probability of having a positive test, regardless of having the disease. It is thus the sum of the probability of testing positive if we have the disease, and the probability of testing positive if we don't have the disease. It is given by:
+\begin{align*}
+P(tested\; positive) &= P(have\;disease)\times P(tested\; positive | have\; disease)\\
+&+ P(not\;have\;disease)\times P(tested\; positive |not\; have\; disease)\\
+&=0.01\times 0.99 + 0.99 \times 0.02\\
+&=0.0297
+\end{align*}
+We now have all of the quantities that we need for Bayes' theorem to evaluate the probability of having the disease, given that we have tested positive:
+\begin{align*}
+P(have\; disease|tested\; positive) &= \frac{0.99\times0.01}{0.0297}\\
+&=0.33
+\end{align*}
+That is, there is only a 33\% chance of having the disease even if we tested positive. This seems counter-intuitive, as the test sounds like it should be pretty accurate as it only has a 2\% rate of false positive, yet, testing positive only gives us a 33\% chance of actually having the disease! The reason the test is not actually that good is because the probability of anyone having the disease is 1\% which is very small. For the test to be accurate, it must have a false positive rate that is well below the probability of a random person having the disease.
+\end{example}
+
+Example \ref{ex:BayesDisease} illustrates a common mistake that can be made when trying to invert a conditional probability incorrectly. In the case above, one would be mistaken to assume that a large value of $P(tested\; positive | have\; disease)$ should result in a large value of $P(have\; disease|tested\; positive)$.
+
+In the legal system, this is often called the ``prosecutor's fallacy'', and has led to people being wrongly convicted of crimes as the result of a DNA test. For example, a DNA test may have a very low probability, $P(DNA\;match|innocent)$, of being a match for someone who is innocent. The prosecutor's fallacy would be to attribute a low probability of being innocent to someone with a DNA match, $P(innocent|DNA\;match)$ , without considering, $P(innocent)$, the probability that the person is innocent regardless of the DNA test. From Bayes' theorem, we have:
+\begin{align*}
+P(innocent|DNA\;match) &= \frac{P(DNA\;match | innocent)P(innocent)}{P(DNA\;match)}
+\end{align*}
+
+If the individual is a random person from the population, the probability that they committed the crime is $P(guity)=\frac{1}{N}$, where $N$ is the number of individuals in the population that could commit the crime, and is thus typically very small. $P(innocent)=1-P(guilty)$ would be correspondingly large, which could make the probability of being innocent given a positive DNA match large as well.
+
+Generally, a DNA test should only be used when $P(innocent)$, the probability that the individual is innocent, is already ``small'' based on other factors, for example, if the individual was seen near the scene of the crime, etc. As we will see in the next section, $P(innocent)$ is called the ``prior probability'', and corresponds to the probability that we can assign before integrating new information (such as a DNA test).
+
+It is now hopefully understood in the legal system, that trying to get a DNA match on a cold hit from a database is not a scientifically valid approach. Although the probability to have a DNA match is low, if the database is large, the probability that someone in the database will match is actually high. For example, if the probability of a random DNA match is 1 in 10,000, and the database contains 10,000 individuals, the probability that at least one person will match is 63\% (from the binomial probability). Since that person is a random individual, it is certainly not 63\% probable that they committed the crime, even if the DNA test only has a 0.01\% chance of giving a false positive. One has to remember that the probability that a random person committed the crime is also very small. 
+
+A famous case is that of Sally Clark, a British woman accused of killing her two infants. The probability of having a Sudden Infant Death Syndrome (SIDS) in one child is small, and if it is purely uncorrelated, the probability of having two SIDS death in the same family is even much smaller.  This was used as the basis for convicting her. However, it was not considered that there could be genetic factors that could highly increase the probability of two SIDS in one family. Furthermore, one should not consider the probability of having two SIDS in one family as the only meaningful probability. This probability needs to be compared to the probability of having two murders of infants in one family, which is also very low, potentially even lower than having two SIDS. If the conclusion that she is guilty is based purely on probabilities, then it is not scientifically valid. One would need further supporting evidence to suspect that she murdered her infants, especially if the probability of a random person murdering her two infants is smaller than the probability of two infants dying from SIDS in the same family.
+
+
+\section{Interpretation of probability}
+The interpretation of probabilities is a subtle issue that can cause much confusion and un-necessary debates (e.g. frequentists versus Bayesians).
+
+The frequentist approach (also called the "classical definition") defines probability as the frequency with which you expect a certain outcome if you perform the experiment many times. That is, if you roll the dice 600 times and you got the number five 100 times, then the probability of obtaining a five is 100/600. The frequentist definition implicitly suggests that the measurement can be performed many times and that the probability is precisely a statement on the outcome of many experiments.
+
+When we introduced the binomial probability:
+\begin{align}
+P^{binom}(k,N,p)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}
+\end{align}
+we specifically defined it to be ``the probability to obtain $k$ successes in $N$ trials when we expect an average of $Np$ successes''. That is, we did not actually impose an interpretation on the meaning of $p$. We can in fact use this definition of the binomial probability to define  $p$ as the probability of getting an individual success. For the case of rolling a dice, the probability of obtaining the number five would be defined as the average number of times that we rolled the number five ($Np$) divided by the total number of times that we rolled the dice ($N$). This would be a frequentist interpretation and definition of $p$, the probability to roll the number five.
+
+But what if we ask about the probability of it raining tomorrow? The frequentist approach cannot be applied to define that probability, as there is only one tomorrow. We do not have a well-prescribed method to determine the frequency of how many times ``it rains tomorrow''. At best, we could look at how many days it rains on average and say that the probability of raining on any given day is on average a certain number. But that does not really answer the question about it specifically raining tomorrow. 
+
+The Bayesian definition of probability (also called the ``subjective definition'') is given as a ``degree of belief for something to happen"\''. Specifically, one defines a hypothesis space, S,  and the Bayesian probability, P(A),  is a statement in the confidence of a particular hypothesis, A, to be true. If all hypotheses are mutually exclusive and cover all possibilities, then their set will satisfy the axioms for defining probabilities.
+
+For example, "I am 85\% sure that it will rain tomorrow" is a Bayesian statement on the probability of the  hypothesis that it will rain tomorrow. That probability can be estimated from prior information (such as the weather patterns in the last few days), but it will remain subjective. Some would argue that the Bayesian approach includes the frequentist approach, as a frequentist statement such as "performing an experiment N times will yield k successes" can be regarded as a Bayesian hypothesis. 
+
+The Bayesian interpretation of probabilities is based on Bayes' theorem, which we can write as:
+\begin{align*}
+P(hypothesis|data) &= \frac{P(data | hypothesis)P(hypothesis)}{P(data)}
+\end{align*}
+This gives us a tool to understand the probability of a hypothesis, given some (new) data and our ``prior'' belief in the hypothesis, $P(hypothesis)$. It is a unique approach that allows us to formalize how we include our prior beliefs and new data into a degree of belief in a hypothesis.
+
+The Bayesian interpretation is particularly well-suited for analysing data from a physics experiment, where we want to test a hypothesis using data that we have collected. In the context of a physics experiment, we would have:
+\begin{itemize}
+\item $P(hypothesis | data)$ the probability that given the data the hypothesis is correct, or rather, our new degree of belief in the hypothesis after analysing the data. This is called the ``posterior probability''.
+\item $P(data|hypothesis)$ the probability that given our hypothesis we would get the measured data, also called the ``likelihood'' of the data.
+\item $P(hypothesis)$ our previous degree of belief in the hypothesis, before collecting the new data, also called ``the prior (probability)''.
+\item $P(data)$ is the probability of obtaining the data, regardless of our hypothesis; this is generally not possible to calculate.
+\end{itemize}
+
+Since the probability of the data, $P(data)$, is not usually possible to calculate, it is often omitted, and we write:
+\begin{align*}
+P(hypothesis|data) \propto P(data | hypothesis)P(hypothesis)
+\end{align*}
+$P(data)$ only really serves to normalize the probability of the hypothesis given the data. In a typical application, we would compare the ratios of the probabilities of different hypotheses, so the $P(data)$ would cancel out. For example, we may calculate the ratio of the probability of our hypothesis in a new theory of gravity over the probability in the (null) hypothesis that Newton's (or Einstein's) theory of gravity is correct.
+
+It is also worth noting that the likelihood, $P(data|hypothesis)$ is the same likelihood that we used in previous chapters, when we calculated the probability of getting a certain set of measurements given a model. 
+
+The ``prior probability'', $P(hypothesis)$, is our degree of belief in the hypothesis before collecting the data. This can be a subjective term to define and may be a number that we subjectively ``feel'' is correct, or it could be based on the results of previous experiments. 
+
+The Bayesian interpretation is that we start with a prior probability (a degree of belief about the hypothesis), we then perform an experiment which modifies our prior probability to gives us the posterior probability (i.e. our new degree of belief in the hypothesis). It formalizes how our belief should change, based on the result of an experiment. It is critical to note that the posterior probability (how much we now believe the hypothesis) depends on how much we previously believed the hypothesis.
+
+Consider the following example to determine our degree of belief that aliens probed your brain while you were sleeping. If aliens probe your head while you are asleep, then you will wake up with a headache; there is no question about that! The data is ``you having a headache in the morning'', and the hypothesis is that ``aliens probed your head''. If we define $P(data|hypothesis)$ as the probability that you have a headache in the morning if aliens probed your head, then we could assign it a very high number, say 1, as it would be very likely that you would have a headache if aliens probed your head.
+
+The question is whether you waking up with a headache means that aliens probed your head, or in other words whether you should now believe that $P(hypothesis|data)$ is now also big. The answer is clearly no! The hypothesis that aliens probed your head had a very small probability before you woke up with a headache (a small prior probability, $P(hypothesis)$). There are many reasons why you would have a headache, so even though the data are consistent with the hypothesis, that does not make the hypothesis significantly more likely!
+
+Surely you can find less ridiculous examples in real life where someone has tried to convince you that some data makes some hypothesis sound plausible. That is because they forgot that the prior probability for that theory was infinitesimal to begin with! The less likely a hypothesis is, the more significant the data must be to convince one of the hypothesis (and you can never ``prove'' a hypothesis). Assigning a numerical value to the prior probabilities is the tricky part. You can however agree that Bayes' theorem  gives a useful way to think about probabilities and statistics, and this is why it is often adopted as a modern framework for analysis.
+
+\subsection{Fitting a straight line the Bayesian way}
+A complete development of Bayesian data analysis is beyond the scope of this book, although it is worth illustrating the process. Consider the case where we have $N$ pairs of data points, $(x_i,y_i)$, and we wish to determine the best values for the parameters, $a$ and $b$, of a linear model that describes the data:
+\begin{align*}
+y^{model}(x) = a+bx
+\end{align*}
+The Bayesian approach is to determine the posterior probabilities for the parameters $a$ and $b$, given the data and our prior probabilities for the two parameteters. Let us assume that we have no prior knowledge of $a$, and so we assign $a$, a ``flat'' prior probability that is constant for all values of $a$.  For the slope, $b$, let us assume that it has been measured to be  $\mu_b\pm\sigma_b$ by a previous experiment. We assume that the previous experiment quotes a standard error, so that we can express our prior probability of $b$ as being normally distributed about a mean of $\mu_b$ with a standard deviation of $\sigma_b$: $P^{prior}(b)=P^{norm}(b,\mu_b,\sigma_b)$.
+
+We now regard the posterior probability as the probability that a given choice of parameters is correct given the data (the hypothesis is thus that a given choice of parameters is correct). We will then use this posterior probability to guide us in choosing the best estimates for $a$ and $b$. We write the posterior probability as $P(a,b|data)$, and we will calculate this for many values of $a$ and $b$ and compare the different probabilities that we get. As you can see, we do not need the normalizing term, $P(data)$, since it does not depend on a particular hypothesis (i.e. a particular choice of $a$ and $b$) and we will only care about the relative probabilities for different choices of the parameters.
+
+The posterior probability is proportional to the likelihood multiplied by the prior probabilities:
+\begin{align*}
+P(a,b|data) \propto P(data | a,b)P(a,b)
+\end{align*}
+
+The likelihood, $P(data | a,b)$, is the probability of obtaining a given data set given a particular choice of $a$ and $b$. If we assume that the data points have standard errors only in $y$, then we know that the likelihood is related to the chi-squared that we can calculate between the data and the model for a particular choice of $a$ and $b$ (recall equation \ref{eqn:chilike}):
+\begin{align*}
+P(data | a,b) = e^{-\frac{\chi^2}{2}}
+\end{align*}
+where $\chi^2$ depends on $a$ and $b$ as well as the data. The prior probability is given by:
+\begin{align}
+P(a,b) &= P(a)P(b)\nonumber\\
+&\propto e^{-\frac{(b-\mu_b)^2}{2\sigma_b^2}}
+\end{align}
+where, again, we do not care about the parts of the normalization that are constant and do not depend explicitly on $a$ or $b$. The posterior probability for given choice of $a$ and $b$ is thus given by:
+\begin{align}
+P(a,b|data) \propto e^{-\frac{\chi^2}{2}}e^{-\frac{(b-\mu_b)^2}{2\sigma_b^2}}
+\end{align}
+where you might notice that the (gaussian) prior probability on $b$ is very similar to adding an extra ``penalty term'' to the chi-squared (treating $b$ as a measured value with expected values $\mu_b$ and error $\sigma_b$). The penalty term will give a low value to the posterior probability if $b$ is far from $\mu_b$ (far in terms of the size of $\sigma_b$).
+
+There is a clever algorithm called the Markov Chain Monte Carlo (MCMC) that, given a function for the posterior probability, can draw random values of the parameters $a$ and $b$ such that those parameters are distributed according to the posterior probability. That is, the clever algorithm knows how to numerically evaluate the posterior probability. It is beyond the scope of this book to go into the details of the algorithm, but it is worth seeing its results.
+
+Figure \ref{fig:fakexy} shows a simulated data set with a true offset, $a=3$, and a true slope $b=8$. 
+
+\capfig{0.4\textwidth}{figures/fakexy.png}{\label{fig:fakexy} Simulated data generated with an offset of 3 and a slope of 8.}
+
+Figure \ref{fig:posterior2d} shows a projection of the posterior probability $P(a,b|data)$ onto a 2-dimensional plane corresponding to $a$ and $b$. This was done for the case where the prior probability for $b$ was chosen with $\mu_b=10$ and $\sigma_b=1$. The mean value of $b$ from a previous measurement is thus not consistent with the ``true'' value of $b=8$ that we chose to simulate the data. 
+
+We can see that the posterior probability is maximal in the regions of $b=8.5$ and $a=-1$. The posterior is similar to the chi-squared as a function of $a$ and $b$, except that it also contains the prior probability for $b$. The MCMC algorithm actually allows us to draw a histogram of data that are proportional to the posterior probability, which we could normalize to obtain an actual probability.
+
+\capfig{0.4\textwidth}{figures/posterior2d.png}{\label{fig:posterior2d} 2-dimensional posterior distribution, for the case with $\mu_b=10$ and $\sigma_b=1$.}
+
+In order to estimate our best values for $a$ and $b$, we can project the posterior probability into a 1-dimensional form for $a$ and $b$. This leads to 1-dimensional histograms that are proportional to the prior probability, which we can normalize, as shown in Figure \ref{fig:posterior1d_sigma1}. From this, we can see that the posterior probabilities for both parameters are reasonably close to gaussian. It is thus reasonable to define the best fit values of the parameters as the mean and standard deviation of the gaussian posterior distribution, although one is free to define the best estimate as they please. The true power of the Bayesian method is that one can visualize the actual posterior probability for the parameters. 
+
+If we use the mean and standard deviations to define our best estimate of the parameters, we obtain $a=-0.71\pm1.41$ and $b=8.36 \pm  0.24$. As we have seen previously, the uncertainty in the offset, $a$, is quite large, and the offset is usually difficult to fit precisely. We find that the value of the slope is much closer to the true value, 8, that we used to generate the data than it is to its prior probability value of 10. This is because the uncertainty in the prior value, was rather large, $\sigma_b=1$, and did not influence or updated value of $b$. This illustrates how we used the data to ``update'' our knowledge of the parameter $b$ that we had from a prior experiment.
+
+\capfig{0.7\textwidth}{figures/posterior1d_sigma1.png}{\label{fig:posterior1d_sigma1} 1-dimensional posterior distributions for $a$ and $b$, for the case with $\mu_b=10$ and $\sigma_b=1$. The prior probability for $b$ is also shown.}
+
+Finally, Figure \ref{fig:posterior1d_sigma0p1} shows the 1-d posterior probabilities for the case where $\mu_b=10$ and $\sigma_b=0.1$; that is, when the prior knowledge of $b$ is given a much smaller uncertainty. In this case, we see that posterior for $b$ has a mean that is much closer to 10, and that the distribution is quite narrow, because the prior is given a lot of importance (a small $\sigma_b$). If we use the mean and standard deviations to define our best estimate of the parameters, we obtain $a=-5.141\pm1.22$ and $b=9.75 \pm 0.09$ We also see that the mean value of the parameter $a$ has shifted down; this is to compensate for the higher value of $b$, since you may recall that the slope and offset in a linear fit are usually anti-correlated. This again illustrates how the Bayesian approach allows us to combine prior information with data to update our knowledge. In this case, our prior knowledge was very ``good'' and the data only had a small effect.
+
+\capfig{0.7\textwidth}{figures/posterior1d_sigma0p1.png}{\label{fig:posterior1d_sigma0p1} 1-dimensional posterior distributions for $a$ and $b$, for the case with $\mu_b=10$ and $\sigma_b=0.1$. The prior probability for $b$ is also shown.}

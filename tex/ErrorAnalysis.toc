@@ -74,26 +74,31 @@
 \contentsline {section}{\numberline {7.1}Properties of the normal distribution}{92}{section.7.1}
 \contentsline {subsection}{\numberline {7.1.1}Statistical properties}{93}{subsection.7.1.1}
 \contentsline {subsection}{\numberline {7.1.2}Area underneath the normal distribution pdf}{93}{subsection.7.1.2}
-\contentsline {section}{\numberline {7.2}Why most measurements are normally distributed}{96}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}The Central Limit Theorem}{98}{subsection.7.2.1}
-\contentsline {section}{\numberline {7.3}Combining normally distributed quantities}{100}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Addition of a number to a normally distributed quantity}{100}{subsection.7.3.1}
-\contentsline {subsection}{\numberline {7.3.2}Multiplication of a number with a normally distributed quantity}{100}{subsection.7.3.2}
-\contentsline {subsection}{\numberline {7.3.3}Sum of normally distributed quantities}{101}{subsection.7.3.3}
-\contentsline {subsection}{\numberline {7.3.4}Function of normally distributed quantities}{103}{subsection.7.3.4}
-\contentsline {subsection}{\numberline {7.3.5}The general case: function of non-normally distributed quantities}{104}{subsection.7.3.5}
-\contentsline {section}{\numberline {7.4}Determining parameters of the normal distribution from data}{105}{section.7.4}
-\contentsline {subsection}{\numberline {7.4.1}The principle of maximum likelihood}{105}{subsection.7.4.1}
-\contentsline {subsection}{\numberline {7.4.2}Estimating the mean and standard deviation of a normal distribution from data}{106}{subsection.7.4.2}
-\contentsline {subsection}{\numberline {7.4.3}The error on the mean}{109}{subsection.7.4.3}
-\contentsline {section}{\numberline {7.5}Averaging multiple measurements with standard errors}{112}{section.7.5}
-\contentsline {section}{\numberline {7.6}Summary}{115}{section.7.6}
-\contentsline {chapter}{\numberline {8}Statistics - Modelling Data}{117}{chapter.8}
-\contentsline {section}{\numberline {8.1}Fitting a straight line}{117}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}Linear problems}{117}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}The Method of Least Squares}{118}{subsection.8.1.2}
-\contentsline {subsection}{\numberline {8.1.3}Residuals}{124}{subsection.8.1.3}
-\contentsline {subsection}{\numberline {8.1.4}Correlated parameters}{124}{subsection.8.1.4}
-\contentsline {section}{\numberline {8.2}Non-linear fits}{126}{section.8.2}
-\contentsline {section}{\numberline {8.3}Goodness of fit}{132}{section.8.3}
-\contentsline {section}{\numberline {8.4}Summary}{135}{section.8.4}
+\contentsline {section}{\numberline {7.2}Why most measurements are normally distributed}{97}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}The Central Limit Theorem}{99}{subsection.7.2.1}
+\contentsline {section}{\numberline {7.3}Combining normally distributed quantities}{101}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Addition of a number to a normally distributed quantity}{101}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Multiplication of a number with a normally distributed quantity}{101}{subsection.7.3.2}
+\contentsline {subsection}{\numberline {7.3.3}Sum of normally distributed quantities}{102}{subsection.7.3.3}
+\contentsline {subsection}{\numberline {7.3.4}Function of normally distributed quantities}{104}{subsection.7.3.4}
+\contentsline {subsection}{\numberline {7.3.5}The general case: function of non-normally distributed quantities}{105}{subsection.7.3.5}
+\contentsline {section}{\numberline {7.4}Determining parameters of the normal distribution from data}{106}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}The principle of maximum likelihood}{106}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}Estimating the mean and standard deviation of a normal distribution from data}{107}{subsection.7.4.2}
+\contentsline {subsection}{\numberline {7.4.3}The error on the mean}{110}{subsection.7.4.3}
+\contentsline {section}{\numberline {7.5}Averaging multiple measurements with standard errors}{113}{section.7.5}
+\contentsline {section}{\numberline {7.6}Summary}{116}{section.7.6}
+\contentsline {chapter}{\numberline {8}Statistics - Modelling Data}{118}{chapter.8}
+\contentsline {section}{\numberline {8.1}Fitting a straight line}{118}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Linear problems}{118}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}The Method of Least Squares}{119}{subsection.8.1.2}
+\contentsline {subsection}{\numberline {8.1.3}Residuals}{125}{subsection.8.1.3}
+\contentsline {subsection}{\numberline {8.1.4}Correlated parameters}{125}{subsection.8.1.4}
+\contentsline {section}{\numberline {8.2}Non-linear fits}{127}{section.8.2}
+\contentsline {section}{\numberline {8.3}Goodness of fit}{133}{section.8.3}
+\contentsline {section}{\numberline {8.4}Summary}{136}{section.8.4}
+\contentsline {chapter}{\numberline {9}Statistics - Probabilities and the Bayesian approach}{138}{chapter.9}
+\contentsline {section}{\numberline {9.1}Kolmogorov's axioms}{138}{section.9.1}
+\contentsline {section}{\numberline {9.2}Bayes' Theorem}{140}{section.9.2}
+\contentsline {section}{\numberline {9.3}Interpretation of probability}{142}{section.9.3}
+\contentsline {subsection}{\numberline {9.3.1}Fitting a straight line the Bayesian way}{144}{subsection.9.3.1}

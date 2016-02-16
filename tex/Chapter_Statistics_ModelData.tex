@@ -82,6 +82,11 @@ Since we are interested in minimizing the negative log-likelihood in terms of $m
 \begin{align}
 \chi^2=\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i))^2}{\sigma_{y}^2}
 \end{align}
+The chi-squared is related to the original likelihood by:
+\begin{align}
+\label{eqn:chilike}
+P(x_1,x_2,\dots,x_N,y_1,y_2,\dots,y_N) = e^{-\frac{\chi^2}{2}}
+\end{align}
 
 Before proceeding, we can pause to think of what it means to minimize $\chi^2$. The formula for chi-squared is a sum over all data points of the square distance between the point, $y_i$, and the model prediction, $y^{exp}(x_i)$. That squared distance is then divided (or scaled) by the uncertainty on the point. Thus, if the points are on average 1 standard deviation away from the model prediction, then they will add approximately 1 unit to the chi-squared. For a good model, we expect the chi-squared to be about equal to the number of points. It should be apparent why the method is called the ``method of least squares'', since we are effectively minimizing the squared distance between model and data when minimizing the chi-squared.
 
