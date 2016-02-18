@@ -102,3 +102,7 @@
 \contentsline {section}{\numberline {9.2}Bayes' Theorem}{140}{section.9.2}
 \contentsline {section}{\numberline {9.3}Interpretation of probability}{142}{section.9.3}
 \contentsline {subsection}{\numberline {9.3.1}Fitting a straight line the Bayesian way}{144}{subsection.9.3.1}
+\contentsline {chapter}{\numberline {10}Statistics - The Monte Carlo Method}{149}{chapter.10}
+\contentsline {section}{\numberline {10.1}Random numbers from a computer}{149}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}Random numbers that follow a given distribution}{151}{subsection.10.1.1}
+\contentsline {section}{\numberline {10.2}Monte Carlo simulations}{154}{section.10.2}
