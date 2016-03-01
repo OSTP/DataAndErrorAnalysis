@@ -257,7 +257,7 @@ Figure \ref{fig:normal_ctl} shows a simulated histogram to illustrate the CTL. I
 In this section, we examine the distribution of a quantity that depends on one or more normally distributed quantities.
 
 \subsection{Addition of a number to a normally distributed quantity}
-Given a quantity, $x$, that is normally distributed with a probability $P^{norm}_x(x)$, we wish to know the distribution, $P_F(F)$ of a quantity, $F$, that is given by:
+Given a quantity, $x$, that is normally distributed with a probability density function, $P^{norm}_x(x)$, we wish to know the distribution, $P_F(F)$, of a quantity, $F$, that is given by:
 \begin{align*}
 F=a+x
 \end{align*}
@@ -265,16 +265,16 @@ where $a$ is a constant. Since $x$ is normally distributed, we have:
 \begin{align*}
 P_x(x)&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(x-\mu_x)^2}{2\sigma_x^2}}\\
 \end{align*}
-and we want to know the probability, $P_F(F)$, of obtaining a certain value of $F$. Since $F=a+x$, the probability of obtaining a certain value of $F$ is the same as the probability of obtaining $x=F-a$:
+and we want to know the probability density function, $P_F(F)$. Since $F=a+x$, the probability, $P_F(F)dF$, of obtaining a certain value of $F$ between $F$ and $F+dF$ is the same as that for obtaining the corresponding value of $x$, between $x=F+a$ and $x=F+a+dx=F+a+\frac{dx}{dF}dF = F+a+dF$ (where $dF=dx$, since $\frac{dF}{dx}=1$):
 \begin{align}
 \label{eqn:normsumconstant}
-P_F(F)=P_x(x=F-a)&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{((F-a)-\mu_x)^2}{2\sigma_x^2}}\\
-&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(F-(a+\mu_x))^2}{2\sigma_x^2}}\\
-&=\frac{1}{\sigma_F\sqrt{2\pi}}e^{-\frac{(F-\mu_F)^2}{2\sigma_F^2}}\\
+P_F(F)dF=P_x(x=F-a)dx&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{((F-a)-\mu_x)^2}{2\sigma_x^2}}dx\\
+&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(F-(a+\mu_x))^2}{2\sigma_x^2}}dx\\
+&=\frac{1}{\sigma_F\sqrt{2\pi}}e^{-\frac{(F-\mu_F)^2}{2\sigma_F^2}}dF\\
 \end{align}
 Thus, $F$ is also normally distributed, with the same standard deviation as $x$, $\sigma_F=\sigma_x$, but with the mean shifted to $\mu_F=x+a$.
 \subsection{Multiplication of a number with a normally distributed quantity}
-Given a quantity, $x$, that is normally distributed with a probability $P^{norm}_x(x)$, we wish to know the distribution, $P_F(F)$ of a quantity, $F$, that is given by:
+Given a quantity, $x$, that is normally distributed with a probability, $P^{norm}_x(x)$, we wish to know the distribution, $P_F(F)$ of a quantity, $F$, that is given by:
 \begin{align*}
 F=ax
 \end{align*}
@@ -282,14 +282,14 @@ where $a$ is a constant. Since $x$ is normally distributed, we have:
 \begin{align*}
 P_x(x)&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(x-\mu_x)^2}{2\sigma_x^2}}\\
 \end{align*}
-and we want to know the probability, $P_F(F)$, of obtaining a certain value of $F$. Since $F=ax$, the probability of obtaining a certain value of $F$ is the same as obtaining a value of $x=\frac{F}{a}$:
+and we want to know the probability density function, $P_F(F)$. Since $F=ax$, the probability, $P_F(F)dF$, of obtaining a certain value of $F$ between $F$ and $F+dF$ is the same as that for obtaining the corresponding value of $x$, between $x=\frac{F}{a}$ and $x=\frac{F}{a}+dx=\frac{F}{a}+\frac{dx}{dF}dF = \frac{F}{a}+\frac{1}{a}dF$. Note that $dx=\frac{1}{a}dF$, since $\frac{dx}{dF}=\frac{1}{a}$. The probability is given by:
 \begin{align}
-\label{eqn:normmultconstant}
-P_F(F)=P_x(x=\frac{F}{a})&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(\frac{F}{a}-\mu_x)^2}{2\sigma_x^2}}\\
-&=\frac{1}{a\sigma_x\sqrt{2\pi}}e^{-\frac{(F-a\mu_x)^2}{2\sigma_x^2a^2}}\\
-&=\frac{1}{\sigma_F\sqrt{2\pi}}e^{-\frac{(F-\mu_F)^2}{2\sigma_F^2}}\\
+P_F(F)dF=P_x(x=\frac{F}{a})dx&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(\frac{F}{a}-\mu_x)^2}{2\sigma_x^2}}dx \nonumber\\
+&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(F-a\mu_x)^2}{2\sigma_x^2a^2}}dx\nonumber\\
+&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(F-\mu_F)^2}{2\sigma_F^2}}\frac{1}{a}dF\\
+&=\frac{1}{\sigma_a\sqrt{2\pi}}e^{-\frac{(F-\mu_F)^2}{2\sigma_F^2}}dF\\
 \end{align}
-where we had to divide the term out front by $a$ to keep the probability density function normalized. Thus, $F$ is also normally distributed with a mean of $\mu_F=a\mu_x$, and a standard deviation of $\sigma_F=a\sigma_x$.  
+where we have introduced $\mu_F=a\mu_x$ and $\sigma_F=a\sigma_x$. $P_F(F)$ is the pdf for a normal distribution with mean $\mu_F=a\mu_x$ and standard deviation $\sigma_F=a\sigma_x$. Thus, multiplying a normally distributed quantity by a constant results in a quantity that is still normally distributed, but with a mean and standard deviation that are scaled by that constant. 
 
 \subsection{Sum of normally distributed quantities}
 Let $x$ and $y$ be two independent quantities that are normally distributed about $\mu_x$ and $\mu_y$, with standard deviations $\sigma_x$ and $\sigma_y$, respectively. We would like to know the expected distribution, $P_z(z)$, of their sum, $z=x+y$. We will show that $z$ is normally distributed with a mean $\mu_z=\mu_x+\mu_y$ and a standard deviation $\sigma_z^2=\sigma_x^2+\sigma_y^2$. If we interpret the standard deviations as the uncertainties on the measured quantities, then we will effectively have shown that adding in quadrature is the correct method to obtain the uncertainty on the sum of two quantities.
@@ -370,7 +370,7 @@ where the partial derivatives are evaluates at $\bar x$ and $\bar y$.
 
 The mean value of $F(x,y)$ is thus given by:
 \begin{align}
-\bar F(x_y)&=\frac{1}{N}\sum_{i=1}^{i=N}F(x_i,y_i)\nonumber\\
+\bar F(x,y)&=\frac{1}{N}\sum_{i=1}^{i=N}F(x_i,y_i)\nonumber\\
 &=\frac{1}{N}\sum_{i=1}^{i=N} \left[ F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)  \right]\nonumber\\
 &=\left[F(\bar x,\bar y)\frac{1}{N}\sum_{i=1}^{i=N}1 \right]+\left[\die{F}{x}\frac{1}{N}\sum_{i=1}^{i=N}(x_i-\bar x) \right]+\left[\die{F}{y}\frac{1}{N}\sum_{i=1}^{i=N}(y_i-\bar y) \right]\nonumber\\
 &=F(\bar x,\bar y)
@@ -384,7 +384,7 @@ Thus the mean value, $\bar F(x,y)$, is given by evaluating $F(x,y)$ at the mean 
 
 We now evaluate the variance of $F(x,y)$ (and we can take the square root later to get the standard deviation), by using the definition of the variance:
 \begin{align}
-\sigma_F&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[F(x_i,y_i)-\bar F(x,y)\right]^2\nonumber\\
+\sigma_F^2&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[F(x_i,y_i)-\bar F(x,y)\right]^2\nonumber\\
 &=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)-F(\bar x,\bar y)\right]^2\nonumber\\
 &=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)\right]^2\nonumber\\
 &=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[\left(\die{F}{x}(x_i-\bar x)\right)^2+\left(\die{F}{y}(y_i-\bar y)\right)^2+2 \die{F}{x}\die{F}{y}(x_i-\bar x) (y_i-\bar y) \right]\nonumber\\
@@ -401,7 +401,7 @@ We thus arrive at the formula for propagating the uncertainty in a general funct
 \label{eqn:coverror}
 \sigma_F=\sqrt{\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
 \end{align} 
-This formula can always be used and reduces to our previous formula when the variables are normally distributed and independent (with a covariance of zero). The formula is trivially extended to the case of more than variables by simply adding a covariance term for each pair of variables. We have also incidentally shown that variance of a sum of distributions is the sum of the variances of the distributions, regardless of the underlying distributions.
+This formula can always be used and reduces to our previous formula when the variables are normally distributed and independent (with a covariance of zero). The formula is trivially extended to the case of more than two variables by simply adding a covariance term for each pair of correlated variables, and the corresponding derivative term for each variable. We have also shown how to obtain the variance in the sum of two distributions, regardless of the underlying distributions.
 
 \section{Determining parameters of the normal distribution from data}
 Given a set of $N$ measurements, \{$x_1, x_2, \dots, x_N$\}, of a normally distributed quantity, we wish to estimate the ``true'' value of the mean and standard deviation, $\mu_x$ and $\sigma_x$, of the normal distribution that describes the data. As we will see, the sample mean and the sample standard deviation are good estimates of the mean and standard deviation of the underlying normal distribution.
@@ -418,7 +418,16 @@ Given a specific value of the parameters, $\vec\beta$, we can calculate the like
 \begin{align}
 \die{L}{\beta_i}=0
 \end{align}
-since the maximum of $L$ is found when the derivative is zero.
+since the maximum of $L$ is found when the derivative is zero. Often, it is easier to work with a sum of probabilities rather than a product. We can define the ``log-likelihood'', to be the natural logarithm of the likelihood, and use the property that $\ln(ab)=\ln(a)+\ln(b)$. Because the logarithm is monotonic function, the value of the parameters that maximize the log-likelihood also maximize the likelihood. Generally, the log-likelihood is:
+\begin{align*}
+\ln \left(L(x|\vec\beta)\right) &= \ln \left( \prod_{i=1}^{i=N}P(x_i,\vec\beta) \right) \\
+& = \sum_{i=1}^{i=N} \ln\left(P(x_i,\vec\beta)\right)
+\end{align*}
+and the maximum is given by the condition:
+\begin{align}
+\die{\ln \left(L(x|\vec\beta)\right)}{\beta_i}=0
+\end{align}
+
 \subsection{Estimating the mean and standard deviation of a normal distribution from data}
  In the case of the normal distribution, the likelihood of obtaining a particular set of $N$ measurements, \{$x_1, x_2, \dots,x_N$\}, given a particular choice of mean, $\mu_x$, and standard deviation, $\sigma_x$, is:
 \begin{align}
@@ -488,7 +497,7 @@ As we just saw, the sample mean, $\bar x$, and sample standard deviations, $\sig
 \end{align}
 and we want to show here, that this is the correct uncertainty on our estimate of the mean $\hat\mu_x=\bar x$ of the normal distribution estimated from our measurements.
 
-In order to ``measure'' the error in our estimate of the mean, we would need to estimate the mean many times and see how that is distributed. We would thus need to perform our experiment many, say, $M$ times. In the first experiment, we would measure $N$ values: \{$x^1_1, x^1_2, \dots,x^1_N$\}, and obtain a mean value $\bar x^1$. We would then repeat the experiment a second time, and obtain another $N$ measurements:  \{$x^2_1, x^2_2, \dots,2^1_N$\} with a new mean value $\bar x^2$. We would repeat this $M$ times, until we have obtained $M$ mean values: \{$\bar x^1, \bar x^2, \dots, \bar x^M$\}. In order to understand our error on the mean, we would want to know how the mean values are distributed.
+In order to ``measure'' the error in our estimate of the mean, we would need to estimate the mean many times and see how that is distributed. We would thus need to perform our experiment many, say, $M$ times. In the first experiment, we would measure $N$ values: \{$x^1_1, x^1_2, \dots,x^1_N$\}, and obtain a mean value $\bar x^1$. We would then repeat the experiment a second time, and obtain another $N$ measurements:  \{$x^2_1, x^2_2, \dots,x^2_N$\} with a new mean value $\bar x^2$. We would repeat this $M$ times, until we have obtained $M$ mean values: \{$\bar x^1, \bar x^2, \dots, \bar x^M$\}. In order to understand our error on the mean, we would want to know how the mean values are distributed.
 
 Since the quantity $x$ that we are measuring is normally distributed, we are guaranteed that the mean values, $\bar x^i$, are also normally distributed. This is true by the Central Limit Theorem (even if the $x$ were not normally distributed). We also showed explicitly that the sum of normally distributed quantities is normally distributed (the sample mean, $\bar x$ is just a sum multiplied by a constant $\frac{1}{N}$). We thus know that the sample means, \{$\bar x^1, \bar x^2, \dots, \bar x^M$\}, follow a normal distribution, and we are interested in the standard deviation of that distribution. This is easy to determine using our formula (equation \ref{eqn:normerror}) for the standard deviation of a function of different quantities that are normally distributed.
 
@@ -550,13 +559,13 @@ where we have neglected the normalization factor for the probability, since we w
 
 We can evaluate the joint probability of obtaining both measurements, given by the product of the two probabilities:
 \begin{align}
-P(x_a,x_b)&\propto P(x_a) P(x_b) \nonumber\\
+P(x_a,x_b|X)&\propto P(x_a) P(x_b) \nonumber\\
 &=\frac{1}{\sigma_a}e^{\frac{(x_a-X)^2}{2\sigma_a^2}}\frac{1}{\sigma_b}e^{\frac{(x_b-X)^2}{2\sigma_b^2}}\nonumber\\
 &=\frac{1}{\sigma_a\sigma_b}e^{-\left(\frac{(x_a-X)^2}{2\sigma_a^2}+\frac{(x_b-X)^2}{2\sigma_b^2}\right)}\nonumber\\
 \end{align}
 and we can use this to define our estimate, $\hat X$, to be the value of $X$ that maximizes this joint probability (also called the likelihood of our measurements). Again, instead of maximizing the likelihood, we can minimize the negative of the logarithm of the likelihood, given by:
 \begin{align}
--\ln{P(x_a,x_b)}&=-\ln{\frac{1}{\sigma_a\sigma_b}e^{-\left(\frac{(x_a-X)^2}{2\sigma_a^2}+\frac{(x_b-X)^2}{2\sigma_b^2}\right)}}\nonumber\\
+-\ln{P(x_a,x_b|X)}&=-\ln\left(\frac{1}{\sigma_a\sigma_b}e^{-\left(\frac{(x_a-X)^2}{2\sigma_a^2}+\frac{(x_b-X)^2}{2\sigma_b^2}\right)}\right)\nonumber\\
 &=\ln{\sigma_a}+\ln{\sigma_b}+\left(\frac{(x_a-X)^2}{2\sigma_a^2}+\frac{(x_b-X)^2}{2\sigma_b^2}\right)\nonumber\\
 &=\ln{\sigma_a}+\ln{\sigma_b}+\frac{1}{2}\chi^2
 \end{align} 
@@ -564,7 +573,7 @@ where we have introduced the quantity ``chi-squared'', $\chi^2$:
 \begin{align}
 \chi^2\equiv \frac{(x_a-X)^2}{\sigma_a^2}+\frac{(x_b-X)^2}{\sigma_b^2}
 \end{align}
-Finding the value of $X$ that maximizes the likelihood is thus equivalent to finding the value that minimizes the chi-squared (since the other terms in the log-likelihood do not depend on $X$ and $\sigma_a$ and $\sigma_b$ are constants). The task of minimizing a chi-squared comes up often and is sometime called the ``method of least squares'', since one is trying to find $X$ such that the squared distance to other quantities ($x_a$ and $x_b$ in our case) is minimized. 
+Finding the value of $X$ that maximizes the likelihood is thus equivalent to finding the value that minimizes the chi-squared (since the other terms in the log-likelihood do not depend on $X$ and $\sigma_a$ and $\sigma_b$ are constants). The task of minimizing a chi-squared comes up often and is sometimes called the ``method of least squares'', since one is trying to find $X$ such that the squared distance to other quantities ($x_a$ and $x_b$ in our case) is minimized. 
 
 We can minimize $\chi^2$ analytically in our case, by taking the derivative with respect to $X$:
 \begin{align}
