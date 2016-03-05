@@ -107,7 +107,7 @@ It is now hopefully understood in the legal system, that trying to get a DNA mat
 A famous case is that of Sally Clark, a British woman accused of killing her two infants. The probability of having a Sudden Infant Death Syndrome (SIDS) in one child is small, and if it is purely uncorrelated, the probability of having two SIDS death in the same family is even much smaller.  This was used as the basis for convicting her. However, it was not considered that there could be genetic factors that could highly increase the probability of two SIDS in one family. Furthermore, one should not consider the probability of having two SIDS in one family as the only meaningful probability. This probability needs to be compared to the probability of having two murders of infants in one family, which is also very low, potentially even lower than having two SIDS. If the conclusion that she is guilty is based purely on probabilities, then it is not scientifically valid. One would need further supporting evidence to suspect that she murdered her infants, especially if the probability of a random person murdering her two infants is smaller than the probability of two infants dying from SIDS in the same family.
 
 
-\section{Interpretation of probability}
+\section{The Bayesian interpretation of probability}
 The interpretation of probabilities is a subtle issue that can cause much confusion and un-necessary debates (e.g. frequentists versus Bayesians).
 
 The frequentist approach (also called the "classical definition") defines probability as the frequency with which you expect a certain outcome if you perform the experiment many times. That is, if you roll the dice 600 times and you got the number five 100 times, then the probability of obtaining a five is 100/600. The frequentist definition implicitly suggests that the measurement can be performed many times and that the probability is precisely a statement on the outcome of many experiments.
@@ -156,6 +156,111 @@ The question is whether you waking up with a headache means that aliens probed y
 
 Surely you can find less ridiculous examples in real life where someone has tried to convince you that some data makes some hypothesis sound plausible. That is because they forgot that the prior probability for that theory was infinitesimal to begin with! The less likely a hypothesis is, the more significant the data must be to convince one of the hypothesis (and you can never ``prove'' a hypothesis). Assigning a numerical value to the prior probabilities is the tricky part. You can however agree that Bayes' theorem  gives a useful way to think about probabilities and statistics, and this is why it is often adopted as a modern framework for analysis.
 
+\subsection{The probability that a coin is fair}
+We can use a Bayesian analysis to estimate, based on a result, whether a coin is fair. Let us suppose that we flipped a coin 10 times and obtained heads 7 times, and we wish to use this result to determine the probability, $p$, that the coin will land on heads. We need to formulate this problem into a Bayesian hypothesis. Since $p$ can take a infinite number of values between 0 and 1, we could formulate the hypothesis that $p$ lies between 0.49 and 0.51 to be equivalent to the hypothesis that the coin is fair. Very generally, we can form a continuous number of hypotheses corresponding to $p$ being in different ranges. Let us call $P(p|result)$ the probability density function for $p$, so that $P(p|result)dp$ is the posterior probability that $p$ lies between $p$ and $p+dp$.
+
+From Bayes' theorem, we have:
+\begin{align*}
+P(p|result)=\frac{P(result|p)P(p)}{P(result)}
+\end{align*}
+$P(result|p)$ is simply the binomial probability of obtaining 7 heads out of 10 tosses for a given value of $p$. $P(result)$ is the probability of obtaining 7 out of 10 results, regardless of the value of $p$. Since it does not depend on $p$, we can ignore it, but it is simply given by:
+\begin{align*}
+P(result) = \int_0^1P(result|p)dp
+\end{align*}
+Finally, $P(p)$, is our Bayesian prior probability for our value of $p$. If we have no prior knowledge of whether the coin is fair, we can just make this equal to a constant, independent of $p$. In the case of no prior knowledge (a so-called ``flat prior''):
+\begin{align*}
+P(p|result)\propto P(result|p)=P^{binomial}(k=7,N=10,p)
+\end{align*}
+That is, we can treat the binomial probability as the probability density for $p$, given a fixed value of $k$ and $N$. Using this flat prior, the posterior probability for $p$ can be calculated with the simple python code, and is plotted in Figure \ref{fig:coin_post_flat}.
+
+\begin{lstlisting}[frame=single] 
+import scipy.stats as stats
+import numpy as np
+import pylab as pl
+
+k=7
+N=10
+#An array of many values of p
+p = np.linspace(0,1,1000)
+#The corresponding likelihood for different values
+pbinom = stats.binom.pmf(k,N,p)
+prior = stats.uniform.pdf(p)
+#multiply by the prior (not very useful here!)
+posterior = pbinom*prior
+#normalize the posterior and prior when plotting
+pl.plot(p,posterior/posterior.sum(),color='black',label='posterior')
+pl.plot(p,prior/prior.sum(),'--',color='black',label='prior')
+pl.xlabel('p')
+pl.ylabel('pdf for p to get k={:.0f} and N={:.0f}'.format(k,N))
+pl.legend(loc='best')
+pl.title("Prior with no knowledge about p")
+pl.show()
+\end{lstlisting}
+
+\capfig{0.4\textwidth}{figures/coin_post_flat.png}{\label{fig:coin_post_flat} Posterior probability for the probability that a coin will land on heads, based on having had the result of 7 heads in 10 coin tosses and a flat prior.}
+
+Not surprisingly, the posterior probability for $p$ is peaked at $p=0.7$, however the distribution is quite broad, indicating the the data do not place a very strong constraint on the value of $p$. We can use this posterior probability for $p$ to give our degree of belief that $p$ lies within a certain range. Note that the posterior probability is not normalized. The python code below gives the probability that $p$ is between 0.45 and 0.55:
+\begin{lstlisting}[frame=single] 
+#Define a range for p
+pmin = 0.45
+pmax = 0.55
+#Find the indices of the array p that correspond to those values
+ipmin = (np.abs(p-pmin)).argmin()
+ipmax = (np.abs(p-pmax)).argmin()
+#To get the probability, we sum the posterior for all values in the range
+#and then divide by the sum of all elements to ensure that the probability is normalized
+prob = pbinom[ipmin:ipmax].sum()/pbinom.sum()
+print("The probability that p is between {:.2f} and {:.2f} is {:.1f}%".format(p[ipmin],p[ipmax],100*prob))
+\end{lstlisting}
+with output
+\begin{verbatim}
+The probability that p is between 0.45 and 0.55 is 12.8%
+\end{verbatim}
+
+We can examine the effect of different prior probabilities. For example, if we believe that the coin is fair (perhaps it was provided by your trusted physics professor), we may have a prior probability that is a gaussian centered at $\mu_p=0.5$ with a standard deviation of, say, $\sigma_p$=0.1.
+
+On the other hand, we may believe that the coin is biased (perhaps it was provided by a con artist), so that the prior probability is peaked at values of $p=0$ and $p=1$. The python code below shows how the posterior probability is affected by these different priors, which are plotted in Figure \ref{fig:coin_post_notflat}.
+\begin{lstlisting}[frame=single] 
+#Let's start with an assumption that the coin is likely fair, with p normally distributed about 0.5 with std=0.1
+prior_fair = stats.norm.pdf(p,0.5,0.1)
+posterior_fair = pbinom*prior_fair
+
+pl.figure(figsize=(10,4))
+pl.subplot(121)
+
+#We normalize the prior and posterior to have the same area
+pl.plot(p,posterior_fair/posterior_fair.sum(),color='black',label='posterior')
+pl.plot(p,prior_fair/prior_fair.sum(),'--',color='black',label='prior')
+pl.xlabel('p')
+pl.ylabel('pdf for p to get k={:.0f} and N={:.0f}'.format(k,N))
+pl.legend(loc='best')
+pl.title("Prior that the coin is fair")
+
+#Let's compare with the assumption that the coin is likely unfair (p=0 or 1 are more likely)
+prior_unfair = (p-0.5)**6
+posterior_unfair = pbinom*prior_unfair
+
+#We normalize the prior and posterior to have the same area
+pl.subplot(122)
+pl.plot(p,posterior_unfair/posterior_unfair.sum(),color='black',label='posterior')
+pl.plot(p,prior_unfair/prior_unfair.sum(),'--',color='black',label='prior')
+pl.xlabel('p')
+pl.ylabel('pdf for p to get k={:.0f} and N={:.0f}'.format(k,N))
+pl.legend(loc='upper center')
+pl.title("Prior that the coin is biased")
+
+pl.tight_layout()
+pl.show()
+\end{lstlisting}
+\capfig{0.8\textwidth}{figures/coin_post_notflat.png}{\label{fig:coin_post_notflat} Posterior probabilities for the probability that a coin will land on heads, based on having had the result of 7 heads in 10 coin tosses and a prior that the coin is likely fair or likely biased.}
+
+In these cases, we see that our choice of prior has an effect on the posterior probability and our interpretation of the data. For the fair coin, the posterior is slightly shifted to higher values of $p$, but since the data are not that significant, the posterior probability is still consistent with a value $p=0.5$. For the case of the prior that coin is unfair, the data has resulted in completely rejecting the possibility that $p$ is close to zero, and also results in a low posterior probability that the coin is fair ($p=0.5$). The data combined with our prior probability thus support the conclusion that the coin is unfair. As you can see, in a Bayesian analysis, the effect of the prior probability can be quite large, which is both a good and a bad thing. It is good because it gives us a framework to incorporate previous knowledge, and bad because defining the prior can be subjective. 
+
+In Figure \ref{fig:coin_post_all_big}, we show the posterior probabilities for $p$ after having obtained 70 heads after 100 coin tosses. We show the result for the same three priors as above, namely a flat prior, a prior that the coin is fair, and a prior that the coin is biased. In this case, all three posterior distributions are similar, and we see that the choice of prior had little effect on our analysis. Regardless of our prior, we would conclude that it is unlikely that $p=0.5$. This is because the result of obtaining 70 heads in 100 coin tosses is much more statistically significant than that of obtaining 7 heads in 10 coin tosses. In this case, the data carried much more weight than the prior, which is intuitively satisfying. Thus if we have significant data, the choice of prior matters less, and we can be less concerned about the potentially subjective nature of the prior.
+
+\capfig{0.9\textwidth}{figures/coin_post_all_big.png}{\label{fig:coin_post_all_big} Posterior probabilities that a coin will land on heads, based on having had the result of 70 heads in 100 coin tosses and a flat prior, as well as priors that the coin is likely fair or likely biased.}
+
+\clearpage
 \subsection{Fitting a straight line the Bayesian way}
 A complete development of Bayesian data analysis is beyond the scope of this book, although it is worth illustrating the process. Consider the case where we have $N$ pairs of data points, $(x_i,y_i)$, and we wish to determine the best values for the parameters, $a$ and $b$, of a linear model that describes the data:
 \begin{align*}

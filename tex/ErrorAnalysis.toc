@@ -100,9 +100,10 @@
 \contentsline {chapter}{\numberline {9}Statistics - Probabilities and the Bayesian approach}{139}{chapter.9}
 \contentsline {section}{\numberline {9.1}Kolmogorov's axioms}{139}{section.9.1}
 \contentsline {section}{\numberline {9.2}Bayes' Theorem}{141}{section.9.2}
-\contentsline {section}{\numberline {9.3}Interpretation of probability}{143}{section.9.3}
-\contentsline {subsection}{\numberline {9.3.1}Fitting a straight line the Bayesian way}{145}{subsection.9.3.1}
-\contentsline {chapter}{\numberline {10}Statistics - The Monte Carlo Method}{150}{chapter.10}
-\contentsline {section}{\numberline {10.1}Random numbers from a computer}{150}{section.10.1}
-\contentsline {subsection}{\numberline {10.1.1}Random numbers that follow a given distribution}{152}{subsection.10.1.1}
-\contentsline {section}{\numberline {10.2}Monte Carlo simulations}{155}{section.10.2}
+\contentsline {section}{\numberline {9.3}The Bayesian interpretation of probability}{143}{section.9.3}
+\contentsline {subsection}{\numberline {9.3.1}The probability that a coin is fair}{145}{subsection.9.3.1}
+\contentsline {subsection}{\numberline {9.3.2}Fitting a straight line the Bayesian way}{150}{subsection.9.3.2}
+\contentsline {chapter}{\numberline {10}Statistics - The Monte Carlo Method}{154}{chapter.10}
+\contentsline {section}{\numberline {10.1}Random numbers from a computer}{154}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}Random numbers that follow a given distribution}{156}{subsection.10.1.1}
+\contentsline {section}{\numberline {10.2}Monte Carlo simulations}{159}{section.10.2}
