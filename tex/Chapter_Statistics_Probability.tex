@@ -93,14 +93,14 @@ That is, there is only a 33\% chance of having the disease even if we tested pos
 
 Example \ref{ex:BayesDisease} illustrates a common mistake that can be made when trying to invert a conditional probability incorrectly. In the case above, one would be mistaken to assume that a large value of $P(tested\; positive | have\; disease)$ should result in a large value of $P(have\; disease|tested\; positive)$.
 
-In the legal system, this is often called the ``prosecutor's fallacy'', and has led to people being wrongly convicted of crimes as the result of a DNA test. For example, a DNA test may have a very low probability, $P(DNA\;match|innocent)$, of being a match for someone who is innocent. The prosecutor's fallacy would be to attribute a low probability of being innocent to someone with a DNA match, $P(innocent|DNA\;match)$ , without considering, $P(innocent)$, the probability that the person is innocent regardless of the DNA test. From Bayes' theorem, we have:
+In the legal system, this is often called the ``prosecutor's fallacy'', and has led to people being wrongly convicted of crimes as the result of a DNA test. For example, a DNA test may have a very high probability, $P(DNA\;match|guilty)$, of being a match for someone who is guilty. The prosecutor's fallacy would be to attribute a high probability of being guilty to someone with a DNA match, $P(guilty|DNA\;match)$ , without considering, $P(guilty)$, the probability that the person is guilty regardless of the DNA test. From Bayes' theorem, we have:
 \begin{align*}
-P(innocent|DNA\;match) &= \frac{P(DNA\;match | innocent)P(innocent)}{P(DNA\;match)}
+P(guilty|DNA\;match) &= \frac{P(DNA\;match | guilty)P(guilty)}{P(DNA\;match)}
 \end{align*}
 
-If the individual is a random person from the population, the probability that they committed the crime is $P(guity)=\frac{1}{N}$, where $N$ is the number of individuals in the population that could commit the crime, and is thus typically very small. $P(innocent)=1-P(guilty)$ would be correspondingly large, which could make the probability of being innocent given a positive DNA match large as well.
+If the individual is a random person from the population, the probability that they committed the crime and are guilty is $P(guity)=\frac{1}{N}$, where $N$ is the number of individuals in the population that could commit the crime, and is thus typically very small.
 
-Generally, a DNA test should only be used when $P(innocent)$, the probability that the individual is innocent, is already ``small'' based on other factors, for example, if the individual was seen near the scene of the crime, etc. As we will see in the next section, $P(innocent)$ is called the ``prior probability'', and corresponds to the probability that we can assign before integrating new information (such as a DNA test).
+Generally, a DNA test should only be used when $P(guilty)$, the probability that the individual is guilty, is already ``high'' based on other factors, for example, if the individual was seen near the scene of the crime, etc. As we will see in the next section, $P(guilty)$ is called the ``prior probability'', and corresponds to the probability that we can assign before integrating new information (such as a DNA test).
 
 It is now hopefully understood in the legal system, that trying to get a DNA match on a cold hit from a database is not a scientifically valid approach. Although the probability to have a DNA match is low, if the database is large, the probability that someone in the database will match is actually high. For example, if the probability of a random DNA match is 1 in 10,000, and the database contains 10,000 individuals, the probability that at least one person will match is 63\% (from the binomial probability). Since that person is a random individual, it is certainly not 63\% probable that they committed the crime, even if the DNA test only has a 0.01\% chance of giving a false positive. One has to remember that the probability that a random person committed the crime is also very small. 
 
@@ -171,7 +171,7 @@ Finally, $P(p)$, is our Bayesian prior probability for our value of $p$. If we h
 \begin{align*}
 P(p|result)\propto P(result|p)=P^{binomial}(k=7,N=10,p)
 \end{align*}
-That is, we can treat the binomial probability as the probability density for $p$, given a fixed value of $k$ and $N$. Using this flat prior, the posterior probability for $p$ can be calculated with the simple python code, and is plotted in Figure \ref{fig:coin_post_flat}.
+That is, we can treat the binomial probability as the probability density for $p$, given a fixed value of $k$ and $N$. Using this flat prior, the posterior probability for $p$ can be calculated with the following simple python code, and is plotted in Figure \ref{fig:coin_post_flat}.
 
 \begin{lstlisting}[frame=single] 
 import scipy.stats as stats
@@ -181,7 +181,7 @@ import pylab as pl
 k=7
 N=10
 #An array of many values of p
-p = np.linspace(0,1,1000)
+p = np.linspace(0,1,100000)
 #The corresponding likelihood for different values
 pbinom = stats.binom.pmf(k,N,p)
 prior = stats.uniform.pdf(p)
@@ -199,23 +199,6 @@ pl.show()
 
 \capfig{0.4\textwidth}{figures/coin_post_flat.png}{\label{fig:coin_post_flat} Posterior probability for the probability that a coin will land on heads, based on having had the result of 7 heads in 10 coin tosses and a flat prior.}
 
-Not surprisingly, the posterior probability for $p$ is peaked at $p=0.7$, however the distribution is quite broad, indicating the the data do not place a very strong constraint on the value of $p$. We can use this posterior probability for $p$ to give our degree of belief that $p$ lies within a certain range. Note that the posterior probability is not normalized. The python code below gives the probability that $p$ is between 0.45 and 0.55:
-\begin{lstlisting}[frame=single] 
-#Define a range for p
-pmin = 0.45
-pmax = 0.55
-#Find the indices of the array p that correspond to those values
-ipmin = (np.abs(p-pmin)).argmin()
-ipmax = (np.abs(p-pmax)).argmin()
-#To get the probability, we sum the posterior for all values in the range
-#and then divide by the sum of all elements to ensure that the probability is normalized
-prob = pbinom[ipmin:ipmax].sum()/pbinom.sum()
-print("The probability that p is between {:.2f} and {:.2f} is {:.1f}%".format(p[ipmin],p[ipmax],100*prob))
-\end{lstlisting}
-with output
-\begin{verbatim}
-The probability that p is between 0.45 and 0.55 is 12.8%
-\end{verbatim}
 
 We can examine the effect of different prior probabilities. For example, if we believe that the coin is fair (perhaps it was provided by your trusted physics professor), we may have a prior probability that is a gaussian centered at $\mu_p=0.5$ with a standard deviation of, say, $\sigma_p$=0.1.
 
@@ -254,11 +237,43 @@ pl.show()
 \end{lstlisting}
 \capfig{0.8\textwidth}{figures/coin_post_notflat.png}{\label{fig:coin_post_notflat} Posterior probabilities for the probability that a coin will land on heads, based on having had the result of 7 heads in 10 coin tosses and a prior that the coin is likely fair or likely biased.}
 
-In these cases, we see that our choice of prior has an effect on the posterior probability and our interpretation of the data. For the fair coin, the posterior is slightly shifted to higher values of $p$, but since the data are not that significant, the posterior probability is still consistent with a value $p=0.5$. For the case of the prior that coin is unfair, the data has resulted in completely rejecting the possibility that $p$ is close to zero, and also results in a low posterior probability that the coin is fair ($p=0.5$). The data combined with our prior probability thus support the conclusion that the coin is unfair. As you can see, in a Bayesian analysis, the effect of the prior probability can be quite large, which is both a good and a bad thing. It is good because it gives us a framework to incorporate previous knowledge, and bad because defining the prior can be subjective. 
+In these cases, we see that our choice of prior has an effect on the posterior probability and our interpretation of the data. For the fair coin, the posterior is slightly shifted to higher values of $p$, but since the data are not that significant, the posterior probability is still consistent with a value $p=0.5$. For the case of the prior that the coin is unfair, the data has resulted in us completely rejecting the possibility that $p$ is close to zero, and also results in a low posterior probability that the coin is fair ($p=0.5$). The data combined with our prior probability thus support the conclusion that the coin is unfair. As you can see, in a Bayesian analysis, the effect of the prior probability can be quite large, which is both a good and a bad thing. It is good because it gives us a framework to incorporate previous knowledge, and bad because defining the prior can be subjective.
 
-In Figure \ref{fig:coin_post_all_big}, we show the posterior probabilities for $p$ after having obtained 70 heads after 100 coin tosses. We show the result for the same three priors as above, namely a flat prior, a prior that the coin is fair, and a prior that the coin is biased. In this case, all three posterior distributions are similar, and we see that the choice of prior had little effect on our analysis. Regardless of our prior, we would conclude that it is unlikely that $p=0.5$. This is because the result of obtaining 70 heads in 100 coin tosses is much more statistically significant than that of obtaining 7 heads in 10 coin tosses. In this case, the data carried much more weight than the prior, which is intuitively satisfying. Thus if we have significant data, the choice of prior matters less, and we can be less concerned about the potentially subjective nature of the prior.
+We can use this posterior probability for $p$ to give our degree of belief that $p$ lies within a certain range. Note that the posterior probability is not normalized, so we must normalize it by dividing by the sum of all possible outcomes. The python code below gives the probability that $p$ is between 0.45 and 0.55 for the 3 different priors:
+\begin{lstlisting}[frame=single] 
+#Define a range for p
+pmin = 0.45
+pmax = 0.55
+#Find the indices of the array p that correspond to those values
+ipmin = (np.abs(p-pmin)).argmin()
+ipmax = (np.abs(p-pmax)).argmin()
+#To get the probability, we sum the posterior for all values in the range
+#and then divide by the sum of all elements to ensure that the probability is normalized
+prob = posterior[ipmin:ipmax].sum()/posterior.sum()
+print("With flat prior, the probability that p is between {:.2f} and {:.2f} is {:.2f}%".format(p[ipmin],p[ipmax],100*prob))
+prob = posterior_fair[ipmin:ipmax].sum()/posterior_fair.sum()
+print("With fair prior, the probability that p is between {:.2f} and {:.2f} is {:.2f}%".format(p[ipmin],p[ipmax],100*prob))
+prob = posterior_unfair[ipmin:ipmax].sum()/posterior_unfair.sum()
+print("With unfair prior, the probability that p is between {:.2f} and {:.2f} is {:.7f}%".format(p[ipmin],p[ipmax],100*prob))
+\end{lstlisting}
+with output:
+\begin{verbatim}
+With flat prior, the probability that p is between 0.45 and 0.55 is 13.01%
+With fair prior, the probability that p is between 0.45 and 0.55 is 36.28%
+With unfair prior, the probability that p is between 0.45 and 0.55 is 0.000068%
+\end{verbatim}
+ 
+
+In Figure \ref{fig:coin_post_all_big}, we show the posterior probabilities for $p$ after having obtained 70 heads in 100 coin tosses. We show the result for the same three priors as above, namely a flat prior, a prior that the coin is fair, and a prior that the coin is biased. In this case, all three posterior distributions are similar, and we see that the choice of prior had little effect on our analysis. Regardless of our prior, we would conclude that it is unlikely that $p=0.5$. This is because the result of obtaining 70 heads in 100 coin tosses is much more statistically significant than that of obtaining 7 heads in 10 coin tosses. In this case, the data carried much more weight than the prior, which is intuitively satisfying. Thus if we have significant data, the choice of prior matters less, and we can be less concerned about the potentially subjective nature of the prior.
 
 \capfig{0.9\textwidth}{figures/coin_post_all_big.png}{\label{fig:coin_post_all_big} Posterior probabilities that a coin will land on heads, based on having had the result of 70 heads in 100 coin tosses and a flat prior, as well as priors that the coin is likely fair or likely biased.}
+
+We can again compare the different probabilities that the value of $p$ is between 0.45 and 0.55 for the case of obtaining 70 heads in 100 coin tosses. In all cases, the probability is small and we see that the choice of prior has little impact on our qualitative conclusion that the coin is likely unfair. The output of the code to calculate the probability of $p$ between 0.45 and 0.55 is shown below:
+\begin{verbatim}
+With flat prior, the probability that p is between 0.45 and 0.55 is 0.12%
+With fair prior, the probability that p is between 0.45 and 0.55 is 0.60%
+With unfair prior, the probability that p is between 0.45 and 0.55 is 0.0000058%
+\end{verbatim}
 
 \clearpage
 \subsection{Fitting a straight line the Bayesian way}
@@ -304,10 +319,10 @@ We can see that the posterior probability is maximal in the regions of $b=8.5$ a
 
 In order to estimate our best values for $a$ and $b$, we can project the posterior probability into a 1-dimensional form for $a$ and $b$. This leads to 1-dimensional histograms that are proportional to the prior probability, which we can normalize, as shown in Figure \ref{fig:posterior1d_sigma1}. From this, we can see that the posterior probabilities for both parameters are reasonably close to gaussian. It is thus reasonable to define the best fit values of the parameters as the mean and standard deviation of the gaussian posterior distribution, although one is free to define the best estimate as they please. The true power of the Bayesian method is that one can visualize the actual posterior probability for the parameters. 
 
-If we use the mean and standard deviations to define our best estimate of the parameters, we obtain $a=-0.71\pm1.41$ and $b=8.36 \pm  0.24$. As we have seen previously, the uncertainty in the offset, $a$, is quite large, and the offset is usually difficult to fit precisely. We find that the value of the slope is much closer to the true value, 8, that we used to generate the data than it is to its prior probability value of 10. This is because the uncertainty in the prior value, was rather large, $\sigma_b=1$, and did not influence or updated value of $b$. This illustrates how we used the data to ``update'' our knowledge of the parameter $b$ that we had from a prior experiment.
+If we use the mean and standard deviations to define our best estimate of the parameters, we obtain $a=-0.71\pm1.41$ and $b=8.36 \pm  0.24$. As we have seen previously, the uncertainty in the offset, $a$, is quite large, and the offset is usually difficult to fit precisely. Since the prior for $b$ pulled $b$ away from 8 (towards 10), the offset $a$ was pulled down from the true value of 3, since the offset and slope in a linear fit are anti-correlated. We find that the value of the slope is much closer to the true value, 8, that we used to generate the data than it is to its prior probability value of 10. This is because the uncertainty in the prior value, was rather large, $\sigma_b=1$, and had a small influence on our ``updated'' value of $b$. This illustrates how we used the data to ``update'' our knowledge of the parameter $b$ that we had from a prior experiment.
 
 \capfig{0.7\textwidth}{figures/posterior1d_sigma1.png}{\label{fig:posterior1d_sigma1} 1-dimensional posterior distributions for $a$ and $b$, for the case with $\mu_b=10$ and $\sigma_b=1$. The prior probability for $b$ is also shown.}
 
-Finally, Figure \ref{fig:posterior1d_sigma0p1} shows the 1-d posterior probabilities for the case where $\mu_b=10$ and $\sigma_b=0.1$; that is, when the prior knowledge of $b$ is given a much smaller uncertainty. In this case, we see that posterior for $b$ has a mean that is much closer to 10, and that the distribution is quite narrow, because the prior is given a lot of importance (a small $\sigma_b$). If we use the mean and standard deviations to define our best estimate of the parameters, we obtain $a=-5.141\pm1.22$ and $b=9.75 \pm 0.09$ We also see that the mean value of the parameter $a$ has shifted down; this is to compensate for the higher value of $b$, since you may recall that the slope and offset in a linear fit are usually anti-correlated. This again illustrates how the Bayesian approach allows us to combine prior information with data to update our knowledge. In this case, our prior knowledge was very ``good'' and the data only had a small effect.
+Finally, Figure \ref{fig:posterior1d_sigma0p1} shows the 1-d posterior probabilities for the case where $\mu_b=10$ and $\sigma_b=0.1$; that is, when the prior knowledge of $b$ is given a much smaller uncertainty. In this case, we see that posterior for $b$ has a mean that is much closer to 10, and that the distribution is quite narrow, because the prior is given a lot of importance (a small $\sigma_b$). If we use the mean and standard deviations to define our best estimate of the parameters, we obtain $a=-5.141\pm1.22$ and $b=9.75 \pm 0.09$ We also see that the mean value of the parameter $a$ has shifted down; this is to compensate for the higher value of $b$, since the slope and offset in a linear fit are usually anti-correlated. This again illustrates how the Bayesian approach allows us to combine prior information with data to update our knowledge. In this case, our prior knowledge was very ``significant'' and the data only had a small effect.
 
 \capfig{0.7\textwidth}{figures/posterior1d_sigma0p1.png}{\label{fig:posterior1d_sigma0p1} 1-dimensional posterior distributions for $a$ and $b$, for the case with $\mu_b=10$ and $\sigma_b=0.1$. The prior probability for $b$ is also shown.}

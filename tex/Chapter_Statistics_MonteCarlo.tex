@@ -139,6 +139,7 @@ pl.show()
 \capfig{0.5\textwidth}{figures/randomdist.png}{\label{fig:randomdist} Histogram of 10,000 random numbers generated in python with uniform, normal, binomial, and poisson distributions.}
 
 \section{Monte Carlo simulations}
+\subsection{Simulating coin tosses}
 Let us perform a Monte Carlo simulation of tossing a coin ten times. One ``experiment'' is to throw the coin ten times, and to count the number of heads that we obtain. Over many experiments, we know that the number of heads that we obtain will be binomially distributed. Let us suppose that our coin in unfair and has a probability $p=0.7$ of landing on heads. If we do not know about the binomial distribution, we can use Monte Carlo simulation to obtain the distribution of the number of times that we get heads in ten coin tosses.
 
 To simulate a single coin toss, we can generate a random number, $r$, that is uniformly distributed between 0 and 1. We can define the coin toss to be heads if $r<p=0.7$ and tails if $r\geq p= 0.7$. Since $r$ is uniform, on average we will get 70\% heads and 30\% tails, as desired. To simulate counting the number of heads in ten coin tosses (a single experiment), we generate ten values of $r$ and count how many of them are smaller than 0.7, as in the python code below:
@@ -187,6 +188,7 @@ Figure \ref{fig:coinMC} shows a histogram of the number of heads obtained in the
 
 In the previous example, we could have easily calculated the result, since we know from first principles that the distribution of results is binomially distributed. Let us consider a more complicated example, where the distribution of outcomes is not obvious.
 
+\subsection{Simulating a poutine restaurant}
 Suppose that we are operating a poutine restaurant, and need to decide if it makes sense to stay open one hour later each day. By using Monte Carlo simulation, we can simulate the expected profits of staying open one extra hour to see if they would on average offset the cost of paying to staff the restaurant. We sell 3 types of poutine (traditional, pork, and vegetarian), and each type has a different popularity and results in different amounts of profit (excluding cost of personnel), as tabulated in Table \ref{tab:poutineProfits}.
 \begin{table}[h!]
 \center
@@ -253,6 +255,118 @@ Mean profits: $46.08
 \capfig{0.5\textwidth}{figures/MCpoutine.png}{\label{fig:MCpoutine} Histogram of the distribution of profits in the last hour of the poutine store.}
 
 We can conclude from our simulation that on average, we will generate \$46 of profit by staying open an extra hour, which will be worthwhile if that is enough to cover the cost of the staff. The histogram, if normalized, is truly the probability density function for the expected profits of the store. We can use this pdf to estimate other quantities that may be of interest, such as the profit that we expect to make at lease 90\% of the time (by finding the value where the cumulative distribution function is 0.1). 
+
+\subsection{Monte Carlo simulation for error propagation}
+So far, we have used the general formula propagate uncertainties in measured quantities $x$ and $y$ to the uncertainty in a function $F(x,y)$:
+\begin{align}
+F&=F(x,y)\nonumber\\
+\sigma_{F} &= \sqrt{\left(\die{F}{x}\sigma_x\right)^2 + \left(\die{F}{y} \sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
+\end{align}
+As you recall from Chapter \ref{chap:StatsNormal}, this formula was derived from a Taylor series expansion of $F(x,y)$ near the best estimates for the measured quantities $x$ and $y$. The Taylor series is only valid as long as the error on $x$ and $y$ are small, which is not necessarily always the case. So how do we handle error propagation when the errors are not small? One obvious, albeit mathematically inconvenient, answer is to add more terms into the Taylor series. We could also use the Min-Max method. However, as we will show here, it turns out the the Monte Carlo method is by far the easiest to apply, and in fact will work in all cases.
+
+Let us suppose that we are interested in measuring Coulomb's force from two charges, $q_1$ and $q_2$, that are a distance $r$ apart. The force is given by:
+\begin{align*}
+F = k\frac{q_1q_2}{r^2}
+\end{align*}
+Let us suppose that we have measured all of the quantities with 1\% relative uncertainty, and obtained the following values: $q_1 =10^{-6}$\,C, $q_2 =2\times10^{-5}$\,C, and $r=0.1$\,m (all measurements are $\pm$ 1\%). The following python code calculates the uncertainty using standard error propagation:
+\begin{lstlisting}[frame=single] 
+import numpy as np
+import pylab as pl
+import sympy as sym
+
+#Measured (or numerical) values:
+k_meas = 9e9
+e = 1.6e-19
+q1_meas = 1e-6
+sigma_q1_meas = 0.01*q1_meas
+q2_meas = 2e-5
+sigma_q2_meas = 0.01*q2_meas
+r_meas = 0.1
+sigma_r_meas = 0.01*r_meas
+
+#Define symbols
+k,q1,q2,r,sigma_q1,sigma_q2,sigma_r= sym.symbols('k, q_1 q_2 r sigma_{q1} sigma_{q2} sigma_{r}')
+#F and its uncertainty
+F = k*q1*q2/r**2
+sigma_F =sym.sqrt((sym.diff(F,q1)*sigma_q1)**2+ (sym.diff(F,q2)*sigma_q2)**2+ (sym.diff(F,r)*sigma_r)**2)
+values = [(k,k_meas),(q1,q1_meas),(q2,q2_meas),(r,r_meas),
+          (sigma_q1,sigma_q1_meas),(sigma_q2,sigma_q2_meas),(sigma_r,sigma_r_meas)]
+F_val = F.subs(values)
+sigma_F_val = sigma_F.subs(values)
+print("Using error propagation, the force is:")
+print("F = {:.2f} +/ {:.2f} N".format(F_val,sigma_F_val))
+
+\end{lstlisting}
+The output is:
+\begin{verbatim}
+Using error propagation, the force is:
+F = 18.00 +/ 0.44 N
+\end{verbatim}
+
+Now let us compare this with a Monte Carlo simulation. We will assume that the errors in $q_1$, $q_2$, and $r$ are standard, although it is easy to relax this assumption by using different distributions. The strategy is very simple:
+\begin{enumerate}
+\item generate $N$ randomly normally distributed samples for $q_1$, $q_2$, and $r$
+\item for each sample, calculated a corresponding value of $F$
+\item histogram $F$ to see what the distribution looks like
+\item usually, pick the mean and the standard deviation of the simulated values of $F$ as the best estimate and uncertainty on $F$
+\end{enumerate}
+This is accomplished in the following python code:
+\begin{lstlisting}[frame=single] 
+import numpy as np
+import pylab as pl
+
+#Measured (or numerical) values:
+k_meas = 9e9
+e = 1.6e-19
+q1_meas = 1e-6
+sigma_q1_meas = 0.01*q1_meas
+q2_meas = 2e-5
+sigma_q2_meas = 0.01*q2_meas
+r_meas = 0.1
+sigma_r_meas = 0.01*r_meas
+
+#Generate normally distributed values of r, q1, q2 about their measured values:
+N = 100000 # number of MC samples
+
+#randomly distributed values of q1, q2, and r:
+r_sim = np.random.normal(r_meas,sigma_r_meas,N)
+q1_sim = np.random.normal(q1_meas,sigma_q1_meas,N)
+q2_sim = np.random.normal(q2_meas,sigma_q2_meas,N)
+
+#Generate the corresponding values for the force:
+F_sim = k_meas*q1_sim*q2_sim/r_sim**2
+
+#Plot a histogram of the simulated values of F
+pl.hist(F_sim,bins=50,color='gray')
+pl.xlabel("Simulated Coulomb Force/N")
+pl.show()
+
+print("Using Monte Carlo simulation mean and standard deviation, the force is:")
+print("F = {:.2f} +/ {:.2f} N".format(F_sim.mean(),F_sim.std(ddof=1)))
+\end{lstlisting}
+The output is:
+\begin{verbatim}
+Using Monte Carlo simulation mean and standard deviation, the force is:
+F = 18.00 +/ 0.44 N
+\end{verbatim}
+\capfig{0.5\textwidth}{figures/MCErrorProp.png}{\label{fig:MCErrorProp} Histogram of the simulated values of the Coulomb force when the relative errors on the measured charges and the separation between them is 1\%.}
+
+Figure \ref{fig:MCErrorProp} shows the histogram of the simulated values of the Coulomb force, and we note that it is very close to being normally distributed, thus supporting the use of the Taylor series expansion to propagate the uncertainty. When we take the mean and standard deviations of the values in the histogram, we get an estimate of $F$ that is consistent with the obtained from the error propagation formula, as expected. It is worth noting that the Monte Carlo method is quite a bit easier to implement, since it does not require evaluating the partial derivatives.
+
+We now repeat the same exercise, but using 10\% relative uncertainties on all measurements. Modifying the relevant lines in the python code, we get the following output:
+\begin{verbatim}
+Using error propagtion, the force is:
+F = 18.00 +/ 4.41 N
+Using Monte Carlo simulation mean and standard deviation, the force is:
+F = 18.56 +/ 4.75 N
+\end{verbatim}
+which now disagree in both the best estimate of $F$ and on the uncertainty. This means that \textbf{the values from the error propagation formula are wrong}. The histogram of the simulated values is shown in Figure \ref{fig:MCErrorProp2}, where we can observe that the distribution of simulated values of $F$ is no longer normally distributed (which we no longer expect if the Taylor series approximation no longer holds). If we quote our MC estimate of $F$ as the mean and standard deviation of the simulated values, we need to be careful to specify that this is not a standard error, that is, one cannot assume that $F$ is normally distributed about our quoted value. It is ok to use the mean and standard deviation when reporting the result, but one should be very clear in specifying what is reported. We can also choose to report the estimate of $F$ in a different way, for example, by choosing the mode of the distribution and choosing an uncertainty that covers 68\% of the area around the mode, as long as we precisely report what was done.
+
+
+\capfig{0.5\textwidth}{figures/MCErrorProp2.png}{\label{fig:MCErrorProp2} Histogram of the simulated values of the Coulomb force when the relative errors on the measured charges and the separation between them is 10\%.}
+
+\section{Conclusion}
+
 
 Monte Carlo simulations are particularly well-suited for particle physics, where one is often interested in tracking particles. Due to the quantum nature of how particles interact, one cannot definitely predict how a specific particle will interact, but given the distribution of possible interactions, these can be simulated using the Monte Carlo method. For example, to simulate the energy of gamma rays that one would measure with a germanium detector, one would simulate individual gamma rays many times. Some of the gamma rays would never make it to the detector, while some will be absorbed in the detector, while others will scatter and only leave part of their energy in the detector. Simulations involving the tracking of particles are heavily used in medical physics, for example to estimate the radiation dose that a patient will receive in a given configuration.
 

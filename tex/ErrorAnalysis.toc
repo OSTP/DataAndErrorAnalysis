@@ -107,3 +107,7 @@
 \contentsline {section}{\numberline {10.1}Random numbers from a computer}{154}{section.10.1}
 \contentsline {subsection}{\numberline {10.1.1}Random numbers that follow a given distribution}{156}{subsection.10.1.1}
 \contentsline {section}{\numberline {10.2}Monte Carlo simulations}{159}{section.10.2}
+\contentsline {subsection}{\numberline {10.2.1}Simulating coin tosses}{159}{subsection.10.2.1}
+\contentsline {subsection}{\numberline {10.2.2}Simulating a poutine restaurant}{160}{subsection.10.2.2}
+\contentsline {subsection}{\numberline {10.2.3}Monte Carlo simulation for error propagation}{162}{subsection.10.2.3}
+\contentsline {section}{\numberline {10.3}Conclusion}{165}{section.10.3}
