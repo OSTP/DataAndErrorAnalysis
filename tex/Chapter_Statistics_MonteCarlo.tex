@@ -37,7 +37,6 @@ import pylab as pl
 #Define a function that returns LCG (pseudo) random numbers
 def LCG (a=16807,b=0,M=2147483647):
     N1 = (a*LCG.seed+b) % M
-    #print(LCG.seed)
     LCG.seed = N1
     return N1/M
 
@@ -48,7 +47,7 @@ LCG.seed=10135
 nr=10000
 r=np.zeros(nr)
 for i in range(nr):
-    r[i] = LCG(seed)
+    r[i] = LCG()
 
 #Plot a histogram of the values:
 pl.hist(r,bins=100,color='gray')
@@ -59,6 +58,8 @@ pl.show()
 \end{lstlisting}
 
 \capfig{0.5\textwidth}{figures/LCG.png}{\label{fig:LCG} Distribution of 10,000 numbers generated with the Park Miller Minimal Standard LCG.}
+
+Although LCG PRNGs are easy to implement, there are many much more advanced algorithms that should be used when one needs random numbers. The LCG algorithm was only given here as an example of ``tricking'' a computer to output seemingly random numbers.
 
 \subsection{Random numbers that follow a given distribution}
 Although a good PRNG should be uniform, it is often desirable to generate random numbers according to a specific distribution. For example, one may want to generate numbers that are normally distributed rather than uniformly distributed. This can be done straightforwardly for any distribution using uniformly distributed random numbers.
@@ -86,7 +87,7 @@ G(y) &= \int_{-\infty}^y g(y) = -\frac{1}{\tau} e^{-\frac{y}{\tau}}
 \end{align*}
 Setting $G(y)$ equal to $x$ and inverting:
 \begin{align*}
-x(y) &= G(y)
+x(y) &= G(y)\\
 y(x) &= G^{-1}(x) = -\tau \ln{x} 
 \end{align*}
 That is, if we generate uniform random numbers, $x$, take their natural logarithm and multiply by $-\tau$, the resulting numbers will have a negative exponential distribution with decay constant $\tau$. This is illustrated in the following python code, which uses the uniform random numbers, \code{r}, generated in the code above with the LCG and converts them to numbers, \code{y}, that are exponentially distributed. The resulting histogram is shown in Figure \ref{fig:LCGexpo}.
@@ -139,8 +140,9 @@ pl.show()
 \capfig{0.5\textwidth}{figures/randomdist.png}{\label{fig:randomdist} Histogram of 10,000 random numbers generated in python with uniform, normal, binomial, and poisson distributions.}
 
 \section{Monte Carlo simulations}
+In this section, we examine a few example of Monte Carlo simulations that use random numbers to model a scenario.
 \subsection{Simulating coin tosses}
-Let us perform a Monte Carlo simulation of tossing a coin ten times. One ``experiment'' is to throw the coin ten times, and to count the number of heads that we obtain. Over many experiments, we know that the number of heads that we obtain will be binomially distributed. Let us suppose that our coin in unfair and has a probability $p=0.7$ of landing on heads. If we do not know about the binomial distribution, we can use Monte Carlo simulation to obtain the distribution of the number of times that we get heads in ten coin tosses.
+Let us perform a Monte Carlo simulation of tossing a coin ten times. One ``experiment'' is to throw the coin ten times, and to count the number of heads that we obtained. Over many experiments, we know that the number of heads that we obtain will be binomially distributed. Let us suppose that our coin in unfair and has a probability $p=0.7$ of landing on heads. We can use Monte Carlo simulation to obtain the distribution of the number of times that we get heads in ten coin tosses and, hopefully, recover the binomial distribution.
 
 To simulate a single coin toss, we can generate a random number, $r$, that is uniformly distributed between 0 and 1. We can define the coin toss to be heads if $r<p=0.7$ and tails if $r\geq p= 0.7$. Since $r$ is uniform, on average we will get 70\% heads and 30\% tails, as desired. To simulate counting the number of heads in ten coin tosses (a single experiment), we generate ten values of $r$ and count how many of them are smaller than 0.7, as in the python code below:
 \begin{lstlisting}[frame=single] 
@@ -204,7 +206,7 @@ Vegetarian & 10\% & \$0.50\\
 \caption{\label{tab:poutineProfits} Frequency that each type of poutine is ordered and profit on each type.}
 \end{table}
 
-Let us suppose that during a trial period, we have measured that, on average, 15 customers buy poutines in the restaurant during this extra hour. On average, customers buy 1 poutine, but sometimes they buy more (e.g. for their friends). We only count people that enter the store as a customer if they bought at least 1 poutine. For our Monte Carlo simulation, we will consider as a single ``experiment'' determining the profits in one night of staying open for the extra hour. We will then repeat the experiment many times to obtain the distribution of profits that we expect when having the store open for an extra hour. Our strategy for a single experiment is as follows:
+Let us suppose that during a trial period, we have measured that, on average, 15 customers buy poutines in the restaurant during this extra hour. On average, customers buy 1 poutine, but sometimes they buy more (e.g. for their friends). We only count people that enter the store as a customer if they bought at least 1 poutine. For our Monte Carlo simulation, we will consider as a single ``experiment'' determining the profits in one night of staying open for the extra hour. We will then repeat the experiment many times to obtain the distribution of profits that we expect when having the store open for an extra hour for many nights. Our strategy for a single experiment (one night) is as follows:
 \begin{enumerate}
 \item Draw a random number, \code{ncustomers}, from a Poisson distribution with a mean 15 to be the number of customers that night.
 \item For each customer, draw a random number, \code{npoutines}, from a Poisson distribution with a mean of 1 to be the number of poutines ordered by that customer. If the number is 0, draw again. 
@@ -236,9 +238,9 @@ for iexp in range(Nexp):
             #based on the type, add in the profits for that night:
             if choice<0.7: #traditional
                 profits[iexp] = profits[iexp]+2.00 
-            elif choice>=0.7 and choice <0.9:#pork
+            elif choice>=0.7 and choice <0.9:  #pork
                 profits[iexp] = profits[iexp]+2.50 
-            else:#vegetarian
+            else:  #vegetarian
                 profits[iexp] = profits[iexp]+0.50
                 
 print("Mean profits: ${:.2f}".format(profits.mean())) 
@@ -257,7 +259,7 @@ Mean profits: $46.08
 We can conclude from our simulation that on average, we will generate \$46 of profit by staying open an extra hour, which will be worthwhile if that is enough to cover the cost of the staff. The histogram, if normalized, is truly the probability density function for the expected profits of the store. We can use this pdf to estimate other quantities that may be of interest, such as the profit that we expect to make at lease 90\% of the time (by finding the value where the cumulative distribution function is 0.1). 
 
 \subsection{Monte Carlo simulation for error propagation}
-So far, we have used the general formula propagate uncertainties in measured quantities $x$ and $y$ to the uncertainty in a function $F(x,y)$:
+So far, we have used the general formula to propagate uncertainties in measured quantities $x$ and $y$ to the uncertainty in a function $F(x,y)$:
 \begin{align}
 F&=F(x,y)\nonumber\\
 \sigma_{F} &= \sqrt{\left(\die{F}{x}\sigma_x\right)^2 + \left(\die{F}{y} \sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
@@ -305,8 +307,8 @@ F = 18.00 +/ 0.44 N
 
 Now let us compare this with a Monte Carlo simulation. We will assume that the errors in $q_1$, $q_2$, and $r$ are standard, although it is easy to relax this assumption by using different distributions. The strategy is very simple:
 \begin{enumerate}
-\item generate $N$ randomly normally distributed samples for $q_1$, $q_2$, and $r$
-\item for each sample, calculated a corresponding value of $F$
+\item generate $N$ randomly normally distributed\footnote{If the errors were not standard, but corresponded to some different distribution, we could generate the random numbers from that distribution.} samples for $q_1$, $q_2$, and $r$
+\item for each sample, calculate a corresponding value of $F$
 \item histogram $F$ to see what the distribution looks like
 \item usually, pick the mean and the standard deviation of the simulated values of $F$ as the best estimate and uncertainty on $F$
 \end{enumerate}
@@ -326,9 +328,9 @@ r_meas = 0.1
 sigma_r_meas = 0.01*r_meas
 
 #Generate normally distributed values of r, q1, q2 about their measured values:
-N = 100000 # number of MC samples
+N = 1000000 # number of MC samples
 
-#randomly distributed values of q1, q2, and r:
+#Normally distributed values of q1, q2, and r:
 r_sim = np.random.normal(r_meas,sigma_r_meas,N)
 q1_sim = np.random.normal(q1_meas,sigma_q1_meas,N)
 q2_sim = np.random.normal(q2_meas,sigma_q2_meas,N)
@@ -360,15 +362,50 @@ F = 18.00 +/ 4.41 N
 Using Monte Carlo simulation mean and standard deviation, the force is:
 F = 18.56 +/ 4.75 N
 \end{verbatim}
-which now disagree in both the best estimate of $F$ and on the uncertainty. This means that \textbf{the values from the error propagation formula are wrong}. The histogram of the simulated values is shown in Figure \ref{fig:MCErrorProp2}, where we can observe that the distribution of simulated values of $F$ is no longer normally distributed (which we no longer expect if the Taylor series approximation no longer holds). If we quote our MC estimate of $F$ as the mean and standard deviation of the simulated values, we need to be careful to specify that this is not a standard error, that is, one cannot assume that $F$ is normally distributed about our quoted value. It is ok to use the mean and standard deviation when reporting the result, but one should be very clear in specifying what is reported. We can also choose to report the estimate of $F$ in a different way, for example, by choosing the mode of the distribution and choosing an uncertainty that covers 68\% of the area around the mode, as long as we precisely report what was done.
+which now disagree in both the best estimate of $F$ and on the uncertainty. This means that \textbf{the values from the error propagation formula are wrong}. The histogram of the simulated values is shown in Figure \ref{fig:MCErrorProp2}, where we can observe that the distribution of simulated values of $F$ is no longer normally distributed (which we no longer expect if the Taylor series approximation no longer holds).
+
+If we quote our MC estimate of $F$ as the mean and standard deviation of the simulated values, we need to be careful to specify that this is not a standard error, that is, one cannot assume that $F$ is normally distributed about our quoted value. It is ok to use the mean and standard deviation when reporting the result, but one should be very clear in specifying what is reported.
+
+We can also choose to report the estimate of $F$ in a different way, for example, by choosing the mode of the distribution (the ``most probable value'') and choosing an uncertainty that covers 68\% of the area around the mode, as long as we precisely report what was done. The following python code calculates the range of values symmetrically about the mode of the histogram that give approximately 68\% coverage, which is shown by the lines on Figure \ref{fig:MCErrorProp2}.
+\begin{lstlisting}[frame=single] 
+#Histogram the values and keep the counts in each bin
+n,bins,patches = pl.hist(F_sim,bins=50,color='gray')
+#Find the index of the bin with the highest content (The mode)
+n_max =n.max()
+index = (np.abs(n-n_max)).argmin()
+#The corresponding value of the force
+best_F = bins[index]
+#Iterate to find the 68% coverage
+d=0 # add or subtract d iteratively to index to cover larger ranges of the histogram
+area = n[index-d:index+d].sum()/n.sum() #area between index-d and index+d
+
+while area < 0.68: #normlalize area each time it's calculated
+    d = d+1
+    area = n[index-d:index+d].sum()/n.sum()
+ 
+sigma_F = best_F-bins[index-d]
+
+print("Using Monte Carlo mode and 68% confidence:")
+print("The force is {:.2f} +/- {:.2f} N, with {:.1f}% confidence".format(best_F,sigma_F,100*area))
+
+pl.plot([best_F,best_F],[0,n_max],color='red',lw=3,label='mode = {:.2f} N'.format(best_F))
+pl.plot([best_F-sigma_F,best_F-sigma_F],[0,n_max],'--',color='red',lw=3,label='lower bound ={:.2f} N'.format(best_F-sigma_F))
+pl.plot([best_F+sigma_F,best_F+sigma_F],[0,n_max],'--',color='red',lw=3,label='upper bound ={:.2f} N'.format(best_F+sigma_F))
+pl.xlabel("Simulated Coulomb Force/N")
+pl.title("F = {:.2f} +/- {:.2f} N, with {:.1f}% confidence".format(best_F,sigma_F,100*area))
+pl.legend()
+pl.show()
+\end{lstlisting}
+The output is:
+\begin{verbatim}
+Using Monte Carlo mode and 68% confidence:
+The force is 16.21 +/- 4.69 N, with 70.2% confidence
+\end{verbatim}
+
+\capfig{0.5\textwidth}{figures/MCErrorProp2.png}{\label{fig:MCErrorProp2} Histogram of the simulated values of the Coulomb force when the relative errors on the measured charges and the separation between them is 10\%. The distribution is no longer gaussian. The red lines show the mode of the distribution and a symmetric range about the mode that cover approximately 68\% of the values.}
+
+It is worth noting that the Monte Carlo method always gives the correct estimate of the best estimate and uncertainty, unlike the error propagation formula which relies on a Taylor series being valid. However, for the Monte Carlo method to be correct, one must also include any potential correlation between the parameters as well as the correct distribution for the measured values (which may not be normally distributed), although this caveat applies to the error propagation formula as well. As a minimum, one should use the Monte Carlo method to evaluate whether the error propagation formula is being used in a valid regime. It is also worth noting that, in general, the Monte Carlo method is easier to implement. It will also likely impress your physics professors if you use the MC method to evaluate the uncertainties in an undergraduate laboratory!
 
 
-\capfig{0.5\textwidth}{figures/MCErrorProp2.png}{\label{fig:MCErrorProp2} Histogram of the simulated values of the Coulomb force when the relative errors on the measured charges and the separation between them is 10\%.}
 
-\section{Conclusion}
-
-
-Monte Carlo simulations are particularly well-suited for particle physics, where one is often interested in tracking particles. Due to the quantum nature of how particles interact, one cannot definitely predict how a specific particle will interact, but given the distribution of possible interactions, these can be simulated using the Monte Carlo method. For example, to simulate the energy of gamma rays that one would measure with a germanium detector, one would simulate individual gamma rays many times. Some of the gamma rays would never make it to the detector, while some will be absorbed in the detector, while others will scatter and only leave part of their energy in the detector. Simulations involving the tracking of particles are heavily used in medical physics, for example to estimate the radiation dose that a patient will receive in a given configuration.
-
-The Monte Carlo method is a vast topic with many applications, hopefully this brief overview has given you an ideal of the potential of this method to tackle complex problems.
 
