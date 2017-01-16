@@ -36,9 +36,9 @@
 \contentsline {subsection}{\numberline {3.2.1}Uncertainties from scales - ``Half of the smallest division''}{34}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}Repeatable measurements - ``Mean and uncertainty on the mean''}{35}{subsection.3.2.2}
 \contentsline {subsection}{\numberline {3.2.3}Counting experiments - The square root rule}{36}{subsection.3.2.3}
-\contentsline {section}{\numberline {3.3}Overestimating uncertainties is also bad!}{36}{section.3.3}
+\contentsline {section}{\numberline {3.3}Overestimating uncertainties is also bad!}{37}{section.3.3}
 \contentsline {section}{\numberline {3.4}Reporting measurements, significant figures}{37}{section.3.4}
-\contentsline {section}{\numberline {3.5}Comparing measured quantities}{38}{section.3.5}
+\contentsline {section}{\numberline {3.5}Comparing measured quantities}{39}{section.3.5}
 \contentsline {section}{\numberline {3.6}Summary}{40}{section.3.6}
 \contentsline {chapter}{\numberline {4}Error Propagation}{42}{chapter.4}
 \contentsline {section}{\numberline {4.1}The Min-Max method}{42}{section.4.1}

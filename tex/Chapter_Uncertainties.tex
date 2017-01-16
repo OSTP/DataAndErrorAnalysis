@@ -61,9 +61,9 @@ When we have the opportunity to repeat measurements, we should always do so. If 
 \end{align}
 $\bar x$ is the algebraic average (or ``mean'') of the values, and $\sigma_x$ is called the ``standard deviation'' of the measurements (and requires the mean to be known). The standard deviation is a measure of the average distance between the individual measurements and the mean. It is also representative of the uncertainty on a single measurement. A large standard deviation means that the measurements are spread out over a larger range about the mean.
 
-$\sigma_{\bar x}$ is called the ``error on the mean'', and corresponds to the uncertainty in determining the mean of the measurements, which is smaller than the standard deviation (since it is the standard deviation divided by $\sqrt{N}$). It makes sense for error on the mean to be smaller than that of the individual measurements because it combines the information from multiple measurements. Again, here we assumed that there is no systematic uncertainty that skewed all of the measurements and that the measurements are independent of each other.
+$\sigma_{\bar x}$ is called the ``error on the mean'', and corresponds to the uncertainty in determining the mean of the measurements, which is smaller than the standard deviation (since it is the standard deviation divided by $\sqrt{N}$). It makes sense for the error on the mean to be smaller than that of the individual measurements because it combines the information from multiple measurements. Again, here we assumed that there is no systematic uncertainty that skewed all of the measurements and that the measurements are independent of each other.
 
-The uncertainty that we obtain using the error on the mean does not guarantee that the true value is within the quoted range. In fact, it is carefully designed (under most circumstances) so that there is a 68\% chance that the true value lies within the specified range. We will explain this in chapter \ref{chap:StatsNormal}.
+The uncertainty that we obtain using the error on the mean does not guarantee that the true value is within the quoted range. In fact, it is carefully designed (under most circumstances) so that there is a 68\% chance that the true value lies within the specified range. We will explain why we use 68\% in chapter \ref{chap:StatsNormal}.
 
 \begin{example}{0pt}{What is the central value and uncertainty on $T$, if the following measurements were performed: $T$=\{2.1\,s, 2.2\,s, 2.1\,s, 2.0\,s, 2.3\,s, 2.1\,s\}?}{}
 \label{ex:ChapUncertainties_mean}
@@ -75,17 +75,28 @@ from math import *
 #load the measurements into a numpy array
 Ti = np.array([2.1,2.2,2.1,2.0,2.3,2.1])
 
-#numpy already knows how to fine the mean and standard deviation:
+#numpy already knows how to find the mean and standard deviation:
 Tavg = Ti.mean()
 Tstd = Ti.std(ddof=1)# this results in the N-1 in the denominator instead of N
-Terr = Tstd/sqrt(5)
+Terr = Tstd/sqrt(Ti.size)
 print("Mean = {:.2f}, Standard deviation = {:.2f}, Error on the mean = {:.2f}".format(Tavg, Tstd, Terr))
 print("T = ","{:.2f} +/- {:.2f} s".format(Tavg,Terr))
 \end{lstlisting}
 The output is:
 \begin{verbatim}
-Mean = 2.13, Standard deviation = 0.10, Error on the mean = 0.05
-T =  2.13 +/- 0.05 s
+Mean = 2.13, Standard deviation = 0.10, Error on the mean = 0.04
+T =  2.13 +/- 0.04 s
+\end{verbatim}
+Or, using QExpy:
+\begin{lstlisting}[frame=single] 
+import qexpy as q
+T = q.Measurement([2.1,2.2,2.1,2.0,2.3,2.1])
+q.set_sigfigs(2)
+print("T = ","{:.2f} +/- {:.2f} s".format(T.mean,T.error_on_mean))
+\end{lstlisting}
+The output is:
+\begin{verbatim}
+T =  2.13 +/- 0.04 s
 \end{verbatim}
 
 \end{example}
@@ -108,9 +119,9 @@ This approach of ``discovering a systematic'' uncertainty can apply in undergrad
 \section{Reporting measurements, significant figures}
 In the above example (Example \ref{ex:ChapUncertainties_mean}), we asked python to format the output to 2 decimal places. By default, python would have output the result as $T$ = (2.13333333333 $\pm$ 0.0461880215352)\,s. In this case, it would not make sense to present that many decimal places on the central value, when the uncertainty is much bigger than most of them. Similarly, it does not make sense to claim that we have determined the uncertainty that precisely either. We should quote results and uncertainties showing only ``significant'' digits, and in a way that is the most legible (for example by using scientific notation).
 
-Again, we don not have a perfect rule for determining the significance of digits, but in general, \textbf{the uncertainty should have 1 (and rarely more) ``significant figures''}. By significant figure, we mean digits after leading zeros or before trailing zeros. For example, in the number 00019.21000, only 19.21 are ``significant'', and we say that the measurement is determined to four significant figures. Once the number of significant figures is determined on the uncertainty, one can quote the central value with the same number of figures. When we quote a number, we should ask ourselves if we can justify all of the decimals, or if they are instead arbitrary (maybe from a calculation or from a random fluctuation in the apparatus); if we do not think that we can reproduce a measurement to all of the significant figures that we quoted, then we should consider them as non-significant and not present all of them.
+Again, we do not have a perfect rule for determining the significance of digits, but in general, \textbf{the uncertainty should have 1 (and rarely more) ``significant figures''}. By significant figure, we mean digits after leading zeros or before trailing zeros. For example, in the number 00019.21000, only 19.21 are ``significant'', and we say that the measurement is determined to four significant figures. Once the number of significant figures is determined on the uncertainty, one can quote the central value with the same number of figures. When we quote a number, we should ask ourselves if we can justify all of the decimals, or if they are instead arbitrary (maybe from a calculation or from a random fluctuation in the apparatus); if we do not think that we can reproduce a measurement to all of the significant figures that we quoted, then we should consider them as non-significant and not present all of them.
 
-Usually, we are interested in evaluating the precision of a result; that is, how big the uncertainty is relative to the central value. This tells us something about how accurate the result may be.  The ``relative'' uncertainty (also called the ``fractional uncertainty'') is usually a good measure of the precision, and should generally be quoted with a measurement. The \textbf{relative uncertainty is quoted as a percent and is given by the uncertainty divided by the central value}.
+Usually, we are interested in evaluating the precision of a result; that is, how big the uncertainty is relative to the central value. The ``relative'' uncertainty (also called the ``fractional uncertainty'') is usually a good measure of the precision, and should generally be quoted with a measurement. The \textbf{relative uncertainty is quoted as a percent and is given by the uncertainty divided by the central value}.
 
 In order to help our audience appreciate the precision of our measurement even without giving the relative uncertainty, we should present the number using scientific notation and factoring out the units in a way that it is easy to estimate the relative uncertainty. For example, a measurement of $m$=12000\,g $\pm$ 23\,g, could be presented as $m$=(120.00 $\pm$ 0.23) $\times 10^2$\,g; that way, it is quite obvious that the relative uncertainty is of order 0.2\%.
 

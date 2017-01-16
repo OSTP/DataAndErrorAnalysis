@@ -163,9 +163,9 @@ From Bayes' theorem, we have:
 \begin{align*}
 P(p|result)=\frac{P(result|p)P(p)}{P(result)}
 \end{align*}
-$P(result|p)$ is simply the binomial probability of obtaining 7 heads out of 10 tosses for a given value of $p$. $P(result)$ is the probability of obtaining 7 out of 10 results, regardless of the value of $p$. Since it does not depend on $p$, we can ignore it, but it is simply given by:
+$P(result|p)$ is simply the binomial probability of obtaining 7 heads out of 10 tosses for a given value of $p$. $P(result)$ is the probability of obtaining 7 out of 10 results, regardless of the value of $p$. Since it does not depend on $p$, we can ignore it, but it is given by:
 \begin{align*}
-P(result) = \int_0^1P(result|p)dp
+P(result) = \int_0^1P(result|p)P(p)dp
 \end{align*}
 Finally, $P(p)$, is our Bayesian prior probability for our value of $p$. If we have no prior knowledge of whether the coin is fair, we can just make this equal to a constant, independent of $p$. In the case of no prior knowledge (a so-called ``flat prior''):
 \begin{align*}

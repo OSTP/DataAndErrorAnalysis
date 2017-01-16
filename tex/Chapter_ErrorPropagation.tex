@@ -549,7 +549,7 @@ and shows that the correct uncertainty obtained using the negative covariance is
 
 \clearpage
 \section{Averaging numbers with uncertainties}
-Suppose that two different experiments have measured the same quantity, $X$, and obtained, say $x_1=10 \pm 0.1$ and $x_2=11 \pm 1$, respectively. We assume that both measurements have correctly estimated their uncertainties, and that these each represent a 68\% of the true value being within their quoted uncertainty range. How do we combine both of these measurements into a single average measurement? How do we compute the uncertainty in the average measurement?
+Suppose that two different experiments have measured the same quantity, $X$, and obtained, say $x_1=10 \pm 0.1$ and $x_2=11 \pm 1$, respectively. We assume that both measurements have correctly estimated their uncertainties, and that these each represent a 68\% confidence of the true value being within their quoted uncertainty range. How do we combine both of these measurements into a single average measurement? How do we compute the uncertainty in the average measurement?
 
 If we use the derivative formula to get the average, we find:
 \begin{align*}
@@ -558,7 +558,7 @@ X &= \frac{1}{2} (x_1+x_2)=10.5\\
 \end{align*}
 which does not make much sense. The first measurement, $x_1=10 \pm 0.1$, is clearly more precise than the second one, $x_2=11 \pm 1$. Since we trust both measurements, our average must somehow include the fact that $x_1$ is more precise, and we thus expect that it should be closer to 10 than to 11. We also expect that averaging in a less precise result should not ``blow up'' the uncertainty on our number; at worst it should do nothing to the uncertainty (providing the second measurement is consistent with the first one, which it is in this case). In the extreme case, you can imagine that $x_1$ is well measured, and $x_2$ is not measured at all (maybe Team 2 were busy doing other things and forgot to perform the experiment); in this extreme case, a bad measurement of $x_2$ should not impact our knowledge of $X$ or the uncertainty that we obtained from the $x_1$ measurement. If the two measurements are consistent, we expect that the overall uncertainty should decrease. 
 
-The correct way to combine multiple measurements of the same quantity is to perform a weighted average of the measurements, where the uncertainties (squared) are used as the weights. We will justify this approach in a chapter \ref{chap:StatsNormal}. If $N$ measurements of $X$, $\{x_1, x_2 ,\dots\}$ each have uncertainties, $\{\sigma_{x_1}, \sigma_{x_2} ,\dots\}$, then the average value is given by:
+The correct way to combine multiple measurements of the same quantity is to perform a weighted average of the measurements, where the uncertainties (squared) are used as the weights. We will justify this approach in chapter \ref{chap:StatsNormal}. If $N$ measurements of $X$, $\{x_1, x_2 ,\dots\}$ each have uncertainties, $\{\sigma_{x_1}, \sigma_{x_2} ,\dots\}$, then the average value is given by:
 \begin{align*}
 X &= \frac{\sum_{i=1}^{i=N}w_ix_i}{\sum_{i=1}^{i=N}w_i}\\
 \sigma_{X} &= \frac{1}{\sqrt{\sum_{i=1}^{i=N}w_i}}\\
