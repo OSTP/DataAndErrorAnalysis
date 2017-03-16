@@ -49,6 +49,57 @@ P(A|B) &= \frac{P(A \cap B)}{P(B)} \nonumber\\
 \end{align}
 That is, if $A$ and $B$ are independent, the probability of $A$ given $B$ is just the probability of $A$ and does not depend on $B$.
 
+\begin{example}{}{What is the probability of the sum of two dice being 7 given that one of the dice is a 5?}{}
+\label{ex:ConditionalDice1}
+We need to calculate the conditional probability, $P(sum=7|\text{rolled a 5})$.
+\begin{align}
+P(sum=7|\text{rolled a 5})=\frac{P(sum=7 \cap \text{rolled a 5})}{P(\text{rolled a 5})}
+\end{align}
+The probability of the sum equal to 7 and rolling a 5, $P(sum=7 \cap \text{rolled a 5})$, is given by the probability of rolling  a 2 and 5 together (the only way to get a sum of 7 if one of the dice is a 5). Out of 36 ways to roll a pair of dice, only two of them correspond to one dice being 2 and the other being 5:
+\begin{align}
+P(sum=7 \cap \text{rolled a 5})=\frac{2}{36}
+\end{align}
+The probability of rolling a 5, when rolling two dice is given by counting the number of combinations that have a 5 in them. Out of the 36 possible outcomes, 11 of them contain at least one 5:
+\begin{align}
+P(\text{rolled a 5})=\frac{11}{36}
+\end{align}
+The conditional probability is thus given by:
+\begin{align}
+P(sum=7|\text{rolled a 5})=\frac{P(sum=7 \cap \text{rolled a 5})}{P(\text{rolled a 5})}=\frac{2}{36}\frac{36}{11}=\frac{2}{11}
+\end{align}
+We can verify the result by tabulating all of the outcomes that contain a 5, these are:
+
+ $\{15,25,35,45,55,65,51,52,53,54,56\}$
+ 
+there are 11 such outcomes, two of which sum to seven. 
+\end{example}
+
+\begin{example}{}{If we rolled two dice and the sum was 7, what is the probability that one of the dice is a 5?}{}
+\label{ex:ConditionalDice2}
+This is the inverse of the conditional probability that we had in the previous example. We now need to calculate the conditional probability, $P(\text{rolled a 5}|sum=7)$.
+\begin{align}
+P(\text{rolled a 5}|sum=7)=\frac{P( \text{rolled a 5} \cap sum=7)}{P(\text{sum=7})}
+\end{align}
+The probability of the sum equal to 7 and rolling a 5, $P( \text{rolled a 5} \cap sum=7)$, is the same as in Example \ref{ex:ConditionalDice1}:
+\begin{align}
+P( \text{rolled a 5} \cap sum=7)=\frac{2}{36}
+\end{align}
+The probability of rolling two dice and having a sum equal to 7 is given by
+\begin{align}
+P(sum=7)=\frac{6}{36}
+\end{align}
+as there are 6 combinations of 2 dice that give a sum equal to 7. The conditional probability is thus given by:
+\begin{align}
+P(\text{rolled a 5}|sum=7)=\frac{P( \text{rolled a 5} \cap sum=7)}{P(\text{sum=7})}=\frac{2}{36}\frac{36}{6}=\frac{1}{3}
+\end{align}
+We can verify the result by tabulating all of the outcomes that sum to 7, these are:
+
+$\{16,25,34,43,52,61\}$
+ 
+there are 6 such outcomes, two of which contain the number 5. 
+\end{example}
+
+
 \section{Bayes' Theorem}
 In general, the conditional probability $P(A|B)$ is not equal to $P(B|A)$, however, the two are related. The relationship is easily found using equation \ref{eqn:conditional} to write the probability of the intersection, $P(A \cap B)$ in terms of the conditional probability:
 \begin{align}

@@ -80,7 +80,7 @@ and their variance is given by:
 That is, the mean and standard deviation of measurements that are normally distributed are precisely the mean and standard deviation of the normal distribution.
 
 \subsection{Area underneath the normal distribution pdf}
-As we stated earlier, the total area underneath the normal distribution pdf must equal 1, as it represents the probability of measuring $x$ to be \textit{something}. The area under $x_a$ and $x_b$ represents the probability that $x$ is between $x_a$ and $x_b$:
+As we stated earlier, the total area underneath the normal distribution pdf must equal 1, as it represents the probability of measuring $x$ to be \textit{something}. The area under the normal distribution between $x_a$ and $x_b$ represents the probability that $x$ is between $x_a$ and $x_b$:
 \begin{align}
 P(x_a \leq x \leq x_b) = \int_{x_a}^{x_b}P^{norm}(x,\mu_x,\sigma_x)dx
 \end{align}
@@ -265,7 +265,7 @@ where $a$ is a constant. Since $x$ is normally distributed, we have:
 \begin{align*}
 P_x(x)&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(x-\mu_x)^2}{2\sigma_x^2}}\\
 \end{align*}
-and we want to know the probability density function, $P_F(F)$. Since $F=a+x$, the probability, $P_F(F)dF$, of obtaining a certain value of $F$ between $F$ and $F+dF$ is the same as that for obtaining the corresponding value of $x$, between $x=F+a$ and $x=F+a+dx=F+a+\frac{dx}{dF}dF = F+a+dF$ (where $dF=dx$, since $\frac{dF}{dx}=1$):
+and we want to know the probability density function, $P_F(F)$. Since $F=a+x$, the probability, $P_F(F)dF$, of obtaining a certain value of $F$ between $F$ and $F+dF$ is the same as that for obtaining the corresponding value of $x$, between $x=F-a$ and $x=F-a+dF=F-a+\frac{dF}{dx}dx = F-a+dx$ (since $\frac{dF}{dx}=1$). The probability of obtaining $F$ between $F$ and $F+dF$ is thus equal to the probability of obtaining $x$ between $F-a$ and $F-a+dx$:
 \begin{align}
 \label{eqn:normsumconstant}
 P_F(F)dF=P_x(x=F-a)dx&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{((F-a)-\mu_x)^2}{2\sigma_x^2}}dx\\
@@ -282,8 +282,9 @@ where $a$ is a constant. Since $x$ is normally distributed, we have:
 \begin{align*}
 P_x(x)&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(x-\mu_x)^2}{2\sigma_x^2}}\\
 \end{align*}
-and we want to know the probability density function, $P_F(F)$. Since $F=ax$, the probability, $P_F(F)dF$, of obtaining a certain value of $F$ between $F$ and $F+dF$ is the same as that for obtaining the corresponding value of $x$, between $x=\frac{F}{a}$ and $x=\frac{F}{a}+dx=\frac{F}{a}+\frac{dx}{dF}dF = \frac{F}{a}+\frac{1}{a}dF$. Note that $dx=\frac{1}{a}dF$, since $\frac{dx}{dF}=\frac{1}{a}$. The probability is given by:
+and we want to know the probability density function, $P_F(F)$. Since $F=ax$, the probability, $P_F(F)dF$, of obtaining a certain value of $F$ between $F$ and $F+dF$ is the same as that of obtaining the corresponding value of $x$, between $x=\frac{F}{a}$ and $x=\frac{F+dF}{a}=\frac{F}{a}+\frac{1}{a}\frac{dF}{dx}dx = \frac{F}{a}+dx$ (since  $\frac{dF}{dx}=a$). The probability of obtaining $F$ between $F$ and $F+dF$ is thus equal to the probability of obtaining $x$ between $\frac{F}{a}$ and $\frac{F}{a}+dx$: 
 \begin{align}
+\label{eqn:normmultconstant}
 P_F(F)dF=P_x(x=\frac{F}{a})dx&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(\frac{F}{a}-\mu_x)^2}{2\sigma_x^2}}dx \nonumber\\
 &=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(F-a\mu_x)^2}{2\sigma_x^2a^2}}dx\nonumber\\
 &=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(F-\mu_F)^2}{2\sigma_F^2}}\frac{1}{a}dF\\
@@ -418,7 +419,7 @@ Given a specific value of the parameters, $\vec\beta$, we can calculate the like
 \begin{align}
 \die{L}{\beta_i}=0
 \end{align}
-since the maximum of $L$ is found when the derivative is zero. Often, it is easier to work with a sum of probabilities rather than a product. We can define the ``log-likelihood'', to be the natural logarithm of the likelihood, and use the property that $\ln(ab)=\ln(a)+\ln(b)$. Because the logarithm is monotonic function, the value of the parameters that maximize the log-likelihood also maximize the likelihood. Generally, the log-likelihood is:
+since the maximum of $L$ is found when the derivative is zero. Often, it is easier to work with a sum of probabilities rather than a product. We can define the ``log-likelihood'', to be the natural logarithm of the likelihood, and use the property that $\ln(ab)=\ln(a)+\ln(b)$. Because the logarithm is a monotonic function, the value of the parameters that maximize the log-likelihood also maximize the likelihood. Generally, the log-likelihood is:
 \begin{align*}
 \ln \left(L(x|\vec\beta)\right) &= \ln \left( \prod_{i=1}^{i=N}P(x_i,\vec\beta) \right) \\
 & = \sum_{i=1}^{i=N} \ln\left(P(x_i,\vec\beta)\right)

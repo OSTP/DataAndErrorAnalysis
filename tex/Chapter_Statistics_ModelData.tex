@@ -4,7 +4,7 @@
 %This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
 \chapter{Statistics - Modelling Data}
 \label{Chap:statModelData}
-In this chapter, we examine the topic of modeling data. We consider the aspects of parameter estimation and of model testing. In parameter estimation, we assume that we have a parametric model that can describe our data, and our goal is to determine the parameters of the model. For example, we may expect a linear relationship between two measured quantities and wish to determine the corresponding constant of proportionality (fitting the data with the model). In model testing, we assume that we have a model, and we wish to verify if the data are consistent with the model. For example, we may have data that look like they are linearly related, but we would like to quantify if that is the case. 
+In this chapter, we examine the topic of modeling data. We consider separately the aspects of parameter estimation and of model testing. In parameter estimation, we assume that we have a parametric model that can describe our data, and our goal is to determine the parameters of the model. For example, we may expect a linear relationship between two measured quantities and wish to determine the corresponding constant of proportionality (fitting the data with the model). In model testing, we assume that we have a model, and we wish to verify if the data are consistent with the model. For example, we may have data that look like they are linearly related, but we would like to quantify if that is the case. 
  
 
 \section{Fitting a straight line}
@@ -64,7 +64,7 @@ y=mx+b
 \end{align}
 that best matches the data. For simplicity, we assume that $x$ can be measured with negligible uncertainty compared to the uncertainties on $y$. Furthermore, we assume that each value of $y$, $y_i$, have an uncertainty, $\sigma_{yi}$.
 
-Equation \ref{eqn:mbmodel} is our model for the data. At a given value of $x=x_i$, we expect that we should measure $y^{exp}(x_i)=mx_i+b$. However, since we cannot measure $y$ exactly (due to random errors in our measurement), we will measure a value $y_i$ that is close to the expected value. If the errors in our measurement are truly random, and we measure $y$ many times for a fixed value of $x=x_i$, then we expect a normal distribution of $y_i$ with a mean of $y^{exp}(x_i)$ and a standard deviation, $\sigma_{yi}$. Given a value of $x=x_i$ and our model, the probability of measuring a specific value, $y_i$, is given by the normal distribution:
+Equation \ref{eqn:mbmodel} is our model for the data. At a given value of $x=x_i$, we expect that we should measure $y^{exp}(x_i)=mx_i+b$. However, since we cannot measure $y$ exactly (due to random errors in our measurement), we will measure a value $y_i$ that is close to the expected value. If the errors in our measurement are truly random, and we measure $y$ many times for a fixed value of $x=x_i$, then we expect a normal distribution of $y_i$ with a mean of $y^{exp}(x_i)$ and a standard deviation, $\sigma_{yi}$. Given a value of $x=x_i$ and our model, the probability\footnote{Although this is technically not a probability (it is a probability density), the ultimate goal will be to maximize the probability, which is also maximized when the probability density is maximized.} of measuring a specific value, $y_i$, is given by the normal distribution:
 \begin{align}
 P(x_i,y_i)&=\frac{1}{\sigma_{yi}\sqrt{2\pi}}e^{-\frac{(y_i-y^{exp}(x_i))^2}{2\sigma_{yi}^2}}
 \end{align}
@@ -72,13 +72,13 @@ where the mean of the distribution is given by $y^{exp}(x_i)=mx_i+b$ for the mod
 
 In order to estimate the parameters of our model, $m$ and $b$, we use the principle of maximum likelihood to find the value of $m$ and $b$ that yield the highest joint probability (i.e. likelihood) of obtaining our set of measurements. The joint probability of obtaining our data set, given values of $m$ and $b$, is given by:
 \begin{align*}
-L(x,y|m,b) = P(x_1,x_2,\dots,x_N,y_1,y_2,\dots,y_N|m,b)\propto\prod_{i=1}^{i=N}\frac{1}{\sigma_{yi}}e^{-\frac{(y_i-y^{exp}(x_i))^2}{2\sigma_{yi}^2}}
+L(x,y|m,b) = P(x_1,x_2,\dots,x_N,y_1,y_2,\dots,y_N|m,b)\propto\prod_{i=1}^{i=N}e^{-\frac{(y_i-y^{exp}(x_i))^2}{2\sigma_{yi}^2}}
 \end{align*}
-where we have ignored the normalization constant $\frac{1}{\sigma_{yi}\sqrt{2\pi}}$ since it does not depend on $m$ and $b$ and we are only interested in the maximal value. As we did in the previous chapter, we can take the negative of the logarithm of the likelihood (which we will then want to minimize):
+where we have ignored the normalization constant $\frac{1}{\sigma_{yi}\sqrt{2\pi}}$ since it does not depend on $m$ and $b$ and we are only interested in the maximal value in terms of $m$ and $b$. As we did in the previous chapter, we can take the negative of the logarithm of the likelihood (which we will then want to minimize):
 \begin{align}
--\ln{L(x,y|m,b)}&=\sum_{i=1}^{i=N}\ln(\sigma_{yi})+\frac{1}{2}\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i))^2}{\sigma_{yi}^2}
+-\ln{L(x,y|m,b)}&=\frac{1}{2}\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i))^2}{\sigma_{yi}^2}
 \end{align}
-Since we are interested in minimizing the negative log-likelihood in terms of $m$ and $b$, the first term can be ignored, and we can focus on minimizing the chi-squared, $\chi^2$, given by:
+We can focus on minimizing the chi-squared, $\chi^2$, given by:
 \begin{align}
 \chi^2=\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i))^2}{\sigma_{yi}^2}
 \end{align}
@@ -88,7 +88,7 @@ The chi-squared is related to the original likelihood by:
 L(x,y|m,b) \propto e^{-\frac{\chi^2}{2}}
 \end{align}
 
-Before proceeding, we can pause to think of what it means to minimize $\chi^2$. The formula for chi-squared is a sum over all data points of the square distance between the point, $y_i$, and the model prediction, $y^{exp}(x_i)$. That squared distance is then divided (or scaled) by the uncertainty on the point. Thus, if the points are on average 1 standard deviation away from the model prediction, then they will add approximately 1 unit to the chi-squared. For a good model, we expect the chi-squared to be about equal to the number of points. It should be apparent why the method is called the ``method of least squares'', since we are effectively minimizing the squared distance between model and data when minimizing the chi-squared.
+Before proceeding, we can pause to think of what it means to minimize $\chi^2$. The formula for chi-squared is a sum over all data points of the square distance between the point, $y_i$, and the model prediction, $y^{exp}(x_i)$. That squared distance is then divided (or scaled) by the uncertainty on the point. Thus, if the points are on average 1 standard deviation away from the model prediction, then they will add approximately 1 unit to the chi-squared. For a good model, we expect the chi-squared to be about equal to the number of points. It should be apparent why the method is called the ``method of least squares'', since we are effectively minimizing the squared distance between the model and the data when minimizing the chi-squared.
 
 We assume that each point $y_i$ have the same uncertainty, $ \sigma_{yi} = \sigma_y$. Inserting our model explicitly for $y^{exp}(x_i)$:
 \begin{align}
@@ -515,7 +515,7 @@ where $\Gamma()$ is called the ``gamma function''. Figure \ref{fig:chi2n} shows 
 
 The chi-squared distribution for 14 degrees of freedom is shown in Figure \ref{fig:chi2n14}. For our example from Figure \ref{fig:resdata_fit}, we obtained a chi-squared of 6.8. By looking at the cumulative chi-square distribution in Figure \ref{fig:chi2n14}, we can see that the probability of obtaining a $\chi^2=6.8$ \textit{or less} is 6\%. Conversely, there is a 94\% chance of obtaining a chi-squared of 6.8 or bigger simply from statistical variations in the data if the model is correct. This effectively informs us about the quality of our fit. If the model is correct, we got lucky and obtained a very good fit, and 94\% of the time, we would get a worse chi-squared. We can define the ``p-value'' to be 1 minus the cdf for the chi-squared distribution (which we also called the ``survival fraction'' in general), which in this case is 94\%.
 
-The p-value is the probability of obtaining a chi-squared equal or worse (bigger) than we did, if the the model were correct. We have to make our decision on whether we have a good fit based on a statistical criterion. Typically, we could say that if the p-value is less than 5\%, then the model is not likely to be a good fit. But again, we should take this with a grain of salt and generally make sure that we understand everything about the fit (such as the residuals and the covariance matrix) rather than making a conclusion based on a ``hard'' threshold on the p-value.
+The p-value is the probability of obtaining a chi-squared equal or worse (bigger) than we did, if the model were correct. We have to make our decision on whether we have a good fit based on a statistical criterion. Typically, we could say that if the p-value is less than 5\%, then the model is not likely to be a good fit. But again, we should take this with a grain of salt and generally make sure that we understand everything about the fit (such as the residuals and the covariance matrix) rather than making a conclusion based on a ``hard'' threshold on the p-value.
 
 \capfig{0.5\textwidth}{figures/chi2n14.png}{\label{fig:chi2n14} Probability density and cumulative density functions for the chi-squared distribution for 14 degrees of freedom (as in the case for the fit in Figure \ref{fig:resdata_fit}).}
 
@@ -525,7 +525,7 @@ In this chapter, we used the principle of maximum likelihood to evaluate the par
 \begin{align}
 \chi^2=\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i,\vec\beta))^2}{\sigma_{y_i}^2}
 \end{align}
-which is a sum of the squared distance between the points and the model, divided by the error in the data points. For this reason, the method is also called the ``Method of Least Squares''. We note that this \textbf{method is only valid when we expect the errors on the $y$ points to standard} (i.e. that the uncertainties on the $y$ values correspond to the standard deviation of values of that are normally distributed about the model prediction, $y^{exp}$).
+which is a sum of the squared distance between the points and the model, divided by the error in the data points. For this reason, the method is also called the ``Method of Least Squares''. We note that this \textbf{method is only valid when we expect the errors on the $y$ points to be standard errors} (i.e. that the uncertainties on the $y$ values correspond to the standard deviation of values that are normally distributed about the model prediction, $y^{exp}$).
 
 In the case where the model is linear in the unknown parameters, one can minimize the chi-squared analytically (by taking the derivatives with respect to the parameters and setting them equal to zero) and obtain a set of coupled linear equations for the parameters. We showed this explicitly for the model:
 \begin{align}

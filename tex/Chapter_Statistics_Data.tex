@@ -134,7 +134,7 @@ Let us suppose that we have two quantities, $x$ and $y$, that we measure simulta
 \end{align}
 where $\bar x$ and $\bar y$ are the means of the measurements of $x$ and $y$, respectively. The $N-1$ in the denominator has the same origin as when calculating the variance, and is required to recover the correct formula for the variance if $y=x$. The covariance is thus positive when $x$ and $y$ tend to both be larger or smaller than their mean at the same time (for example $x_i$ bigger than $\bar x$ means that $y_i$ is likely bigger than $\bar y$). The covariance is negative when $x$ and $y$ tend to be in opposite directions from their means at the same time (e.g. $x_i$ bigger than $\bar x$ leads to $y_i$ being smaller than $\bar y$). The covariance is near 0 when a value of $x$ bigger or smaller than $\bar x$ does not lead to a value of $y$ that is predictably bigger or smaller than $\bar y$. When the covariance is positive we say that $x$ and $y$ are correlated, whereas when it is negative, we say that they are ``anti-correlated''.
 
-The correlation factor, $\rho_{xy}$, sometimes also called $r$ or $R$ or ``the r-factor'', is simply the covariance divided by the standard deviations of $x$ and $y$, $\sigma_x$ and $\sigma_y$, respectively. This leads to $\rho_{xy}$ being bound between -1 and 1. A correlation factor of 1 means that $x$ and $y$ are perfectly correlated, a value of 0 indicates that they are un-correlated, and a value of -1 that they are perfectly uncorrelated. The correlation factor, $\rho_{xy}$ is given by:
+The correlation factor, $\rho_{xy}$, sometimes also called $r$ or $R$ or ``the r-factor'', is simply the covariance divided by the standard deviations of $x$ and $y$, $\sigma_x$ and $\sigma_y$, respectively. This leads to $\rho_{xy}$ being bound between -1 and 1. A correlation factor of 1 means that $x$ and $y$ are perfectly correlated, a value of 0 indicates that they are un-correlated, and a value of -1 that they are perfectly anti-correlated. The correlation factor, $\rho_{xy}$ is given by:
 \begin{align}
 \rho_{xy}\equiv\frac{\sigma_{xy}}{\sigma_x\sigma_y}
 \end{align}
@@ -199,7 +199,7 @@ We can ask ourselves whether a particular correlation is ``significant'', that i
 
 
 \section{The histogram}
-The histogram is a way to visualize a set of measurements of the same quantity. With repeated measurements, we generally obtain a ``distribution'' of values and the histogram is  way to visualize that distribution. In example \ref{ex:meanvardata}, we had the following measurements: $x_i=$\{ 1., 1., 1.1, 1.1, 1.2, 1.2, 1.3, 1.3, 1.3, 1.4, 1.5, 1.6 \} for the value of some parameter, $x$. One way to visualize these data is to count how many times each value occurs and to make a table, as in Table \ref{tab:measfreq}
+The histogram is a way to visualize a set of measurements of the same quantity. With repeated measurements, we generally obtain a ``distribution'' of values and the histogram is a way to visualize that distribution. In example \ref{ex:meanvardata}, we had the following measurements: $x_i=$\{ 1., 1., 1.1, 1.1, 1.2, 1.2, 1.3, 1.3, 1.3, 1.4, 1.5, 1.6 \} for the value of some parameter, $x$. One way to visualize these data is to count how many times each value occurs and to make a table, as in Table \ref{tab:measfreq}
 \begin{table}[!ht]
 \center
 \begin{tabular}{|c|c|}

@@ -29,7 +29,7 @@ The period of this class of PRNGs depends on the choice of constants and is at m
 
 A reasonable choice is Park and Miller's ``Minimal Standard'', with $a=16807$, $b=0$, and $M=2^{31}-1=2147483647$, which passes most stringent tests for a PRNG. A particularly terrible choice is the so-called RANDU generator, $a=65539$, $b=0$, $M=2^{31}$. This last choice was implemented on IBM machines for many years and has led to a plethora of inaccurate results (and probably still undiscovered ones).  
 
-The following python code is a simple implementation of the LCG, which used the Park Miller minimal standard by default. Note the use of a ``function attribute'', \code{LCG.seed}, to store a number that the \code{LCG()} function updates (it starts with the seed of the sequence, and then gets updated with the latest value of $N_i$ to generate a new number the next time that it is called). A histogram of the values generated is shown in Figure \ref{fig:LCG}.
+The following python code is a simple implementation of the LCG, which uses the Park Miller minimal standard by default. Note the use of a ``function attribute'', \code{LCG.seed}, to store a number that the \code{LCG()} function updates (it starts with the seed of the sequence, and then gets updated with the latest value of $N_i$ to generate a new number the next time that it is called). A histogram of the values generated is shown in Figure \ref{fig:LCG}.
 \begin{lstlisting}[frame=single] 
 import numpy as np
 import pylab as pl
@@ -80,17 +80,21 @@ y(x) = G^{-1}(x)
 
 The function inversion cannot usually be done analytically, although one can easily program a function inversion using interpolation from tabulated values. Also note that for distributions, $g(y)$ that are not monotonous, it may not be possible to use this method if the function inverse is not one-to-one. For example, if this method were used for the normal distribution, then it would only generate values on one side of the mean (but the algorithm could easily be modified to generate numbers that are symmetric about the mean).
 
-As an example that can be done analytically, let us suppose that we want to generate random numbers that are distributed according to an exponential, $g(y) = e^{-\frac{y}{\tau}}$, we can analytically find the cdf, $G(y)$:
+As an example that can be done analytically, let us suppose that we want to generate random numbers that are distributed according to an exponential probability density function, $g(y) = \frac{1}{\tau}e^{-\frac{y}{\tau}}$. The cdf, $G(y)$, is easily found:
 \begin{align*}
-g(y) &= e^{-\frac{y}{\tau}}\nonumber\\
-G(y) &= \int_{-\infty}^y g(y) = -\frac{1}{\tau} e^{-\frac{y}{\tau}}
+g(y) &= \frac{1}{\tau}e^{-\frac{y}{\tau}}\nonumber\\
+G(y) &= \int_{0}^y g(y) = 1- e^{-\frac{y}{\tau}} 
 \end{align*}
 Setting $G(y)$ equal to $x$ and inverting:
 \begin{align*}
-x(y) &= G(y)\\
+x(y) &= G(y)=1- e^{-\frac{y}{\tau}} \\
+y(x) &= G^{-1}(x) = -\tau \ln(1-x) 
+\end{align*}
+Since the $x$ are uniformly distributed between 0 and 1, $1-x$ is also uniformly distributed between 0 and 1, and we can simplify this to:
+\begin{align*}
 y(x) &= G^{-1}(x) = -\tau \ln{x} 
 \end{align*}
-That is, if we generate uniform random numbers, $x$, take their natural logarithm and multiply by $-\tau$, the resulting numbers will have a negative exponential distribution with decay constant $\tau$. This is illustrated in the following python code, which uses the uniform random numbers, \code{r}, generated in the code above with the LCG and converts them to numbers, \code{y}, that are exponentially distributed. The resulting histogram is shown in Figure \ref{fig:LCGexpo}.
+where the ``new'' $x$ ($=1-x$) are uniformly distributed between 0 and 1, as were the original $x$. That is, if we generate uniform random numbers, $x$, take their natural logarithm and multiply by $-\tau$, the resulting numbers will have a negative exponential distribution with decay constant $\tau$. This is illustrated in the following python code, which uses the uniform random numbers, \code{r}, generated in the code above with the LCG and converts them to numbers, \code{y}, that are exponentially distributed. The resulting histogram is shown in Figure \ref{fig:LCGexpo}.
 
 \begin{lstlisting}[frame=single] 
 #using the array of values, r, we transform these into values y:

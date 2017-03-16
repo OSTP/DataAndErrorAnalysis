@@ -49,6 +49,13 @@ P^{binom}(k,N,p)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}
 \end{align}
 which is called the \textbf{binomial probability} mass function\footnote{Since this is a function of a discrete variable, $k$, we call it a ``probability mass function'' instead of a ``probability density function''.}.
 
+Since this represents a probability, it naturally follows that:
+\begin{align}
+\label{eqn:binomialP_norm}
+\sum_{k=0}^{k=N}P^{binom}(k,N,p)=1
+\end{align}
+That is, the sum of the probabilities of all possible outcomes (from $k=0$ to $k=N$ successes) must equal 1. We say that the probability mass function is normalized.
+
 Let us suppose that we run a food stand that sells three different kinds of poutines: a classic poutine, a poutine with pulled pork, and a vegetarian poutine (with vegetarian gravy). Our historical data show that 70\% of customers purchase a classic poutine, 20\% of customers purchase the pork poutine, and 10\% purchase the vegetarian option. It is one hour before closing time and we are running low on pork; we only have enough pork for 5 poutines and want to know if we should send someone to buy more. From our previous data, we also know that in the hour before closing, we should expect about 15 customers. Thus, we can ask ourselves, what is the probability that we will get $k=5$ customers out of $N=15$ customers that order pork poutines in the next hour? Using the binomial distribution, we can easily estimate that quantity to be:
 \begin{align*}
 P(k=5,N=15,p=0.2)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}=0.103
@@ -146,7 +153,7 @@ We can plot a normalized histogram of these numbers and overlay the binomial dis
 
 \capfig{0.5\textwidth}{figures/binomial_data.png}{\label{fig:binomial_data} Binomial distribution for $N=15$ and $p=0.2$ overlaid with simulated data from 100 measurements of the number of customers out of that bought a pork poutine (simulated with a binomial distribution with $p=0.2$). }
 
-We do not yet have the tools to quantitatively conclude whether the distribution of the data (the histogram) agrees with the predicted distribution from our binomial distribution model, but looking by eye, it does seem that the binomial distribution is a good model for the histogram of the data. As you can see, the histogram itself, when normalized, can be thought of as a probability distribution. With no model, we could generate the histogram using the data, and then use that histogram to make statements about the probability of have between, say, 3 and 4 pork poutine orders. 
+We do not yet have the tools to quantitatively conclude whether the distribution of the data (the histogram) agrees with the predicted distribution from our binomial distribution model, but looking by eye, it does seem that the binomial distribution is a good model for the histogram of the data. As we have already seen, the histogram itself, when normalized, can be thought of as a probability distribution. With no model, we could generate the histogram using the data, and then use that histogram to make statements about the probability of having between, say, 3 and 4 pork poutine orders from the last 15 customers. 
 
 \subsection{Statistical properties of the binomial distribution}
 The mean of measurements that follow the binomial distribution, $\bar k$, for $N$ trials with probability $p$ of success is given by:
@@ -394,7 +401,18 @@ The standard deviation (the square root of the variance) is thus given by $\sqrt
 
 We can go back to Example \ref{ex:BinomialPhones}, where we had counted the number of students that had checked their phone during the lectures. From the data, we found a mean of 6.1 students checking their phone with a variance of 3.4. If the students checking their phones are binomially distributed, then we expected the variance to be 4.2. Now that we know the variance for a Poisson process, we can see if the students are closer to that distribution. The expected number, $n$, for the Poisson process is also 6.1 (it is equal to the mean of the binomial). The expected variance, if the process of student checking their phones is Poisson, is thus also 6.1. We can see that, in this case, the data (based on their variance) are more consistent with the binomial distribution than the Poisson distribution.
 
+\subsection{Time between Poisson events}
 One other interesting property of the Poisson distribution is that if you measure the time interval between two events, the distribution of those times will follow a decaying exponential. That is, you will more often have two Poisson events that follow each other close in time, rather than having a long time between events. For example, if you look at radioactive decays and measure the time between two decays, you will find that two decays happen in rapid succession more often than with a long time interval. A more tangible example is that airplane crashes seem to appear in bunches rather than spread out regularly over time. This is because airplane crashes are rare (Poisson) events, so it is in fact more likely to have them occur closely in time rather than regularly spread out over the year. A mis-understanding of Poisson statistics also leads to people predicting impeding doomsdays when ``terrible'' events happen in close succession: it is in fact more likely for several terrible events to happen in close succession than evenly spread apart. 
+
+This observation is rather perplexing, since the Poisson events are independent of each other and intuitively, we would expect the  events not to be able to influence when other independent events happen in time (they don't!). If we ask ourselves, what the probability is that no events ($k=0$) will happen in a time interval $\Delta t$, we can write:
+\begin{align}
+ P(k=0,n)=\frac{n^k e^{-n}}{k!} =e^{-n}
+\end{align}
+If the average rate of events per unit time is $\lambda$, then in a period $\Delta t$, we expect, $n=\lambda\Delta t$, and the probability of no events happening in that period is:
+\begin{align}
+ P(k=0,n)=P(k=0,\Delta t)= e^{-\lambda \Delta t}
+\end{align}
+That is, the probability of obtaining a period $\Delta t$ with no events in it goes down exponentially! In other words, the smaller values of $\Delta t$, the time between events, are (exponentially) more likely than longer periods \footnote{For this to give the probability density function for $\Delta t$, we would still need to normalize it, giving $P(\Delta t)=\frac{1}{\lambda}e^{-\lambda \Delta t}$}.
 
 \section{Statistical hypothesis testing}
 We can now apply our understanding of distributions to statistical hypothesis testing. The general idea is that given the result of a measurement, we want to be able to make a quantitative statement about how likely the result is based on a hypothesis. If the result is very unlikely according to the hypothesis, then we would conclude that the hypothesis is not supported by the data. 
@@ -486,6 +504,6 @@ The mean and variance of a quantity that is Poisson distributed are given by:
 \bar k &= \sum_{k=0}^{k=\infty}kP^{Poisson}(k,n)=n\\
 \sigma^2 &= \sum_{k=0}^{k=\infty}(k-\bar k)P^{Poisson}(k,n)=n
 \end{align}
-The variance of the Poisson distribution is equal to its mean, $n$. The standard deviation is thus $\sqrt{n}$, which is the origin of the square root uncertainty in counted quantity.
+The variance of the Poisson distribution is equal to its mean, $n$. The standard deviation is thus $\sqrt{n}$, which is the origin of the square root uncertainty in a counted quantity.
 
 Finally, we introduced the concept of statistical hypothesis testing, which involved determining the probability of a particular outcome given a particular hypothesis. We argued that it is usually easier to model the null hypothesis, that is, to determine the probability of the results occurring out of pure chance. We cautioned against drawing conclusions simply based on the probability of the null hypothesis being below a given bar (5\% is often used). Generally, the null hypothesis is of the form: ``what is the probability of getting x or more successes out of pure chance?''.

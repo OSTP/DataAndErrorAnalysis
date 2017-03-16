@@ -4,10 +4,10 @@
 %This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
 \chapter{Error Propagation}
 \label{chap:ErrorPropagation}
-In this chapter, we show how to propagate uncertainties from ``direct'' measurements to uncertainties in quantities calculated from those measurements. We will justify many of the rules that we present here in chapter \ref{chap:StatsNormal}.
+In this chapter, we show how to propagate the uncertainties from ``direct'' measurements to uncertainties in quantities calculated from those measurements. We will justify many of the rules that we present here in chapter \ref{chap:StatsNormal}.
 
 \section{The Min-Max method}
-We will look at the ``Min-Max'' method as an introduction to propagating uncertainties before looking at a more general method that works in all cases. The Min-Max method is based on considering the maximal change in a calculated quantity that can result from the variation of the measured quantities.
+We will look at the ``Min-Max'' method as an introduction to propagating uncertainties, although it is only typically used in first year introductory physics labs. The Min-Max method is based on considering the maximal change in a calculated quantity that can result from the variation of the measured quantities.
 
 \subsection{Summing and subtracting}
 First, we consider the case of summing (or subtracting) two numbers with uncertainties. For example, we may be placing two masses ($m_1$, $m_2$) on a balance and need to know their sum, $M=m_1+m_2$. If each individual mass, $m_i$, has an uncertainty of $\sigma_{m_i}$, then the absolute maximal value that the sum of the masses could have is:
@@ -207,7 +207,7 @@ It is quite unlikely that the uncertainty in a calculated number is as large as 
 
 Most often, the uncertainties that we determine have some sort of ``statistical nature'' to them. For example, when we quote a measured values as $a\pm \sigma_a$, we usually mean that $a$ is equally likely to be bigger or smaller than the central value. In fact, when we determine $a$ and $\sigma_a$ as the mean and error on the mean of multiple measurements, we are explicitly assuming that the true value is ``normally distributed'' about the central value. We will define in chapter \ref{chap:StatsNormal} what we really mean by ``normally distributed'', but it is related to saying that there is a 68\% chance that the true value is in the quoted range. It turns out that most measurements are normally distributed, which justifies the following procedure for adding uncertainties (which we prove in Chapter \ref{chap:StatsNormal}).
 
-If the the uncertainties in multiple measurements are normally distributed and are independent of each other, then those uncertainties should be added in quadrature, rather than added. Addition in quadrature is performed by adding the squares of the uncertainties and then taking the square root of the sum. For the case of two masses being added together, $M=m_1+m_2$, the quadrature uncertainty in $M$ is given by:
+If the the uncertainties in multiple measurements are normally distributed\footnote{In fact, they do not necessarily need to be normally distributed, as long as their variance can be defined.} and are independent of each other, then those uncertainties should be added in quadrature, rather than added. Addition in quadrature is performed by adding the squares of the uncertainties and then taking the square root of the sum. For the case of two masses being added together, $M=m_1+m_2$, the quadrature uncertainty in $M$ is given by:
 \begin{align}
 \sigma_{M} = \sqrt{\sigma_{m_1}^2+\sigma_{m_2}^2}
 \end{align}

@@ -65,48 +65,49 @@
 \contentsline {section}{\numberline {5.5}Summary}{71}{section.5.5}
 \contentsline {chapter}{\numberline {6}Statistics - Distributions}{72}{chapter.6}
 \contentsline {section}{\numberline {6.1}The binomial distribution}{72}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Statistical properties of the binomial distribution}{76}{subsection.6.1.1}
+\contentsline {subsection}{\numberline {6.1.1}Statistical properties of the binomial distribution}{77}{subsection.6.1.1}
 \contentsline {section}{\numberline {6.2}The Poisson distribution}{78}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Statistical properties of the Poisson distribution}{83}{subsection.6.2.1}
-\contentsline {section}{\numberline {6.3}Statistical hypothesis testing}{84}{section.6.3}
-\contentsline {section}{\numberline {6.4}Summary}{87}{section.6.4}
-\contentsline {chapter}{\numberline {7}Statistics - The Normal Distribution}{89}{chapter.7}
-\contentsline {section}{\numberline {7.1}Properties of the normal distribution}{92}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}Statistical properties}{93}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {7.1.2}Area underneath the normal distribution pdf}{93}{subsection.7.1.2}
-\contentsline {section}{\numberline {7.2}Why most measurements are normally distributed}{97}{section.7.2}
-\contentsline {subsection}{\numberline {7.2.1}The Central Limit Theorem}{99}{subsection.7.2.1}
-\contentsline {section}{\numberline {7.3}Combining normally distributed quantities}{101}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Addition of a number to a normally distributed quantity}{101}{subsection.7.3.1}
-\contentsline {subsection}{\numberline {7.3.2}Multiplication of a number with a normally distributed quantity}{101}{subsection.7.3.2}
-\contentsline {subsection}{\numberline {7.3.3}Sum of normally distributed quantities}{102}{subsection.7.3.3}
-\contentsline {subsection}{\numberline {7.3.4}Function of normally distributed quantities}{104}{subsection.7.3.4}
-\contentsline {subsection}{\numberline {7.3.5}The general case: function of non-normally distributed quantities}{105}{subsection.7.3.5}
-\contentsline {section}{\numberline {7.4}Determining parameters of the normal distribution from data}{107}{section.7.4}
-\contentsline {subsection}{\numberline {7.4.1}The principle of maximum likelihood}{107}{subsection.7.4.1}
-\contentsline {subsection}{\numberline {7.4.2}Estimating the mean and standard deviation of a normal distribution from data}{108}{subsection.7.4.2}
-\contentsline {subsection}{\numberline {7.4.3}The error on the mean}{110}{subsection.7.4.3}
-\contentsline {section}{\numberline {7.5}Averaging multiple measurements with standard errors}{113}{section.7.5}
-\contentsline {section}{\numberline {7.6}Summary}{116}{section.7.6}
-\contentsline {chapter}{\numberline {8}Statistics - Modelling Data}{119}{chapter.8}
-\contentsline {section}{\numberline {8.1}Fitting a straight line}{119}{section.8.1}
-\contentsline {subsection}{\numberline {8.1.1}Linear problems}{119}{subsection.8.1.1}
-\contentsline {subsection}{\numberline {8.1.2}The Method of Least Squares}{120}{subsection.8.1.2}
-\contentsline {subsection}{\numberline {8.1.3}Residuals}{126}{subsection.8.1.3}
-\contentsline {subsection}{\numberline {8.1.4}Correlated parameters}{126}{subsection.8.1.4}
-\contentsline {section}{\numberline {8.2}Non-linear fits}{128}{section.8.2}
-\contentsline {section}{\numberline {8.3}Goodness of fit}{134}{section.8.3}
-\contentsline {section}{\numberline {8.4}Summary}{137}{section.8.4}
-\contentsline {chapter}{\numberline {9}Statistics - Probabilities and the Bayesian approach}{139}{chapter.9}
-\contentsline {section}{\numberline {9.1}Kolmogorov's axioms}{139}{section.9.1}
-\contentsline {section}{\numberline {9.2}Bayes' Theorem}{141}{section.9.2}
-\contentsline {section}{\numberline {9.3}The Bayesian interpretation of probability}{143}{section.9.3}
-\contentsline {subsection}{\numberline {9.3.1}The probability that a coin is fair}{145}{subsection.9.3.1}
-\contentsline {subsection}{\numberline {9.3.2}Fitting a straight line the Bayesian way}{150}{subsection.9.3.2}
-\contentsline {chapter}{\numberline {10}Statistics - The Monte Carlo Method}{154}{chapter.10}
-\contentsline {section}{\numberline {10.1}Random numbers from a computer}{154}{section.10.1}
-\contentsline {subsection}{\numberline {10.1.1}Random numbers that follow a given distribution}{156}{subsection.10.1.1}
-\contentsline {section}{\numberline {10.2}Monte Carlo simulations}{158}{section.10.2}
-\contentsline {subsection}{\numberline {10.2.1}Simulating coin tosses}{158}{subsection.10.2.1}
-\contentsline {subsection}{\numberline {10.2.2}Simulating a poutine restaurant}{160}{subsection.10.2.2}
-\contentsline {subsection}{\numberline {10.2.3}Monte Carlo simulation for error propagation}{162}{subsection.10.2.3}
+\contentsline {subsection}{\numberline {6.2.1}Statistical properties of the Poisson distribution}{84}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Time between Poisson events}{84}{subsection.6.2.2}
+\contentsline {section}{\numberline {6.3}Statistical hypothesis testing}{85}{section.6.3}
+\contentsline {section}{\numberline {6.4}Summary}{88}{section.6.4}
+\contentsline {chapter}{\numberline {7}Statistics - The Normal Distribution}{90}{chapter.7}
+\contentsline {section}{\numberline {7.1}Properties of the normal distribution}{93}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}Statistical properties}{94}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}Area underneath the normal distribution pdf}{94}{subsection.7.1.2}
+\contentsline {section}{\numberline {7.2}Why most measurements are normally distributed}{98}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}The Central Limit Theorem}{100}{subsection.7.2.1}
+\contentsline {section}{\numberline {7.3}Combining normally distributed quantities}{102}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Addition of a number to a normally distributed quantity}{102}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Multiplication of a number with a normally distributed quantity}{102}{subsection.7.3.2}
+\contentsline {subsection}{\numberline {7.3.3}Sum of normally distributed quantities}{103}{subsection.7.3.3}
+\contentsline {subsection}{\numberline {7.3.4}Function of normally distributed quantities}{105}{subsection.7.3.4}
+\contentsline {subsection}{\numberline {7.3.5}The general case: function of non-normally distributed quantities}{106}{subsection.7.3.5}
+\contentsline {section}{\numberline {7.4}Determining parameters of the normal distribution from data}{108}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}The principle of maximum likelihood}{108}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}Estimating the mean and standard deviation of a normal distribution from data}{109}{subsection.7.4.2}
+\contentsline {subsection}{\numberline {7.4.3}The error on the mean}{111}{subsection.7.4.3}
+\contentsline {section}{\numberline {7.5}Averaging multiple measurements with standard errors}{114}{section.7.5}
+\contentsline {section}{\numberline {7.6}Summary}{117}{section.7.6}
+\contentsline {chapter}{\numberline {8}Statistics - Modelling Data}{120}{chapter.8}
+\contentsline {section}{\numberline {8.1}Fitting a straight line}{120}{section.8.1}
+\contentsline {subsection}{\numberline {8.1.1}Linear problems}{120}{subsection.8.1.1}
+\contentsline {subsection}{\numberline {8.1.2}The Method of Least Squares}{121}{subsection.8.1.2}
+\contentsline {subsection}{\numberline {8.1.3}Residuals}{127}{subsection.8.1.3}
+\contentsline {subsection}{\numberline {8.1.4}Correlated parameters}{127}{subsection.8.1.4}
+\contentsline {section}{\numberline {8.2}Non-linear fits}{129}{section.8.2}
+\contentsline {section}{\numberline {8.3}Goodness of fit}{135}{section.8.3}
+\contentsline {section}{\numberline {8.4}Summary}{138}{section.8.4}
+\contentsline {chapter}{\numberline {9}Statistics - Probabilities and the Bayesian approach}{140}{chapter.9}
+\contentsline {section}{\numberline {9.1}Kolmogorov's axioms}{140}{section.9.1}
+\contentsline {section}{\numberline {9.2}Bayes' Theorem}{143}{section.9.2}
+\contentsline {section}{\numberline {9.3}The Bayesian interpretation of probability}{145}{section.9.3}
+\contentsline {subsection}{\numberline {9.3.1}The probability that a coin is fair}{147}{subsection.9.3.1}
+\contentsline {subsection}{\numberline {9.3.2}Fitting a straight line the Bayesian way}{152}{subsection.9.3.2}
+\contentsline {chapter}{\numberline {10}Statistics - The Monte Carlo Method}{156}{chapter.10}
+\contentsline {section}{\numberline {10.1}Random numbers from a computer}{156}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}Random numbers that follow a given distribution}{158}{subsection.10.1.1}
+\contentsline {section}{\numberline {10.2}Monte Carlo simulations}{160}{section.10.2}
+\contentsline {subsection}{\numberline {10.2.1}Simulating coin tosses}{161}{subsection.10.2.1}
+\contentsline {subsection}{\numberline {10.2.2}Simulating a poutine restaurant}{162}{subsection.10.2.2}
+\contentsline {subsection}{\numberline {10.2.3}Monte Carlo simulation for error propagation}{164}{subsection.10.2.3}
