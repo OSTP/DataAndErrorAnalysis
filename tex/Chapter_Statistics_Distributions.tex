@@ -327,7 +327,7 @@ We want to find a range over which the number of coconut hits per week covers 90
 
 We only have 1 data point, which is the 10 hits that we counted in the week that we were there. Our ``best estimate'' for the expected number of hits each week is thus $n=10$. We can tabulate the Poisson probabilities for $n=10$:
 
-\begin{table}[h!]
+\begin{center}
 \begin{tabular}{|c|c|}
 \hline
 number of hits & Poisson prob\\
@@ -357,8 +357,8 @@ number of hits & Poisson prob\\
 16 & 0.022 \\
 \hline
 \end{tabular}
-\caption{Poisson probabilities of the number of tourists getting hit by coconuts in a week for an expected number of 10.}
-\end{table}
+\captionof{table}{Poisson probabilities of the number of tourists getting hit by coconuts in a week for an expected number of 10.}
+\end{center}
 
 We can use different ways to choose the range; one way is to symmetrically expand the range on either side of 10 and add the probabilities until we reach 90\%. The following python code does this:
 \begin{lstlisting}[frame=single] 
