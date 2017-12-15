@@ -74,7 +74,7 @@ P_{Have\: enough}=P(k=0,N=15,p=0.2)+P(k=1,N,p)+\dots+P(k=5,N,p)
 where it should be clear that $P_{Not\: enough}+P_{Have\: enough}=1$.
 
 Fortunately, we do not have to calculate this by hand and can use a simple python program. The code below shows how to calculate the sum, but also illustrates that there are built-in functions to calculate these sums, as they come up very often. The \code{cdf()} functions sums the probabilities of getting $k$ or less, and the \code{sf} function, which is 1-cdf, gives the probability of getting $k$ or higher.
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Evaluating binomial probabilities] 
 #The binomial distribution
 import numpy as np
 import pylab as pl
@@ -104,23 +104,22 @@ pl.title("Binomial prob. distribution for N=15, p=0.2")
 pl.axis([-1,16,0,0.3])
 pl.grid()
 pl.show()
-\end{lstlisting}
-The output of the code is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 Prob of exactly 5 pork poutines: 0.103
 Prob of 6 or more (sum): 0.061
 Prob of 6 or more (sf): 0.061
 Prob of 5 or less (sum): 0.939
 Prob of 5 or less (cdf): 0.939
-\end{verbatim}
+\end{poutput}
 and we can see that there is 94\% chance that we do not need to purchase more pork (the probability of having 5 or less pork poutine orders is 94\%). In this case, we would probably take the 6\% chance that we will not have enough pork poutines.
 
 We also used the code to create a graph of the probability of $k$ outcomes as a function of $k$ for a fixed value of $N=15$ and $p=0.2$, which is shown in Figure \ref{fig:binomial}. We call this plot a ``distribution'' as it describes the distribution of outcomes that we expect. That is, given the values of $N$ and $p$ for our situation, we can use Figure \ref{fig:binomial} to model how many people purchase pork poutines in the hour preceding the closure of our poutine shop over many nights. For example, we would expect that 23\% of the time, 2 pork poutines will be ordered in the last hour. The most likely number of pork poutines to be ordered in the last hour is 3, which is equal to $pN$ (0.2$\times$15).
 
-\capfig{0.5\textwidth}{figures/binomial.png}{\label{fig:binomial} Binomial distribution for $N=15$ and $p=0.2$.}
+\capfig{0.7\textwidth}{figures/binomial.png}{\label{fig:binomial} Binomial distribution for $N=15$ and $p=0.2$.}
 
 We can also turn the problem around and test the hypothesis that customers in our poutine store can be modeled by the binomial distribution. To do this, we could collect data to measure, over many nights, the number of customers that bought pork poutine in the hour preceding the store closing. In order to keep things simple, we should measure the number of pork poutines bought by the last 15 customers, rather than in the last hour (since we would not expect exactly 15 customers in the last hour every time). The data could look like that in table \ref{tab:poutineOrders}.
-\begin{table}[h!]
+\begin{center}
 \center
 \begin{tabular}{|c|}
 \hline \textbf{Number of pork poutines ordered by last 15 customers} \\
@@ -137,21 +136,15 @@ We can also turn the problem around and test the hypothesis that customers in ou
 \hline
 2\\
 \hline
-2\\
-\hline
-3\\
-\hline
-2\\
-\hline
  $\dots$ \\
  \hline
 \end{tabular}
-\caption{\label{tab:poutineOrders} Sample data on pork poutine orders by the last 15 customers in the store over many nights}
-\end{table} 
+\captionof{table}{\label{tab:poutineOrders} Sample data on pork poutine orders by the last 15 customers in the store over many nights}
+\end{center} 
 
 We can plot a normalized histogram of these numbers and overlay the binomial distribution that we obtained in Figure \ref{fig:binomial} to see if they agree. This is done in Figure \ref{fig:binomial_data} where Table \ref{tab:poutineOrders} was generated with 100 lines (simulating 100 nights of data taking).
 
-\capfig{0.5\textwidth}{figures/binomial_data.png}{\label{fig:binomial_data} Binomial distribution for $N=15$ and $p=0.2$ overlaid with simulated data from 100 measurements of the number of customers out of that bought a pork poutine (simulated with a binomial distribution with $p=0.2$). }
+\capfig{0.7\textwidth}{figures/binomial_data.png}{\label{fig:binomial_data} Binomial distribution for $N=15$ and $p=0.2$ overlaid with simulated data from 100 measurements of the number of customers out of that bought a pork poutine (simulated with a binomial distribution with $p=0.2$). }
 
 We do not yet have the tools to quantitatively conclude whether the distribution of the data (the histogram) agrees with the predicted distribution from our binomial distribution model, but looking by eye, it does seem that the binomial distribution is a good model for the histogram of the data. As we have already seen, the histogram itself, when normalized, can be thought of as a probability distribution. With no model, we could generate the histogram using the data, and then use that histogram to make statements about the probability of having between, say, 3 and 4 pork poutine orders from the last 15 customers. 
 
@@ -162,17 +155,26 @@ The mean of measurements that follow the binomial distribution, $\bar k$, for $N
 \end{align}
 and their variance is given by:
 \begin{align}
-\sigma^2 = \sum_{k=0}^{k=N}(k-\bar k)^2P^{binom}(k,N,p)=Np(1-p)
+\sigma_k^2 = \sum_{k=0}^{k=N}(k-\bar k)^2P^{binom}(k,N,p)=Np(1-p)
 \end{align}
 
-Thus, a simple way to test if a set of measurements are binomially distributed is to calculate their mean and variance to see if they agree with that expected from the binomial distribution.
+If one has measured $k$ and $N$, then the mean value of $p$ and its standard deviation are given by:
+\begin{align}
+\bar p = \frac{k}{N}\\
+\sigma p = \frac{\sigma_k}{N}=\sqrt{\frac{p(1-p)}{N}}
+\end{align}
+which is the origin for the prescription for specifying the error in a fraction. Note that this holds only if $p$ is not too close to 0 or to 1, and the number $k$ is not too small \footnote{This formula holds for the case when the binomial probability for $k$ approaches a normal distribution, namely when the mean value of $k$ is relatively large.}. A more robust (and numerical) approach to determining $p$ and its standard deviation are given in section \ref{sec:BayesianCoin}.
 
-\begin{example}{}{In a class of 20 students, we have counted over 15 different lectures how many of the students checked their smart phone instead of paying attention to class. Over the 15 different lectures, the following number of students checked their phone: \{8,10,7,6,5,9,5,4,4,5,6,4,5,7,6\}. For example, in the first lecture, 8 out 20 students checked their phone, in the second lecture, 10 students checked their phone, etc. Use some simple statistics to determine whether the number of students checking their phone during a given lecture is consistent with being binomially distributed.}{}
+A simple way to test if a set of measurements are binomially distributed is to calculate their mean and variance to see if they agree with that expected from the binomial distribution.
+
+\begin{example}{}{In a class of 20 students, we have counted over 15 different lectures how many of the students checked their smart phone instead of paying attention to class. Over the 15 different lectures, the following number of students checked their phone:\\ \{8,10,7,6,5,9,5,4,4,5,6,4,5,7,6\}. 
+
+For example, in the first lecture, 8 out 20 students checked their phone, in the second lecture, 10 students checked their phone, etc. Use some simple statistics to determine whether the number of students checking their phone during a given lecture is consistent with being binomially distributed.}{}
 \label{ex:BinomialPhones}
 We wish to check that the number of students who check their phone follows a binomial distribution. In each lecture, we have $N=20$ students and we thus wish to see if we can predict, on average, how many of those students will check their phone. We first need to determine the probability of checking their phone, $p$, which we must estimate from the data. We can estimate $p$ by averaging the fraction of students that check their phone at each lecture. We can then compare the mean and variance of the data with what we expect for a binomial distribution with the value of $p$ that we estimated. We can also compare the histogram of the data with the analytical prediction from the binomial probability mass function.
 
 This is shown in the following python code:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Evaluating binomial quantities] 
 #Example 6-2
 import numpy as np
 import scipy.stats as stats
@@ -201,18 +203,19 @@ pl.ylabel("Prob of checking phone")
 pl.title("Comparison of data and binom. prob. for N={}, p={:.2f}".format(N,p))
 pl.legend()
 pl.show()
-\end{lstlisting}
+\end{python}
 The output is:
-\begin{verbatim}
+\begin{poutput}
 p is 0.30
 data mean: 6.1, data variance: 3.4
 binom. mean: 6.1, binom. variance: 4.2
-\end{verbatim}
+(* \capfig{0.7\textwidth}{figures/binomial_studentdata.png}{\label{fig:binomial_studentdata} Binomial distribution for $N=20$ and $p=0.3$ overlaid with the data of 15 lectures where the number of students (out of 20) checking their phone is plotted. } *)
+\end{poutput}
 The mean from the data and that predicted for a binomial distribution agree exactly, and the variances are difficult to compare without uncertainties, although they appear to be consistent. We should not be surprised that the mean from the binomial prediction is exactly equal to the mean from the data, since we used the data to evaluate $p$ in such a way that $Np$ is precisely equal to the mean of the data!
 
 Figure \ref{fig:binomial_studentdata} shows a comparison of the data plotted into a normalized histogram and the prediction from the binomial distribution.
 
-\capfig{0.5\textwidth}{figures/binomial_studentdata.png}{\label{fig:binomial_studentdata} Binomial distribution for $N=20$ and $p=0.3$ overlaid with the data of 15 lectures where the number of students (out of 20) checking their phone is plotted. }
+
 
 In order to make a definitive statement, we would need more data to see if the variance of the data converges to that predicted for a binomial distribution and to see if the histogram of the data approaches the known distribution. If we had other competing models that also predicted a variance, we could see which model predicts the closest variance. Ultimately, it is very difficult to confirm if data come from a specific distribution if there are few data points.
 \end{example}
@@ -264,7 +267,7 @@ Evaluating the probability from the Poisson distribution with $n=19.7$ and $k=15
 In order to get the probability of observing 15 or more events, we must sum the Poisson probabilities for $k=15,16,\dots$ to infinity. The infinite sum can be avoided by instead summing the probabilities for $k=0,1,\dots,14$ and subtracting that from 1. The result is that the probability of getting 15 or more decays in 1 month is 88.3\%.
 
 We thus conclude that we have a good (88.3\%) chance to detect double-beta decay given the requirement that we want to see at least 15 counts so that our signal is distinguishable from the background\footnote{In reality, achieving a background rate of 10 counts per month in a germanium detector is very challenging, and it is not nearly as easy to observe double-beta decay.}. The python code below shows how to calculate everything and uses the function \code{sf} to sum the probabilities of obtaining $k=15$ counts or more:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Computing probabilities for the Poisson distribution] 
 import numpy as np
 import scipy.stats as stats # to use Poisson
 from math import * # to use log
@@ -290,26 +293,25 @@ n=rate/12 #The expected number of decays in 1 month
 print("The prob. of observing exactly 15 decays in one month is: {:.3f}".format(stats.poisson.pmf(15,n)))
 #For sf, need k -> k-1 if we want to include k:
 print("The prob. of observing 15 or more decays in one month is: {:.3f}".format(stats.poisson.sf(14,n)))
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 There are 6.14e+23 76Ge atoms
 Lambda is 3.85e-22
 The decay rate is 236.3 per year
 The decay rate is 19.7 per month
 The prob. of observing exactly 15 decays in one month is: 0.056
 The prob. of observing 15 or more decays in one month is: 0.883
-\end{verbatim}
+\end{poutput}
 
 \end{example}
 
 Figure \ref{fig:poisson} shows the Poisson distribution as a function of $k$ plotted for different values of the expected number of successes, $n$. For low values of $n$, the distribution is asymmetric, but as $n$ becomes bigger, the distribution becomes more symmetric and eventually will approach the normal distribution (discussed in Chapter \ref{chap:StatsNormal}).
 
-\capfig{0.5\textwidth}{figures/poisson.png}{\label{fig:poisson} Poisson distribution for different values of the expected number of successes.}
+\capfig{0.7\textwidth}{figures/poisson.png}{\label{fig:poisson} Poisson distribution for different values of the expected number of successes.}
 
 Figure \ref{fig:poisson_binom} shows a comparison of the Poisson distribution for $n=3$ along with the binomial distribution with different values of $N$ and $p$ such that $Np=3$. As $p$ gets smaller, the binomial distribution is indeed seen to approach the Poisson distribution.
 
-\capfig{0.5\textwidth}{figures/poisson_binom.png}{\label{fig:poisson_binom} Comparison of the Poisson distribution with $n=3$ and the binomial distribution for $Np=3$, using different combination of $N$ and $p$. As $p$ gets smaller, the binomial distribution converges to the Poisson distribution.}
+\capfig{0.7\textwidth}{figures/poisson_binom.png}{\label{fig:poisson_binom} Comparison of the Poisson distribution with $n=3$ and the binomial distribution for $Np=3$, using different combination of $N$ and $p$. As $p$ gets smaller, the binomial distribution converges to the Poisson distribution.}
 
 The Poisson distribution is extremely useful and appears every time that one carries out experiments that involve counting. This is because one can phrase any experiment where something is to be counted into a problem of asking: ``what is the probability that I count $k$ occurrences when I expect $n$?''.
 
@@ -361,7 +363,7 @@ number of hits & Poisson prob\\
 \end{center}
 
 We can use different ways to choose the range; one way is to symmetrically expand the range on either side of 10 and add the probabilities until we reach 90\%. The following python code does this:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Computing a 90\% confidence interval] 
 import numpy as np
 import scipy.stats as stats # to use Poisson
 
@@ -375,11 +377,10 @@ while(prob<0.9):
     prob=prob+stats.poisson.pmf(n-i,n)+stats.poisson.pmf(n+i,n)
     
 print("Between {} and {}, the probability is {:.1f}%".format(n-i,n+i,100*prob))
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 Between 5 and 15, the probability is 92.2%
-\end{verbatim}
+\end{poutput}
 Thus, if we observed 10 coconut hits in one week, we can claim with 92.2\% confidence that every week, between 5 and 15 people get hit by coconuts! 
 
 We can also easily modify this code to get the common 68\% confidence level (replace 0.9 in the \code{while} statement with 0.68), in which case we find that with 73.4\% confidence, between 7 and 13 people get hit on the head each week. We could quote that, each week 10 $\pm$ 3 people get hit with coconuts.
@@ -394,7 +395,7 @@ The mean of measurements that follow the Poisson distribution for an expected nu
 \end{align}
 and their variance is given by:
 \begin{align}
-\sigma^2 = \sum_{k=0}^{k=\infty}(k-\bar k)^2P^{Poisson}(k,n)=n
+\sigma_k^2 = \sum_{k=0}^{k=\infty}(k-\bar k)^2P^{Poisson}(k,n)=n
 \end{align}
 
 The standard deviation (the square root of the variance) is thus given by $\sqrt{n}$. This is the origin of the prescription for the square root uncertainty presented in Section \ref{sec:countingError}, which as we saw approaches the value of a 68\% confidence when $n$ becomes large (for $n=10$, we saw in example \ref{ex:PoissonCoconut} that the confidence level was approximately 73.4\%).
@@ -436,7 +437,7 @@ We did not quite analyse our data correctly, since we earlier claimed that 10 of
 To take this into account, we must thus use a different probability than $p=0.5$ in our null hypothesis that subjects would perform significantly better just out of pure chance. In this case, out of pure chance, there is a 32\% (100-68) chance of a participant scoring outside of the range $X \pm \delta X$, and a 50\% probability that it is on the higher side of the range. The correct binomial probability to use is thus $p=0.5\times 0.32=0.16$, and it represents the probability of scoring significantly higher out of pure chance. Evaluating the sum of the probabilities $P^{binom}(k,N=16,p=0.16)$ for $k=10, 11, \dots, 16$ gives 0.0034\%, which is certainly low. It is thus unlikely that the null hypothesis is correct, in other words, it is unlikely that by pure chance 10 or more out of 16 participants would score significantly higher on the IQ test. We would then lean to the conclusion that the pill likely has some effect (but as good scientists, we would want to make sure that any other possible effect have been controlled in the test; for example, that there is no placebo effect from the pill, that the water taken with the pill had no effect, etc.).
 
 The python code below shows how to calculate the probabilities for this example.
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Computing binomial probability of null hypothesis] 
 import scipy.stats as stats # to use Poisson
 
 #Probability of 10 out of 16 people doing better on IQ test if the probability of doing better is 50%:
@@ -446,14 +447,13 @@ print("Prob that at least 10 out 16 people do a little better:{:.2f}".format(sta
 #Probability of 10 out of 16 people doing better on IQ test if the probability of doing better is 16%:
 print("Prob that 10 out 16 people do significantly better:{:.6f}".format(stats.binom.pmf(10,16,0.16)))
 print("Prob that at least 10 out 16 people do significantly better:{:.6f}".format(stats.binom.sf(9,16,0.16)))
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 Prob that 10 out 16 people do a little better:0.12
 Prob that at least 10 out 16 people do a little better:0.23
 Prob that 10 out 16 people do significantly better:0.000031
 Prob that at least 10 out 16 people do significantly better:0.000034
-\end{verbatim}
+\end{poutput}
 
 \begin{example}{}{The 2013 Ontario Road Safety Annual Report shows the following number of fatal car collisions by month: \{35,17,26,24,39,27,61,44,37,46,42,31\}, which add up to 429 for the year. Upon looking at the data, a politician decides that their next campaign will be based on banning driving in July since that is a particularly deadly month for driving in Ontario (61 deaths). Can you support the politician's claim that July is a bad month for driving?}{}
 We must first develop a null hypothesis, namely that no month is particularly worse for driving. If the data are consistent with the null hypothesis, then there is little reason to support the politician's claim. We thus need to evaluate the probability of having 61 or more fatal accidents in a particular month under the hypothesis that all months are equal. 
@@ -463,7 +463,7 @@ In our null hypothesis, we expect the rate of accidents each month to be approxi
 As good scientists, we would still want to look at the data from other years to see if they also do not support the null hypothesis. In 2012, there were a total of 505 accidents in the year (an expected 42 accidents per month), and 50 accidents in July. Going through the same exercise, gives the probability for there to be 50 or more accidents in a month, when we expect 42, to be 12.5\%, which is orders of magnitude higher than 2013 and well above our 5\% bar (if that is the bar that we choose). As you can see, you need to be very careful when making claims based on statistical data, and some arbitrary bar!
 
 The code below shows how to calculate the relevant probabilities in python (using the survival fraction):
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Computing Poisson probability of null hypothesis] 
 import scipy.stats as stats # to use Poisson
 
 #Probability of having 61 accidents in a month when we expect 36:
@@ -473,14 +473,13 @@ print("Prob of at least 61 accidents when we expect 36:{:.6f}".format(stats.pois
 #Probability of having 50 accidents in a month when we expect 42:
 print("Prob of 50 accidents when we expect 42:{:.4f}".format(stats.poisson.pmf(50,42)))
 print("Prob of 50 accidents when we expect 42:{:.4f}".format(stats.poisson.sf(49,42)))
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 Prob of 61 accidents when we expect 36:0.000039
 Prob of at least 61 accidents when we expect 36:0.000091
 Prob of 50 accidents when we expect 42:0.0275
 Prob of 50 accidents when we expect 42:0.1250
-\end{verbatim}
+\end{poutput}
 \end{example}
 
 
@@ -492,7 +491,12 @@ P^{binom}(k,N,p)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}
 The mean and variance of a quantity that is binomially distributed are given by:
 \begin{align}
 \bar k &= \sum_{k=0}^{k=N}kP^{binom}(k,N,p)=Np\\
-\sigma^2 &= \sum_{k=0}^{k=N}(k-\bar k)P^{binom}(k,N,p)=Np(1-p)
+\sigma_k^2 &= \sum_{k=0}^{k=N}(k-\bar k)P^{binom}(k,N,p)=Np(1-p)
+\end{align}
+If determining the fraction $p$ using measurements of $k$ and $N$, the mean and standard deviation of $p$ are given by:
+\begin{align}
+\bar p = \frac{k}{N}\\
+\sigma p = \frac{\sigma_k}{N}=\sqrt{\frac{p(1-p)}{N}}
 \end{align}
 
 We then introduced the Poisson distribution to model the probability of obtaining $k$ successes when we expect $n$. We saw that the Poisson distribution is the limiting case of the binomial distribution when $n=Np$ and $p$ is small (thus the probability of a particular success is low, but the total number of successes is finite). The Poisson distribution probability mass function is given by:
@@ -502,7 +506,7 @@ We then introduced the Poisson distribution to model the probability of obtainin
 The mean and variance of a quantity that is Poisson distributed are given by:
 \begin{align}
 \bar k &= \sum_{k=0}^{k=\infty}kP^{Poisson}(k,n)=n\\
-\sigma^2 &= \sum_{k=0}^{k=\infty}(k-\bar k)P^{Poisson}(k,n)=n
+\sigma_k^2 &= \sum_{k=0}^{k=\infty}(k-\bar k)P^{Poisson}(k,n)=n
 \end{align}
 The variance of the Poisson distribution is equal to its mean, $n$. The standard deviation is thus $\sqrt{n}$, which is the origin of the square root uncertainty in a counted quantity.
 

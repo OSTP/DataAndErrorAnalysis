@@ -4,7 +4,7 @@
 %This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
 \chapter{Statistics - Presenting Data}
 \label{Chap:statData}
-\section{Data and Statistics}
+\section{Data and statistics}
 
 Statistical analysis is useful in many field, including physics, because virtually any measurement that is performed multiple times will show a variation, either due to the imperfection of the measuring apparatus, because of variations in the samples, or because the quantity truly has a variance (e.g. the speed of gas molecules at a specific temperature and pressure).
 
@@ -14,7 +14,7 @@ The goal of statistics would be to understand if your measurements allow you to 
 
 For the specific case of many measurements of a single value (e.g cat length), there are several common quantities that can be calculated to provide some description of the set (i.e. the distribution) of measurements that were obtained. We start by introducing those quantities (such as the mean and standard deviation), and then describe the use of the histogram to visualize data of a statistical nature.
 
-\section{Basic statistical parameters}
+\section{Basic statistical parameters of a set of measurements}
 
 \subsection{Mean and variance}
 
@@ -51,14 +51,14 @@ The variance and standard deviation are measurements of how spread out the measu
 \end{align}
 We will prove this result in Chapter \ref{chap:StatsNormal}, but we can observe here that it makes intuitive sense. As we gather more samples, then the error on the mean decreases (as the square root of the number of samples), which makes sense. 
  
-\subsection{Mode and Median}
+\subsection{Mode and median}
 
 The mode and median are also of use to describe data that have a distribution of values. The mode is the value that occurs the most often (sometimes also called the "most probable value"). The median of the data set is the value for which there are an equal number of values that are bigger and smaller. For a set of measurements that are normally (gaussian) distributed (as described in Chapter \ref{chap:StatsNormal}), the mean, mode and median overlap. In general, all three parameters can be different. 
 
 \begin{example}{}{Calculate the mean, variance, error on the mean, mode and median for the following set of measurements: \{1.1, 1.2, 1.0, 1.3, 1.4, 1.5, 1.2, 1.3, 1.3, 1.1, 1.0, 1.6 \}}{}
 \label{ex:meanvardata}
 We can compute these quantities using a simple python program:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Basic statistical quantities]
 import numpy as np
 import scipy.stats as stats
 from math import *
@@ -72,8 +72,8 @@ print("mean: {:.2f}".format(xmean))
 # N-1 in the denominator instead of N)
 xvar=xi.var(ddof=1)
 print("variance: {:.3f}".format(xvar))
-#The standard deviation is either the square root of the variance, or we can
-#get it from numpy
+#The standard deviation is either the square root of the variance,
+#or we can get it from numpy
 xstd=xi.std(ddof=1)
 print("std. dev.: {:.3f}".format(xstd))
 #The error on the mean
@@ -89,9 +89,8 @@ print("The median is:",xmedian)
 #The mode must be found using the scipy.stats module
 xmode,modecount=stats.mode(xi)
 print("The mode is:",xmode[0])
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 mean: 1.25
 variance: 0.035
 std. dev.: 0.188
@@ -99,13 +98,13 @@ error on the mean: 0.054
 Sorted: [ 1.   1.   1.1  1.1  1.2  1.2  1.3  1.3  1.3  1.4  1.5  1.6]
 The median is: 1.25
 The mode is: 1.3
-\end{verbatim}
+\end{poutput}
 
 Note that by default, the \code{numpy} module uses $N$ in the denominator instead of $N-1$ when calculating the sample variance and standard deviation. One needs to specify the ``delta degrees of freedom'' parameter, \code{ddof}, which is the number to subtract from $N$ (in our case it's 1).
 
 \end{example}
 
-\subsection{Moments, Skewness and Kurtosis}
+\subsection{Moments, skewness and kurtosis}
 
 The skewness and kurtosis are higher order "moments" of the data that describe how symmetric the data are with respect to the mode (skewness) and whether the data are grouped tightly at the mode (kurtosis).
 
@@ -142,7 +141,7 @@ The correlation factor, $\rho_{xy}$, sometimes also called $r$ or $R$ or ``the r
 \begin{example}{}{Calculate the covariance and correlation factors for the following 12 measurements of the quantities $x$ and $y$: $x_i=\{1.1, 1.2, 1.0, 1.3, 1.4,1.5, 1.2, 1.3, 1.3, 1.1, 1.0, 1.6\}$ and $y_i=\{1.3, 0.9, 0.9, 1.0, 1.6, 1.1, 1.2, 1.2, 1.2, 0.9, 0.9, 1.1\}$}{}
 \label{ex:covariance}
 The quantities can easily be evaluated in python using the following code:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Calculating covariance and correlation]
 import numpy as np
 import pylab as pl
 
@@ -168,19 +167,18 @@ pl.ylabel('y')
 pl.title("scatter plot of x and y")
 pl.text(0.95,1.5,text,fontsize=14)
 pl.show()
-\end{lstlisting}
+\end{python}
+\begin{poutput}
+(* \capfig{0.7\textwidth}{figures/scatter_cov.png}{\label{fig:scatter_cov} Scatter plot of $x$ and $y$ values for different measurements (example \ref{ex:covariance}), showing the correlation between the two quantities.} *)
+\end{poutput}
 The above code determined the covariance to be 0.02 and the correlation to be 0.42. The values of $x$ and $y$ are thus correlated, and on average, a bigger value of $x$ will result in a larger value of $y$. A scatter plot of $x$ and $y$ is show in Figure \ref{fig:scatter_cov}, highlighting the trend in the two correlated variables.
-
-\capfig{0.5\textwidth}{figures/scatter_cov.png}{\label{fig:scatter_cov} Scatter plot of $x$ and $y$ values for different measurements (example \ref{ex:covariance}), showing the correlation between the two quantities.} 
-
 \end{example}
 
 The correlation factor is a measure of whether two quantities appear to be related in some manner. For example, a positive correlation between $x$ and $y$ indicates that if one measures a high value of $x$, then one is also likely to measure a high value of $y$. This does not mean that a high value of $x$ \textit{causes} a high value of $y$. ``Correlation does not imply causation'' is a popular slogan in statistics (strongly emphasized in social studies). Measuring the correlation should never be confused with trying to model one variable as a function of the other. For example, it is likely that the length of cats is correlated with their weights, but a simple confirmation of a strong correlation factor in no way implies that the length of cats causes them to be heavier. For example, it could be measured that going to sleep with one shoe on is correlated with having a headache in the morning. It would be wrong to conclude that sleeping while wearing a shoe causes headaches. Perhaps, there is a third variable that leads to both observations, for example, going to bed intoxicated. 
 
 We can ask ourselves whether a particular correlation is ``significant'', that is, whether there is strong evidence to support a claim that two variables are correlated. If we take purely random measurements of two quantities, $x$ and $y$, it is unlikely that their correlation factor would come out to be exactly 0. Rather, we would expect that as the number of measurements increases, their correlation would approach 0 as it becomes more precisely defined.  The question is thus to quantify the significance of a measured correlation. This can be done by considering the value of the correlation factor that is unlikely to be possible if the measurements are uncorrelated. Specifically, for $N$ measurements, we can determine a threshold in correlation for which it is unlikely for $N$ uncorrelated measurements to give a correlation that is higher than the threshold. A sample of these ``Pearson correlation'' threshold values are shown in Table \ref{tab:PearsonCorr}. For example, if 8 measurements are used to determine the correlation factor, if it is less than 0.621 it is not significant at the 95\% level. That is, there is a 5\% chance that 8 random uncorrelated measurements would have a correlation factor of 0.621 or bigger.
 
-\begin{table}[h!]
-\center
+\begin{center}
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{N} & \textbf{5\%} &\textbf{2.5\%}\\
@@ -194,13 +192,102 @@ We can ask ourselves whether a particular correlation is ``significant'', that i
 10 & 0.549 &0.632 \\
 \hline
 \end{tabular}
-\caption{\label{tab:PearsonCorr} Threshold values for a correlation determined from $N$ measurements to be significant at the 95\% and 97.5\% levels. The values corresponds to either a positive or negative correlation. If the sign of the correlation is not important, these correspond to 90\% and 95\% significance.}
-\end{table}
+\captionof{table}{\label{tab:PearsonCorr} Threshold values for a correlation determined from $N$ measurements to be significant at the 95\% and 97.5\% levels. The values corresponds to either a positive or negative correlation. If the sign of the correlation is not important, these correspond to 90\% and 95\% significance.}
+\end{center}
 
+\section{Statistical parameters for a function of a set of measurements}
+Suppose that we have made $N$ measurements, \{$x_1, x_2, \dots, x_N$\}, of some quantity $x$, and wish to apply a function, $F(x)$, to those values. This will lead to a set of values for the function, \{$F(x_1), F(x_2), \dots, F(x_N)$\}, for which we can also evaluate statistical parameters such as the mean and variance. 
+
+If we assume that the variance of the values of $x$ is small, so that all of the values of $x_i$ are relatively close to their mean, $\bar x$, we can approximate $F(x)$ using the first term of a Taylor series:
+\begin{align}
+F(x_i) = F(\bar x)+\frac{dF}{dx}\biggr\rvert_{\bar x}(x_i-\bar x)
+\end{align}
+
+\subsection{The mean}
+The mean value of the values of $F(x)$ is thus given by:
+\begin{align}
+\bar F &= \frac{1}{N}\sum_{i=1}^{N}F(x_i) = \frac{1}{N}\sum_{i=1}^{N} \left(F(\bar x)+\frac{dF}{dx}\biggr\rvert_{\bar x}(x_i-\bar x)\right)\nonumber\\
+&=\frac{1}{N}\left(\sum_{i=1}^{N} F(\bar x) + \sum_{i=1}^{N}\frac{dF}{dx}\biggr\rvert_{\bar x}x_i - \sum_{i=1}^{N}\frac{dF}{dx}\biggr\rvert_{\bar x}\bar x\right)\nonumber\\
+&=\frac{1}{N}\left(N F(\bar x) + \frac{dF}{dx}\biggr\rvert_{\bar x}\sum_{i=1}^{N}x_i - \frac{dF}{dx}\biggr\rvert_{\bar x}N\bar x\right)\nonumber\\
+&=F(\bar x) + \frac{1}{N}\left(\frac{dF}{dx}\biggr\rvert_{\bar x}N\bar x - \frac{dF}{dx}\biggr\rvert_{\bar x}N\bar x\right)\nonumber\\
+\therefore \bar F&=F(\bar x)
+\end{align} where we used the fact that:
+\begin{align*}
+\bar x = \frac{1}{N} \sum_{i=1}^{N}x_i \to \sum_{i=1}^{N}x_i = N\bar x
+\end{align*}
+Thus, the mean value of $F(x)$ can be found simply by evaluating $F$ at the mean value of $x$! Note that this is only valid in the case where the Taylor series is a valid approximation, namely when the values of $x$ are close to their mean value (they have a small standard deviation).  
+\subsection{The variance and standard deviation}
+We can proceed similarly to determine the variance in the values of $F$:
+\begin{align}
+\sigma_F^2&=\frac{1}{N-1}\sum_{i=1}^{N}\left(F(x_i)-F(\bar x)\right)^2=\frac{1}{N-1}\sum_{i=1}^{N}\left(F(\bar x)+\frac{dF}{dx}\biggr\rvert_{\bar x}(x_i-\bar x)-F(\bar x)\right)^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{N}\left(\frac{dF}{dx}\biggr\rvert_{\bar x}(x_i-\bar x)\right)^2\nonumber\\
+&=\left(\frac{dF}{dx}\biggr\rvert_{\bar x}\right)^2\frac{1}{N-1}\sum_{i=1}^{N}(x_i-\bar x)^2\nonumber\\
+\therefore \sigma_F^2 &=\left(\frac{dF}{dx}\biggr\rvert_{\bar x}\right)^2\sigma_x^2
+\end{align}
+and the standard deviation is simply given by the square root:
+\begin{align}
+\sigma_F = \frac{dF}{dx}\biggr\rvert_{\bar x}\sigma_x
+\end{align}
+Thus, in the limit where the first order Taylor series approximation is valid, the standard deviation in the values of $F(x)$ is simply given by the standard deviation of the values of the $x_i$ multiplied by the derivative of $F$  evaluated at the mean value of $x$. 
+
+\subsection{Multiple variables}
+Let us suppose that we have a function, $F(x,y)$, of two variables, $x_i$ and $y_i$. We have made $N$ measurements, \{$x_1, x_2, \dots, x_N$\} and \{$y_1, y_2, \dots, y_N$\} and wish to determine the mean for $F$ and its variance, $\sigma^2_F$. We can evaluate $F(x,y)$ at all of the values of $x$ and $y$, and obtain the mean, $\bar F(x,y)$, and variance, $\sigma_F$, as we did for the case of a single variable. 
+
+We assume that the variances $\sigma^2_x$ and $\sigma^2_y$ are small and that all of the measurements of $x$ and $y$ are therefore close to their respective means. The value of $F(x_i,y_i)$ evaluated at one of the data points can thus be approximated by a Taylor series of $F(x,y)$ evaluated near $\bar x$ and $\bar y$:
+\begin{align}
+F(x_i,y_i)\approx F(\bar x,\bar y)+\die{F}{x}\biggr\rvert_{\bar x, \bar y}(x_i-\bar x)+\die{F}{y}\biggr\rvert_{\bar x, \bar y}(y_i-\bar y)
+\end{align} 
+where the partial derivatives are always evaluated at $\bar x$ and $\bar y$ (we will thus drop the $|_{\bar x, \bar y}$ as we proceed).
+
+First, the mean value of $F(x,y)$ is given by:
+\begin{align}
+\bar F(x,y)&=\frac{1}{N}\sum_{i=1}^{i=N}F(x_i,y_i)\nonumber\\
+&=\frac{1}{N}\sum_{i=1}^{i=N} \left[ F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)  \right]\nonumber\\
+&=\left[F(\bar x,\bar y)\frac{1}{N}\sum_{i=1}^{i=N}1 \right]+\left[\die{F}{x}\frac{1}{N}\sum_{i=1}^{i=N}(x_i-\bar x) \right]+\left[\die{F}{y}\frac{1}{N}\sum_{i=1}^{i=N}(y_i-\bar y) \right]\nonumber\\
+&=F(\bar x,\bar y)
+\end{align}
+where the last two terms in the sum are identically zero, since:
+\begin{align}
+\bar x &\equiv \frac{1}{N}\sum_{i=1}^{i=N}x_i\nonumber\\
+\bar y &\equiv \frac{1}{N}\sum_{i=1}^{i=N}y_i\nonumber\\
+\end{align} 
+Thus the mean value, $\bar F(x,y)$, is given by evaluating $F(x,y)$ at the mean values, $\bar x$ and $\bar y$.
+
+We now evaluate the variance of $F(x,y)$ (and we can take the square root later to get the standard deviation), by using the definition of the variance:
+\begin{align}
+\sigma_F^2&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[F(x_i,y_i)-\bar F(x,y)\right]^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)-F(\bar x,\bar y)\right]^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)\right]^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[\left(\die{F}{x}(x_i-\bar x)\right)^2+\left(\die{F}{y}(y_i-\bar y)\right)^2+2 \die{F}{x}\die{F}{y}(x_i-\bar x) (y_i-\bar y) \right]\nonumber\\
+&=\left(\die{F}{x}\right)^2\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x)^2+\left(\die{F}{y}\right)^2\frac{1}{N-1}\sum_{i=1}^{i=N}(y_i-\bar y)^2\nonumber\\
+&+2\die{F}{x}\die{F}{y}\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x) (y_i-\bar y)\nonumber\\
+&=\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}
+\end{align}
+where we have used the definition of the covariance factor, $\sigma_{xy}$:
+\begin{align}
+\sigma_{xy}\equiv\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x) (y_i-\bar y)
+\end{align}
+We can take the square root to get the standard deviation of the values of $F(x_i,y_i)$:
+\begin{align}
+\label{eqn:coverror}
+\sigma_F=\sqrt{\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
+\end{align} 
+which is the origin for the formula that is used for propagating errors in a function of multiple variables (recall equation \ref{eqn:derivPropagateCorr}). It is important to note when this formula can be used for propagating uncertainties. Namely, to be valid it requires that:
+\begin{itemize}
+\item The values of $x_i$ and $y_i$ have a small standard deviation (that is, a small relative uncertainty)
+\item The uncertainties in $x$ and $y$ can be thought of as the standard deviations of the corresponding values if multiple measurements were made (this is also justifies determining the uncertainties by making repeated measurements)
+\end{itemize}
+The formula is trivially extended to the case of more than two variables by simply adding a covariance term for each pair of correlated variables, and the corresponding derivative term for each variable. 
+
+If the variables $x$ and $y$ are independent, the covariance factor will be zero, and the formula simplifies to:
+\begin{align*}
+\sigma_F=\sqrt{\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2}
+\end{align*}
+Again, we see that if the uncertainties are representative of the statistical spread in values that we obtain when repeating measurements, we naturally arrive at a prescription for adding in quadrature.
 
 \section{The histogram}
 The histogram is a way to visualize a set of measurements of the same quantity. With repeated measurements, we generally obtain a ``distribution'' of values and the histogram is a way to visualize that distribution. In example \ref{ex:meanvardata}, we had the following measurements: $x_i=$\{ 1., 1., 1.1, 1.1, 1.2, 1.2, 1.3, 1.3, 1.3, 1.4, 1.5, 1.6 \} for the value of some parameter, $x$. One way to visualize these data is to count how many times each value occurs and to make a table, as in Table \ref{tab:measfreq}
-\begin{table}[!ht]
+\begin{center}
 \center
 \begin{tabular}{|c|c|}
 \hline
@@ -221,17 +308,17 @@ value & frequency\\
 1.6 &1\\
 \hline
 \end{tabular}
-\caption{\label{tab:measfreq}Frequency of occurrence of each measurement.}
-\end{table}
+\captionof{table}{\label{tab:measfreq}Frequency of occurrence of each measurement.}
+\end{center}
 
 We can visualize this table easily using a ``histogram'', as in Figure \ref{fig:simplehist}.
-\capfig{0.5\textwidth}{figures/simplehist.png}{\label{fig:simplehist}A simple histogram of the measurements from Example \ref{ex:meanvardata} and Table \ref{tab:measfreq}.}
+\capfig{0.7\textwidth}{figures/simplehist.png}{\label{fig:simplehist}A simple histogram of the measurements from Example \ref{ex:meanvardata} and Table \ref{tab:measfreq}.}
 
 Histograms are drawn as ``bar charts'', since measurements at different values on the x-axis are unrelated (it would not be meaningful to treat the columns in Table \ref{tab:measfreq} as x and y values for data points and connect them with a line). We call each bar on the chart a ``bin'', since it ``holds'' the number of times each measurement occurred. The histogram is a good way to visualize a distribution of values; in our case, we can see that the value 1.3 comes up the most, and that the values below 1.3 come up more often than the ones above (the distribution is asymmetric about the mode). With only 12 measurements, it is not too difficult to sort the values and come to these conclusions without drawing a histogram; in the case where we have many measurements, histograms become an extremely useful visualization (and analysis) tool.
 
 In the case that we just illustrated, we counted the occurrences of specific values, such as 1.3 or 1.2. If we had measured these numbers with additional precision (more decimals), it is likely that they each would be different. In this case, it would not make sense to count how many times each specific value occurred, since each value would likely occur only once. What we really want to do, is count how many times we get a value that is within a certain range. That is, we define the left and right edge for each bin, and then count how many times we get a value within that range. The histogram in Figure \ref{fig:simplehist} was in fact defined to have 7 bins: the first bin from 0.95 to 1.05, the second bin from 1.05 to 1.15, etc, in such a way that the numbers 1.0, 1.1, etc ended up at the center of each bin. In Figure \ref{fig:simplehist_rebin}, we have made a histogram of the same data, but using only three, unequally-sized, bins: from 0.9 to 1.1, from 1.1 to 1.4, and from 1.4 to 1.7, which results in an equally valid histogram of the data. 
  
-\capfig{0.5\textwidth}{figures/simplehist_rebin.png}{\label{fig:simplehist_rebin}The same histogram as in Figure \ref{fig:simplehist} but with different size bins.}
+\capfig{0.7\textwidth}{figures/simplehist_rebin.png}{\label{fig:simplehist_rebin}The same histogram as in Figure \ref{fig:simplehist} but with different size bins.}
 
 As you can see, we have some liberty in how we define the ``binning'' of our histogram. If we make all of the bins really narrow, then they would typically have counts of either 0 or 1 and we would not see much structure in the data. Conversely, if we make the bins very wide, then all the measurements will end up into one bin, and the histogram will not help us to  visualize anything either.
 
@@ -247,12 +334,12 @@ A = dx\sum_{i=1}^{i=N}n_i
 \end{align}
 where $\sum_{i=1}^{i=N}n_i$ is equal to the number of measurements (the sum of the contents of each bin). In Figure \ref{fig:simplehist} from above, we had a fixed bin width of 0.1 and a total of 12 measurements; the area is thus given by $A=1.2$. We can thus ``normalize'' that histogram by dividing the content of each bin by 1.2, as in Figure \ref{fig:simplehist_normed}. In python, histograms can easily be normalized by passing the argument \code{normed=True} to the \code{hist()} function. 
 
-\capfig{0.5\textwidth}{figures/simplehist_normed.png}{\label{fig:simplehist_normed}The same histogram as in Figure \ref{fig:simplehist} but normalized to have an area of 1.}
+\capfig{0.7\textwidth}{figures/simplehist_normed.png}{\label{fig:simplehist_normed}The same histogram as in Figure \ref{fig:simplehist} but normalized to have an area of 1.}
 
 As we will see in the next chapters, a normalized histogram can be thought of as a ``probability density function''. If we assume that the data in the histogram are representative of the distribution of measurements that we would get if we repeated the measurements, then the normalized bin contents are representative of the probability of obtaining a certain measurement that would fall in that bin. For example, using Figure \ref{fig:simplehist_normed}, we could quote that the probability of obtaining a measurement between 1.25 and 1.35 is given by (bin content)$\times$ (bin width) = 2.5 $\times$ 0.1 = 25\%. In our original 12 measurements, we had obtained the number 1.3 three times, or 25\% of the time.
 
 The example python code below shows how to obtain the histograms shown in this section:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Making histograms]
 import numpy as np
 import pylab as pl
 #Make the histograms in Figures 5-2, 5-3, 5-4
@@ -287,12 +374,11 @@ pl.xlabel("Measurement")
 pl.ylabel("Normalized number of occurrences")
 pl.title("Normalized histogram")
 pl.show()
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 Bins used: [ 0.9  1.1  1.4  1.7]
 Counts in each bin [ 2.  7.  3.]
-\end{verbatim}
+\end{poutput}
 
 \section{Comparing statistical data to a model}
 We now have a few tools that can allow us to compare statistical data to a model (or between different data sets). For example, if one researcher has measured the lengths of 8 month old Canadian sphynx cats and another researcher has measured the lengths of 8 month old American sphynx cats, we can think about whether the Canadian and American cats are statistically similar. We could compare the mean lengths of the two samples using the corresponding errors on the mean to see if they agree. If the means agree within their respective errors on the mean, we could still conclude that Canadian and American cats are different if the shapes of the normalized histograms of the measurements were very different (e.g. you could get the same mean, but vastly different distributions).
@@ -324,5 +410,12 @@ where $\bar x$ and $\bar y$ are the sample means of the measurements of $x$ and 
 \rho_{xy}\equiv\frac{\sigma_{xy}}{\sigma_x\sigma_y}
 \end{align}
 where $\sigma_x$ and $\sigma_y$ are the sample standard deviations of the measurements of $x$ and $y$, respectively. The correlation is a measure of whether the quantities $x$ and $y$ tend to be simultaneously big or small when measured.
+
+We then considered the statistical properties of a function $F(x,y)$, when evaluated for a set of measurements $x_i$ and $y_i$. We found that, if the values of $x$ and $y$ had small standard deviations, then the mean and standard deviation of the values of $F(x_i,y_i)$ were given by:
+\begin{align}
+\bar F &=F(\bar x,\bar y)\\
+\sigma_F&=\sqrt{\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
+\end{align}
+which is the basis of the error propagation formula presented in the previous chapter. In order for the formula to be valid for error propagation, the errors in $x$ and $y$ must be well modelled by the standard deviation of the corresponding values, and the uncertainties must be small enough so that the first order Taylor series used to derive the formula is a valid approximation.
 
 We finished by introducing the histogram as a way to visualize the distribution of measurements of a single quantity. We saw that we have liberty in how we define the location and sizes of the bins. We saw that by normalizing the area of the histogram, we could approximate a probability density function for the data.

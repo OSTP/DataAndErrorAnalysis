@@ -3,6 +3,7 @@
 %
 %This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
 \chapter{Determining uncertainties and presenting data}
+\label{chap:Uncertainties}
 In this chapter we will look at how to determine uncertainties on measurements, how to present those uncertainties, what they mean, and how to determine if two values agree. We will give some basic guidelines that are of use for undergraduate laboratories, and justify most of those guidelines in later chapters.
 
 \section{The importance of uncertainties}
@@ -68,7 +69,7 @@ The uncertainty that we obtain using the error on the mean does not guarantee th
 \begin{example}{0pt}{What is the central value and uncertainty on $T$, if the following measurements were performed: $T$=\{2.1\,s, 2.2\,s, 2.1\,s, 2.0\,s, 2.3\,s, 2.1\,s\}?}{}
 \label{ex:ChapUncertainties_mean}
 This is done easily in python
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Mean and std with numpy]
 import numpy as np
 from math import *
 
@@ -81,23 +82,21 @@ Tstd = Ti.std(ddof=1)# this results in the N-1 in the denominator instead of N
 Terr = Tstd/sqrt(Ti.size)
 print("Mean = {:.2f}, Standard deviation = {:.2f}, Error on the mean = {:.2f}".format(Tavg, Tstd, Terr))
 print("T = ","{:.2f} +/- {:.2f} s".format(Tavg,Terr))
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 Mean = 2.13, Standard deviation = 0.10, Error on the mean = 0.04
 T =  2.13 +/- 0.04 s
-\end{verbatim}
+\end{poutput}
 Or, using QExpy:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Mean and std with QExpy]
 import qexpy as q
 T = q.Measurement([2.1,2.2,2.1,2.0,2.3,2.1])
 q.set_sigfigs(2)
 print("T = ","{:.2f} +/- {:.2f} s".format(T.mean,T.error_on_mean))
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 T =  2.13 +/- 0.04 s
-\end{verbatim}
+\end{poutput}
 
 \end{example}
 
@@ -108,6 +107,16 @@ In some experiments, the quantity that we measure is something that we can count
 
 It turns out that the answer is rather simple: \textbf{if the events occur at random times but with a well defined average rate, the uncertainty on the number of counts, $N$, is the square root of the number of counts, $\sqrt{N}$.}. In our example, we would conclude that the rate of accidents per month is 8 $\pm$ 2.8. The square root uncertainty is also constructed such that the true value has approximately a 68\% chance of occurring in the quoted range. The value is close to 68\% when $N$ is large (bigger than about 75), and reduces as $N$ becomes smaller. We will examine this in more detail in Chapter \ref{chap:StatsDistributions}, when we consider the Poisson distribution.
 
+\subsection{Measuring a fraction/proportion - The binomial error on a ratio}
+In some cases, one needs to measure the fraction of a number of outcomes. For example, one may be interested to know which fraction, $p$, of a number of particle collisions result in the creation of a Higgs Boson. Or what fraction of people wear red socks, or what fraction of camelids are vicu\~nas. In all these cases, the fraction is defined as the ratio of the number of outcomes of interest, $k$, to the total number of outcomes, $N$:
+\begin{align}
+p=\frac{k}{N}
+\end{align}
+In such a situation, it is important to note that $k$ and $N$ are not independent; that is, if there are more people in the room ($N$), there will also be more people wearing red socks ($k$), but their ratio, $p$, is assumed to be constant. When this is the case, the uncertainty in $p$ is given by:
+\begin{align}
+\sigma_p = \sqrt{\frac{p(1-p)}{N}}
+\end{align}
+This will be justified in Chapter \ref{chap:StatsDistributions}, when we consider the binomial distribution.
 \section{Overestimating uncertainties is also bad!}
 With all of these caveats in determining the uncertainties on measurements, we may be tempted to just round up all of our uncertainties to be on the safe side. That way, we will have a good chance of concluding in our lab report that the results agree with the laws of physics! In principle, for an undergraduate laboratory, there will not be much consequences in doing this (the labs are not really expected to revolutionize our understanding of physics). Hopefully, there is no need to convince you that this is not a very scientific attitude, and you certainly should not think like this! Similarly, it should be obvious that if we really are testing the laws of physics (with the hope of discovering something new), then we really want to have the most precise result possible, with the smallest, but justifiable, uncertainties.
 
@@ -127,14 +136,13 @@ In order to help our audience appreciate the precision of our measurement even w
 
 Generally, if the first significant digit in the uncertainty is small (say, less than 5) and the second digit is large (say, more than 5), then it may make sense to include a second digit since that digit results in an ``appreciable change'' in the uncertainty. For example if an uncertainty is determined to be 0.15, then it might make sense to quote it as 0.15 instead of 0.2, since the additional decimal changes the uncertainty by 25\% (an arguably appreciable change). Conversely, if the uncertainty is determined to be 0.92, then it might as well be quoted as 0.9, since the 0.02 results in a small relative change in the uncertainty. In addition to considering the relative change in the uncertainty itself when deciding whether to include an additional digit, we can consider the change in the relative uncertainty of the measurement. For example, if a measurement is determined to be 10001.12 $\pm$ 0.15 (a relative uncertainty of $\frac{0.15}{10001.12}=0.001\%$), then quoting it as 10001.0 $\pm$ 0.2 probably does not make a significant difference in our conclusion. So what is an ``appreciable relative change''? That is of course arbitrary, but for high precision measurements anything above a 1\% change may be considered appreciable, while in undergraduate laboratories, that threshold could be closer to 5\%. 
 
-\begin{example}{0pt}{Present the following results using appropriate significant figures and give the relative uncertainties on the results: 2.1124 $\pm$ 0.156, 100000 $\pm$ 3900, 0.000084341387 $\pm$ 0.000000322331, 0.000091 $\pm$ 0.1}{}
-\begin{itemize}
+\begin{example}{Present the following results using appropriate significant figures and give the relative uncertainties on the results: 2.1124 $\pm$ 0.156, 100000 $\pm$ 3900,\\ 0.000084341387 $\pm$ 0.000000322331, 0.000091 $\pm$ 0.1}
+\begin{itemize}[topsep=0pt]
  \item $2.1124 \pm 0.156 \rightarrow 2.11 \pm 0.16$ (8\% relative) - Include a second digit in the uncertainty since it is an appreciable change in both the uncertainty and the relative uncertainty
  \item $100000 \pm 3900 \rightarrow (100 \pm 4)\times 10^3$ (4\% relative) - Change to scientific notation to easily see the size of the relative uncertainty, only use 1 digit on the uncertainty since changing between 3.9\% and 4\% relative uncertainty is not significant.
  \item $0.000084341387 \pm 0.0000003223 \rightarrow (84.3 \pm 0.3)\times 10^{-6}$ (0.4\% relative) - Scientific notation to make it more legible, only show 1 digit for the uncertainty since the relative uncertainty is already very small.
  \item $0.000091 \pm 0.1 \rightarrow 0.0 \pm 0.1$ (relative not defined) - The uncertainty being so much bigger than the value, we cannot distinguish it from zero, so we might as well quote it as zero. With a zero central value, we cannot determine the relative uncertainty. 
 \end{itemize}
-
 \end{example}
 
 \section{Comparing measured quantities}

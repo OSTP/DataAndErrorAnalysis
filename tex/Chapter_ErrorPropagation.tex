@@ -152,7 +152,7 @@ In more complicated situations, it may be necessary to find out the answer numer
 \begin{example}{}{Given the function $F(x,y)=\sin(x+\log y)$, and the measured values of $x=0\pm1$ and $y=0.5\pm0.2$, use the Min-Max method to find the best estimate and the uncertainty in $F$}{}
 Since this is not a trivial function, we can solve this numerically using python:
 
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Min-Max method] 
 import numpy as np
 from math import *
 
@@ -188,13 +188,12 @@ for xi in xvalues:
 print("The range of F is between {0:.2f} and {1:.2f}".format(Fmin,Fmax))
 print("F is thus given by: {0:.2f} +/- {1:.2f}".format(0.5*(Fmax+Fmin),0.5*(Fmax-Fmin)))
 print("These occurred at x,y = {0:.2f},{1:.2f}, and {2:.2f},{3:.2f}".format(xmin,ymin,xmax,ymax))
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 The range of F is between -1.00 and 0.60
 F is thus given by: -0.20 +/- 0.80
 These occurred at x,y = -0.92,0.52, and 1.00,0.70
-\end{verbatim}
+\end{poutput}
 \end{example}
 
 \subsubsection{Summary and comments on the Min-Max method}
@@ -309,7 +308,7 @@ The uncertainty in $F$ is thus:
   &= \sqrt{\left(\cos(x+\ln y)\sigma_{x}\right)^2 + \left(\cos(x+\log y)\frac{1}{y} \sigma_{y}\right)^2}\\
 \end{align*}
 which we can easily do in python:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Symbolic derivative error propagation with sympy]
 import sympy as sym
 sym.init_printing()
 #Let's use sympy to evaluate the error with the derivatives:
@@ -326,14 +325,13 @@ sigma_F=sym.sqrt((dFdx*sigma_x)**2+(dFdy*sigma_y)**2)
 print("Formula for sigma_F from the derivative:\n",sigma_F)
 #In a notebook, we can just print it out in pretty version:
 sigma_F
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 Formula for sigma_F from the derivative:
  sqrt(\sigma_x**2*cos(x + log(y))**2 + \sigma_y**2*cos(x + log(y))**2/y**2)
-\end{verbatim}
+\end{poutput}
 And then evaluating with actual numbers:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Numerical evaluation of symbolic values from sympy]
 #Let us now evaluate this numerically.
 #Put the tuple of values into a list
 values=[(x,3.0),(sigma_x,0.5),(y,8.0),(sigma_y,1.0)]
@@ -343,16 +341,15 @@ nValue_F=sym.N(F.subs(values))
 nValue_sigmaF=sym.N(sigma_F.subs(values))
 #Print the result
 print("The best estimate and uncertainty in F(x,y) is {:.2f} +/- {:.2f}".format(nValue_F,nValue_sigmaF))
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 The best estimate and uncertainty in F(x,y) is -0.93 +/- 0.18
-\end{verbatim}
+\end{poutput}
 \end{example}
 
 \begin{example}{}{Evaluate the best estimate of $F(x,y,z)$ and its uncertainty, $\sigma_{F}$, for the case where $F(x,y,z)=\sin(x+\ln y)\cos(z)\sqrt{x^2+y^2+2z}$, where the following values have been measured: $x=8\pm0.1$, $y=3\pm0.2$, and $z=10\pm0.3$ }{}
 In this case, it is much easier to just use symbolic computation in python.
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Symbolic-based derivative error with sympy]
 import sympy as sym
 sym.init_printing()
 #Let's use sympy to evaluate the error with the derivatives:
@@ -377,28 +374,17 @@ nValue_F=sym.N(F.subs(values))
 nValue_sigmaF=sym.N(sigma_F.subs(values))
 #Print the result
 print("The best estimate and uncertainty in F(x,y) is {:.2f} +/- {:.2f}".format(nValue_F,nValue_sigmaF))
-\end{lstlisting}
-The output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 The best estimate and uncertainty in F(x,y,z) is -2.59 +/- 1.02
-\end{verbatim}
+\end{poutput}
 You can easily modify this code to calculate the error on any function. 
 \end{example}
 
 \section{Correlated uncertainties}
 \label{sec:corrMeas}
 We have examined two extreme cases for propagating the uncertainties in measured quantities into the uncertainty for a calculated quantity. In the worst case scenario, when the true values of all of the measurements have conspired to result in the largest change in the computed quantity, the uncertainties should be added together directly (as in equation \ref{eqn:maxDerivError}). In this case, we say that the measurements are ``correlated'', since they have all ``worked together'' to result in the largest possible uncertainty. If the measurements are completely independent from each other, then the uncertainties should be added in quadrature (as in equation \ref{eqn:derivPropagate}).
-
-But what if the measurements are ``somewhat'' correlated? That is, what if measuring one quantity to be high usually makes another quantity high as well, but not always? In the next chapter, we will formalize our definition of the ``covariance'', $\sigma_{xy}$, which is a measure of how correlated two quantities are. If we have two quantities, $x$ and $y$, that we measure simultaneously $N$ times, giving us two sets of measurements  $x_i=\{x_1, x_2,\dots, x_N\}$ and $y_i=\{y_1, y_2,\dots, y_N\}$, the covariance, $\sigma_{xy}$, is defined to be:
-\begin{align}
-\sigma_{xy}\equiv\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x)(y_i-\bar y)
-\end{align}
-where $\bar x$ and $\bar y$ are the means (as defined back in equation \ref{eqn:MeanAndStd}) of the measurements of $x$ and $y$, respectively.
-
-Suppose that we are interested in the sum of two masses $M=m_1+m_2$, and that we have made several measurements of $m_1$ and $m_2$ which are tabulated in Table \ref{tab:massSum}. For convenience, we have also added a third column with the sum of the masses measured in each row.
-
-\begin{table}[h]
-\center
+\begin{center}
 \begin{tabular}{ |c|c|c| }
   \hline
   \textbf{$m_1$ (\,kg)} & \textbf{$m_2$ (\,kg)} & \textbf{$M=m_1+m_2$ (\,kg)}\\
@@ -424,8 +410,17 @@ Suppose that we are interested in the sum of two masses $M=m_1+m_2$, and that we
   407.2 & 207.8& 615.0 \\ 
   \hline
 \end{tabular}
-\caption{\label{tab:massSum}Measurements of masses and their sum, for correlated measurements.}
-\end{table}
+\captionof{table}{\label{tab:massSum}Measurements of masses and their sum, for correlated measurements.}
+\end{center}
+But what if the measurements are ``somewhat'' correlated? That is, what if measuring one quantity to be high usually makes another quantity high as well, but not always? In the next chapter, we will formalize our definition of the ``covariance'', $\sigma_{xy}$, which is a measure of how correlated two quantities are. If we have two quantities, $x$ and $y$, that we measure simultaneously $N$ times, giving us two sets of measurements  $x_i=\{x_1, x_2,\dots, x_N\}$ and $y_i=\{y_1, y_2,\dots, y_N\}$, the covariance, $\sigma_{xy}$, is defined to be:
+\begin{align}
+\sigma_{xy}\equiv\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x)(y_i-\bar y)
+\end{align}
+where $\bar x$ and $\bar y$ are the means (as defined back in equation \ref{eqn:MeanAndStd}) of the measurements of $x$ and $y$, respectively.
+
+Suppose that we are interested in the sum of two masses $M=m_1+m_2$, and that we have made several measurements of $m_1$ and $m_2$ which are tabulated in Table \ref{tab:massSum}. For convenience, we have also added a third column with the sum of the masses measured in each row.
+
+
 We have determined the mean and the standard deviation (Equation \ref{eqn:MeanAndStd}) for the individual mass measurements to be $\bar m_1 = 399.7$\,kg, $ \sigma_{m1} = 6.01$\,kg, $\bar m_2=199.4$\,kg, and $\sigma_{m2} =  8.87$\,kg (we kept a non-significant figure here to propagate in our uncertainty calculations). So what would should we quote for $M$ and its uncertainty? There are three obvious options:
 \begin{enumerate}
 \item We can use the mean and error on the mean from the values in the third column. This gives $M=599.1 \pm 4.54$\,kg, which must certainly be correct.
@@ -437,7 +432,7 @@ As expected, the error from the sum in quadrature is smaller than the error from
 
 We can see this graphically very easily by plotting a scatter plot of $m_1$ and $m_2$, as in Figure \ref{fig:correlatedSum}, where we can see that on average, $m_2$ is higher than its mean (199.4\,kg) when $m_1$ is higher than its mean (399.7\,kg). There is a trend and the values are not randomly distributed. If $m_1$ and $m_2$ really were randomly distributed, we would expect the scatter plot to look like an ellipse. 
 
-\capfig{0.5\textwidth}{figures/correlatedSum.png}{\label{fig:correlatedSum}Two measurements that are not completely independent of each other (correlated).}
+\capfig{0.7\textwidth}{figures/correlatedSum.png}{\label{fig:correlatedSum}Two measurements that are not completely independent of each other (correlated).}
 
 The correct way to propagate the uncertainty in quantities that are correlated is to first calculate the covariance factor, $\sigma_{xy}$, and then to use a more general version of equation \ref{eqn:derivPropagate}:
 \begin{align}
@@ -445,14 +440,14 @@ The correct way to propagate the uncertainty in quantities that are correlated i
 F&=F(x,y)\nonumber\\
 \sigma_F &= \sqrt{\left(\die{F}{x}\sigma_x\right)^2 + \left(\die{F}{y} \sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
 \end{align}
-where the partial derivatives are evaluated at the central values of $x$ and $y$, and $\sigma_{xy}$ is the covariance between $x$ and $y$. The formula is easily extended for more than 2 variables, where there will be one cross term for each pair of correlated variables. We will derive this formula in Chapter \ref{chap:StatsNormal}.
+where the partial derivatives are evaluated at the central values of $x$ and $y$, and $\sigma_{xy}$ is the covariance between $x$ and $y$. The formula is easily extended for more than 2 variables, where there will be one cross term for each pair of correlated variables. We will derive this formula in Chapter \ref{Chap:statData}.
 
 Using equation \ref{eqn:derivPropagateCorr} for the example of the two masses in table \ref{tab:massSum}, the covariance is determined to be $\sigma_{m_1m_2}=45.61$ leading to an uncertainty in the sum of $\sigma_M=\frac{1}{\sqrt{N}}\sqrt{\sigma_{m_1}^2+\sigma_{m_2}^2+2\sigma_{m_1m_2}}=4.54$\,kg, which is the same result as obtained by treating the third column in Table \ref{tab:massSum} as independent measurements.
 
 We used equation \ref{eqn:derivPropagateCorr} to estimate the standard deviation of the sum, and then divided that by the square root of the number of measurements to obtain the error on the mean of the sum. This is because the covariance is a property that does not depend on the number of measurements, so it cannot be added to the errors on the mean of $m_1$ and $m_2$. We will see in chapter \ref{chap:StatsNormal} that equation \ref{eqn:derivPropagateCorr} comes from estimating the variance (the square of the standard deviation) of the calculated quantity in terms of the variances of the measured quantities (the square root then gives the standard deviation, and dividing by $\sqrt{N}$ then leads to the error on the mean of the calculated quantity).
 
 The code below compares the various computations for estimating the error on the sum of the masses from Table \ref{tab:massSum}:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Different error calculations for a set of values]
 import numpy as np
 from math import *
 #Copy and paste the data, add commas by hand
@@ -491,9 +486,8 @@ print("Treat as independent measurements: M = {:.2f} +/- {:.2f} (correct)".forma
 print("Quadrature: M = {:.2f} +/- {:.2f} (underestimate)".format(msmean,sqrt(m1std**2+m2std**2)/sqrt(msum.size)))
 print("Sum error: M = {:.2f} +/- {:.2f} (overestimate)".format(msmean,(m1std+m2std)/sqrt(msum.size)))
 print("With covariance: M = {:.2f} +/- {:.2f} (correct)".format(msmean,sqrt(m1std**2+m2std**2+2*cov)/sqrt(msum.size)))
-\end{lstlisting}
-the output is:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 m1 = 399.70 +/- 1.90
 m2 = 199.40 +/- 2.81
 covariance = 45.67
@@ -501,7 +495,7 @@ Treat as independent measurements: M = 599.10 +/- 4.54 (correct)
 Quadrature: M = 599.10 +/- 3.39 (underestimate)
 Sum error: M = 599.10 +/- 4.71 (overestimate)
 With covariance: M = 599.10 +/- 4.54 (correct)
-\end{verbatim}
+\end{poutput}
 
 It is worth noting that the covariance, $\sigma_{m_1m_2}$, is negative if the variables are ``anti-correlated''; that is, if one value being predictably higher than its mean leads to the other variable being predictably lower than its mean. A negative covariance can lead to a smaller overall uncertainty in equation \ref{eqn:derivPropagateCorr} than one would get if the variables were independent (by adding in quadrature). Such an example is illustrated by the data in Table \ref{tab:massSum2} and shown in the scatter plot in Figure \ref{fig:correlatedSum2}. The output of the program above, using the data from Table \ref{tab:massSum2} is:
 \begin{verbatim}
@@ -545,9 +539,8 @@ and shows that the correct uncertainty obtained using the negative covariance is
 \caption{\label{tab:massSum2}Measurements of masses and their sum, for anti-correlated measurements.}
 \end{table}
 
-\capfig{0.5\textwidth}{figures/correlatedSum2.png}{\label{fig:correlatedSum2}Two measurements that are not completely independent of each other (anti-correlated).}
+\capfig{0.7\textwidth}{figures/correlatedSum2.png}{\label{fig:correlatedSum2}Two measurements that are not completely independent of each other (anti-correlated).}
 
-\clearpage
 \section{Averaging numbers with uncertainties}
 Suppose that two different experiments have measured the same quantity, $X$, and obtained, say $x_1=10 \pm 0.1$ and $x_2=11 \pm 1$, respectively. We assume that both measurements have correctly estimated their uncertainties, and that these each represent a 68\% confidence of the true value being within their quoted uncertainty range. How do we combine both of these measurements into a single average measurement? How do we compute the uncertainty in the average measurement?
 

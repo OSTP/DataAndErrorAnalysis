@@ -5,6 +5,12 @@
 
 
 \documentclass[12pt]{book}
+\usepackage[paper=letterpaper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=.0in,     % Length of section titles
+            marginparsep=.05in,       % Space between titles and text
+            margin=1in,               % 1 inch margins
+            includemp]{geometry}
 \usepackage{mathtools} % for \Aboxed
 \usepackage{paralist}
 \usepackage{calc}
@@ -96,9 +102,9 @@
 }{}
 
 \lstnewenvironment{poutput}{
- \lstset{caption=\mbox{}, language=,aboveskip=-3pt}
+ \lstset{caption=Output, language=,aboveskip=-3pt}
  \addtocounter{lstlisting}{-1}
- \renewcommand\lstlistingname{Output}
+ \renewcommand\lstlistingname{}
 }{}
 
 
@@ -150,7 +156,6 @@
 \setlength{\intextsep}{12pt}
 
 
-
 %%Simplifed figure environment:
 %\newenvironment{capfig}[3]{\begin{figure}[h!]\centering\includegraphics[width=#1]{#2}\caption{#3}\end{figure}}{}
 \newenvironment{capfig}[3]{\begin{center}\includegraphics[width=#1]{#2}\captionof{figure}{#3}\end{center}}{}
@@ -171,7 +176,6 @@
 \setlength{\columnsep}{10pt}%
 \begin{wrapfigure}[#1]{L}{#2}\centering\includegraphics[width=#2]{#3}\caption{#4}\end{wrapfigure}}{\endgroup }
 
-
 %%Checkpoint question in a box, with counter:
 \newcounter{ncheckpoint}[chapter]
 \def\thecheckpoint{\thechapter-\arabic{ncheckpoint}}
@@ -179,14 +183,7 @@
 %%MC checkpoint
 \newenvironment{checkpointMC}[1]{\refstepcounter{ncheckpoint}%
     \textbf{Checkpoint \thecheckpoint: }#1 %
-    \begin{enumerate}[label=\Alph*),topsep=-10pt]}%
-   {\end{enumerate}}
-\surroundwithmdframed[skipabove=10pt,linewidth=2pt, backgroundcolor=green!10, roundcorner=10pt,nobreak=true]{checkpointMC}
-
-%%Short Answer checkpoint
-\newenvironment{checkpointSA}[1]{\refstepcounter{ncheckpoint}%
-    \textbf{Checkpoint \thecheckpoint: }#1\\}{}
-\surroundwithmdframed[skipabove=10pt,linewidth=2pt, backgroundcolor=green!10, roundcorner=10pt,nobreak=true]{checkpointSA}
+    \begin{enumerate}[label=\Alph*),topsep=-10pt]}%  ithmdframed[skipabove=10pt,linewidth=2pt, backgroundcolor=green!10, roundcorner=10pt,nobreak=true]{checkpointSA}
 
 
 %%Learning objectives box:
@@ -232,23 +229,20 @@
 %\g@addto@macro{\maketitle}{\secondpage}
 %\makeatother
           
-\usepackage[paper=letterpaper,
-            %includefoot, % Uncomment to put page number above margin
-            marginparwidth=.0in,     % Length of section titles
-            marginparsep=.05in,       % Space between titles and text
-            margin=1in,               % 1 inch margins
-            includemp]{geometry}
-
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
+\let\cleardoublepage=\clearpage
 \begin{document}
 \title{Data and Error Analysis}
 \author{Ryan D. Martin}
 \pagenumbering{roman}
 \maketitle
+\frontmatter
 \tableofcontents
+\lstlistoflistings
 \pagenumbering{arabic}
+\mainmatter
 \include{Chapter_Introduction}
 %\include{Chapter_Introduction_Problems}
 \include{Chapter_Python}

@@ -208,6 +208,7 @@ The question is whether you waking up with a headache means that aliens probed y
 Surely you can find less ridiculous examples in real life where someone has tried to convince you that some data makes some hypothesis sound plausible. That is because they forgot that the prior probability for that theory was infinitesimal to begin with! The less likely a hypothesis is, the more significant the data must be to convince one of the hypothesis (and you can never ``prove'' a hypothesis). Assigning a numerical value to the prior probabilities is the tricky part. You can however agree that Bayes' theorem  gives a useful way to think about probabilities and statistics, and this is why it is often adopted as a modern framework for analysis.
 
 \subsection{The probability that a coin is fair}
+\label{sec:BayesianCoin}
 We can use a Bayesian analysis to estimate, based on a result, whether a coin is fair. Let us suppose that we flipped a coin 10 times and obtained heads 7 times, and we wish to use this result to determine the probability, $p$, that the coin will land on heads. We need to formulate this problem into a Bayesian hypothesis. Since $p$ can take a infinite number of values between 0 and 1, we could formulate the hypothesis that $p$ lies between 0.49 and 0.51 to be equivalent to the hypothesis that the coin is fair. Very generally, we can form a continuous number of hypotheses corresponding to $p$ being in different ranges. Let us call $P(p|result)$ the probability density function for $p$, so that $P(p|result)dp$ is the posterior probability that $p$ lies between $p$ and $p+dp$.
 
 From Bayes' theorem, we have:
@@ -224,7 +225,7 @@ P(p|result)\propto P(result|p)=P^{binomial}(k=7,N=10,p)
 \end{align*}
 That is, we can treat the binomial probability as the probability density for $p$, given a fixed value of $k$ and $N$. Using this flat prior, the posterior probability for $p$ can be calculated with the following simple python code, and is plotted in Figure \ref{fig:coin_post_flat}.
 
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Posterior probability for a coin toss]
 import scipy.stats as stats
 import numpy as np
 import pylab as pl
@@ -246,15 +247,39 @@ pl.ylabel('pdf for p to get k={:.0f} and N={:.0f}'.format(k,N))
 pl.legend(loc='best')
 pl.title("Prior with no knowledge about p")
 pl.show()
-\end{lstlisting}
+\end{python}
+\begin{poutput}
+(* \capfig{0.7\textwidth}{figures/coin_post_flat.png}{\label{fig:coin_post_flat} Posterior probability for the probability that a coin will land on heads, based on having had the result of 7 heads in 10 coin tosses and a flat prior.} *)
+\end{poutput}
 
-\capfig{0.4\textwidth}{figures/coin_post_flat.png}{\label{fig:coin_post_flat} Posterior probability for the probability that a coin will land on heads, based on having had the result of 7 heads in 10 coin tosses and a flat prior.}
-
+The posterior probability plotted in Figure \ref{fig:coin_post_flat} tells us the probability that $p$ is within a certain range based on our measurements of $k$ and $N$. In Chapters \ref{chap:Uncertainties} and \ref{chap:StatsDistributions} we introduced the binomial error that one would obtain for the measurement of the fraction (or proportion), $p=\frac{k}{N}$ as:
+\begin{align*}
+\sigma p = \frac{\sigma_k}{N}=\sqrt{\frac{p(1-p)}{N}}
+\end{align*}
+Using the data in Figure \ref{fig:coin_post_flat}, we can determine which fraction of the posterior probability lies in the range $p\pm\sigma_p$ using a simple python code:
+\begin{python}[caption = Coverage of the binomial error on a ratio]
+p_mean = k/N
+sigma_p= np.sqrt(p_mean*(1.0-p_mean)/N)
+#Calculate the probability that p is in the range p+/-sigma_p by summing all of the probabilities in the range
+#(and then dividing by the normalization given by the sum in the range of p=0 to p=1):
+#Find the indices of the array p that correspond to the min and max value of p:
+pmin = p_mean-sigma_p
+pmax = p_mean+sigma_p
+ipmin = (np.abs(p-pmin)).argmin()
+ipmax = (np.abs(p-pmax)).argmin()
+#the probability
+prob = pbinom[ipmin:ipmax].sum()/pbinom.sum()
+print("The probability that p is between {:.2f} and {:.2f} is {:.1f}%".format(p[ipmin],p[ipmax],100*prob))
+\end{python}
+\begin{poutput}
+The probability that p is between 0.56 and 0.84 is 72.3%.
+\end{poutput}
+which is close to the canonical 68\% that one would obtain if the posterior for $p$ were normally distributed. It is easy to verify that as $k$ and $N$ increase (while maintaining their ratio constant), the posterior distribution for $p$ (under the assumption of a flat prior) converges to a normal distribution with standard deviation equal to $\sigma_p$. We have already observed that the binomial distribution for $k$ approaches the normal distribution when the mean $\bar k=Np$ is large, so the same condition will lead to a normal distribution for $p$, as long as the Bayesian prior is flat. The Bayesian approach thus gives us a more general description of our measurement of $p$, and we see that the binomial error gives a good approximation in the case when the posterior for $p$ becomes gaussian.
 
 We can examine the effect of different prior probabilities. For example, if we believe that the coin is fair (perhaps it was provided by your trusted physics professor), we may have a prior probability that is a gaussian centered at $\mu_p=0.5$ with a standard deviation of, say, $\sigma_p$=0.1.
 
 On the other hand, we may believe that the coin is biased (perhaps it was provided by a con artist), so that the prior probability is peaked at values of $p=0$ and $p=1$. The python code below shows how the posterior probability is affected by these different priors, which are plotted in Figure \ref{fig:coin_post_notflat}.
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Posterior probability for a coin toss with different priors]
 #Let's start with an assumption that the coin is likely fair, with p normally distributed about 0.5 with std=0.1
 prior_fair = stats.norm.pdf(p,0.5,0.1)
 posterior_fair = pbinom*prior_fair
@@ -285,13 +310,15 @@ pl.title("Prior that the coin is biased")
 
 pl.tight_layout()
 pl.show()
-\end{lstlisting}
-\capfig{0.8\textwidth}{figures/coin_post_notflat.png}{\label{fig:coin_post_notflat} Posterior probabilities for the probability that a coin will land on heads, based on having had the result of 7 heads in 10 coin tosses and a prior that the coin is likely fair or likely biased.}
+\end{python}
+\begin{poutput}
+(* \capfig{0.8\textwidth}{figures/coin_post_notflat.png}{\label{fig:coin_post_notflat} Posterior probabilities for the probability that a coin will land on heads, based on having had the result of 7 heads in 10 coin tosses and a prior that the coin is likely fair or likely biased.} *)
+\end{poutput}
 
 In these cases, we see that our choice of prior has an effect on the posterior probability and our interpretation of the data. For the prior that the coin is fair, the posterior is slightly shifted to higher values of $p$, but since the data are not that significant, the posterior probability is still consistent with a value $p=0.5$. For the case of the prior that the coin is unfair, the data has resulted in us completely rejecting the possibility that $p$ is close to zero, and also results in a low posterior probability that the coin is fair ($p=0.5$). The data combined with our prior probability thus support the conclusion that the coin is unfair. As you can see, in a Bayesian analysis, the effect of the prior probability can be quite large, which is both a good and a bad thing. It is good because it gives us a framework to incorporate previous knowledge, and bad because defining the prior can be subjective.
 
 We can use this posterior probability for $p$ to give our degree of belief that $p$ lies within a certain range. Note that the posterior probability is not normalized, so we must normalize it by dividing by the sum of all possible outcomes. The python code below gives the probability that $p$ is between 0.45 and 0.55 for the 3 different priors:
-\begin{lstlisting}[frame=single] 
+\begin{python}[caption = Defining a confidence range from the posterior probability]
 #Define a range for p
 pmin = 0.45
 pmax = 0.55
@@ -306,13 +333,12 @@ prob = posterior_fair[ipmin:ipmax].sum()/posterior_fair.sum()
 print("With fair prior, the probability that p is between {:.2f} and {:.2f} is {:.2f}%".format(p[ipmin],p[ipmax],100*prob))
 prob = posterior_unfair[ipmin:ipmax].sum()/posterior_unfair.sum()
 print("With unfair prior, the probability that p is between {:.2f} and {:.2f} is {:.7f}%".format(p[ipmin],p[ipmax],100*prob))
-\end{lstlisting}
-with output:
-\begin{verbatim}
+\end{python}
+\begin{poutput}
 With flat prior, the probability that p is between 0.45 and 0.55 is 13.01%
 With fair prior, the probability that p is between 0.45 and 0.55 is 36.28%
 With unfair prior, the probability that p is between 0.45 and 0.55 is 0.000068%
-\end{verbatim}
+\end{poutput}
  
 
 In Figure \ref{fig:coin_post_all_big}, we show the posterior probabilities for $p$ after having obtained 70 heads in 100 coin tosses. We show the result for the same three priors as above, namely a flat prior, a prior that the coin is fair, and a prior that the coin is biased. In this case, all three posterior distributions are similar, and we see that the choice of prior had little effect on our analysis. Regardless of our prior, we would conclude that it is unlikely that $p=0.5$. This is because the result of obtaining 70 heads in 100 coin tosses is much more statistically significant than that of obtaining 7 heads in 10 coin tosses. In this case, the data carried much more weight than the prior, which is intuitively satisfying. Thus if we have significant data, the choice of prior matters less, and we can be less concerned about the potentially subjective nature of the prior.
@@ -326,7 +352,6 @@ With fair prior, the probability that p is between 0.45 and 0.55 is 0.60%
 With unfair prior, the probability that p is between 0.45 and 0.55 is 0.0000058%
 \end{verbatim}
 
-\clearpage
 \subsection{Fitting a straight line the Bayesian way}
 A complete development of Bayesian data analysis is beyond the scope of this book, although it is worth illustrating the process. Consider the case where we have $N$ pairs of data points, $(x_i,y_i)$, and we wish to determine the best values for the parameters, $a$ and $b$, of a linear model that describes the data:
 \begin{align*}
@@ -360,13 +385,13 @@ There is a clever algorithm called the Markov Chain Monte Carlo (MCMC) that, giv
 
 Figure \ref{fig:fakexy} shows a simulated data set with a true offset, $a=3$, and a true slope $b=8$. 
 
-\capfig{0.4\textwidth}{figures/fakexy.png}{\label{fig:fakexy} Simulated data generated with an offset of 3 and a slope of 8.}
+\capfig{0.7\textwidth}{figures/fakexy.png}{\label{fig:fakexy} Simulated data generated with an offset of 3 and a slope of 8.}
 
 Figure \ref{fig:posterior2d} shows a projection of the posterior probability $P(a,b|data)$ onto a 2-dimensional plane corresponding to $a$ and $b$. This was done for the case where the prior probability for $b$ was chosen with $\mu_b=10$ and $\sigma_b=1$. The mean value of $b$ from a previous measurement is thus not consistent with the ``true'' value of $b=8$ that we chose to simulate the data. 
 
 We can see that the posterior probability is maximal in the regions of $b=8.5$ and $a=-1$. The posterior is similar to the chi-squared as a function of $a$ and $b$, except that it also contains the prior probability for $b$. The MCMC algorithm actually allows us to draw a histogram of data that are proportional to the posterior probability, which we could normalize to obtain an actual probability.
 
-\capfig{0.4\textwidth}{figures/posterior2d.png}{\label{fig:posterior2d} 2-dimensional posterior distribution, for the case with $\mu_b=10$ and $\sigma_b=1$.}
+\capfig{0.7\textwidth}{figures/posterior2d.png}{\label{fig:posterior2d} 2-dimensional posterior distribution, for the case with $\mu_b=10$ and $\sigma_b=1$.}
 
 In order to estimate our best values for $a$ and $b$, we can project the posterior probability into a 1-dimensional form for $a$ and $b$. This leads to 1-dimensional histograms that are proportional to the prior probability, which we can normalize, as shown in Figure \ref{fig:posterior1d_sigma1}. From this, we can see that the posterior probabilities for both parameters are reasonably close to gaussian. It is thus reasonable to define the best fit values of the parameters as the mean and standard deviation of the gaussian posterior distribution, although one is free to define the best estimate as they please. The true power of the Bayesian method is that one can visualize the actual posterior probability for the parameters. 
 

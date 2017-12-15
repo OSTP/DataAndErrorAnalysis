@@ -23,7 +23,7 @@ which of course should be written as an integral since $x$ is a continuous varia
 \begin{align}
 \int_{-\infty}^{+\infty}P^{norm}(x,\mu_x,\sigma_x)dx &=1
 \end{align}
-\capfig{0.7\textwidth}{figures/normaldist.png}{\label{fig:normaldist} Normal distribution for different parameters.}
+\capfig{0.5\textwidth}{figures/normaldist.png}{\label{fig:normaldist} Normal distribution for different parameters.}
 
 The main reason that the normal distribution is so important is that both the binomial and the Poisson distributions approach the normal distribution when their mean is large. Figure \ref{fig:normal_binomial} shows that as the mean of the binomial distribution increases, the distribution approaches the normal distribution with $\mu_x=Np$  and $\sigma_x=\sqrt{Np(1-p)}$ (given by the mean and standard deviation of the binomial distribution).
 
@@ -44,7 +44,7 @@ If you try to evaluate this with your calculator, it might crash when trying to 
 The parameters for the normal distribution in terms of the parameters from the binomial distribution are given by $\mu_x=Np=140$ and $\sigma_x=\sqrt{Np(1-p)}=8.7$. We can evaluate the probability for the normal distribution, $P^{norm}(x,\mu_x,\sigma_x)dx$ using $x=140$ and $dx=1$, which we interpret as the probability of obtaining $x$ between 140 and 141, since the probability of obtaining an exact value of $x$ is zero. Of course, with $dx=1$, we only really evaluate $P^{norm}(x,\mu_x,\sigma_x)$ at the given value of $x$, but we should always remember that we have implicitly chosen $dx=1$, and our result is the probability of having $x$ between $x$ and $x+dx$. 
 
 The simple python program below evaluates the two probabilities:  
-\begin{python}[caption = Comparison of probabilities from binomial and normal distributions]
+\begin{lstlisting}
 import scipy.stats as stats
 from math import sqrt
 #We need the following binomial probability:
@@ -57,11 +57,12 @@ print("The binomial probability of k=140, N=300, p=0.5 is: {:.5f}".format(stats.
 mu=N*p
 sigma=sqrt(N*p*(1.0-p))
 print("The gaussian probability of x=140 for mu={} and sigma={:.2f} is: {:.5f}".format(mu,sigma,stats.norm.pdf(140,mu,sigma)))
-\end{python}
-\begin{poutput}
+\end{lstlisting}
+The output is:
+\begin{verbatim}
 The binomial probability of k=140, N=300, p=0.5 is: 0.02367
 The gaussian probability of x=140 for mu=150.0 and sigma=8.66 is: 0.02365
-\end{poutput}
+\end{verbatim}
 and the probability from the normal distribution is indeed very close to that from the binomial distribution.
 \end{example}
 
@@ -100,7 +101,7 @@ If we do the proper integral, we find:
 The probability from the normal distribution when evaluated correctly (with the integral) is within 1 \% of the Poisson probability, and within 3\% when evaluated with $dx=1$. As the mean of the distribution becomes bigger, the approximation between the normal and Poisson distribution will improve.
 
 The calculations can be performed using the following code in python:
-\begin{python}[caption = Comparison of probabilities from Poisson and normal distributions]
+\begin{lstlisting}
 #Example 7-2
 import scipy.stats as stats
 from math import sqrt
@@ -116,13 +117,13 @@ print("Gaussian prob of 30 students skipping class evaluated at x=30: {:.4f}".fo
 #Using the full integral, we need to subtract the cdf for x=30 and the sf for x=31 from 1:
 prob=1.0-stats.norm.cdf(30,mu,sigma)-stats.norm.sf(31,mu,sigma)
 print("Gaussian prob of 30 students skipping class with integral: {:.4f}".format(prob))
-\end{python}
+\end{lstlisting}
 The output is:
-\begin{poutput}
+\begin{verbatim}
 Poisson prob of 30 students skipping class: 0.0454
 Gaussian prob of 30 students skipping class evaluated at x=30: 0.0484
 Gaussian prob of 30 students skipping class with integral: 0.0436
-\end{poutput}
+\end{verbatim}
 
 \end{example}
 
@@ -131,32 +132,29 @@ As we will see, it is often useful to compute the probability of obtaining a val
 P(\mu_x-\sigma_x \leq x \leq \mu_x+\sigma_x) = \int_{\mu_x-\sigma_x}^{\mu_x+\sigma_x}P^{norm}(x,\mu_x,\sigma_x)dx=0.68
 \end{align}
 which is a fixed number, regardless of the actual values of $\mu_x$ and $\sigma_x$. This is the origin of our seemingly arbitrary use of 68\% as our usual confidence interval. Since many measurements are normally distributed (as we will see in the next section), the use of the standard deviation as the error (or quoted uncertainty) corresponds to a 68\% chance of a value being within one standard deviation of the mean. Table \ref{tab:normsigma} shows the probability for a measurement to lie within a certain number of standard deviations from the mean. This is illustrated in Figure \ref{fig:gaus_sigmas}.
-\begin{center}
+\begin{table}[h!]
+\center
 \begin{tabular}{|c|c|}
 \hline
 \textbf{n, number of $\sigma_x$} & \textbf{Probability of being in range $\mu_x\pm n\sigma_x$}\\
 \hline
 1 & 0.682689\\
-\hline
 2 & 0.954500\\
-\hline
 3 & 0.997300\\
-\hline
 4 & 0.999937\\
-\hline
 5 & 0.999999\\
 \hline
 \end{tabular}
-\captionof{table}{\label{tab:normsigma}Probability that a normally distributed measurement will fall within a certain number, $n$, of standard deviations from the mean.}
-\end{center}
-\capfig{0.7\textwidth}{figures/gaus_sigmas.png}{\label{fig:gaus_sigmas} Illustration of the area under the normal distribution within 1, 2, and 3 standard deviations from the mean.}
+\caption{\label{tab:normsigma}Probability that a normally distributed measurement will fall within a certain number, $n$, of standard deviations from the mean.}
+\end{table}
+\capfig{0.4\textwidth}{figures/gaus_sigmas.png}{\label{fig:gaus_sigmas} Illustration of the area under the normal distribution within 1, 2, and 3 standard deviations from the mean.}
 
 
 As you can see, the probability of being further than 3$\sigma_x$ is already quite small, and quickly becomes vanishingly small (as can also be seen in Figure \ref{fig:normaldist}). In particle physics, it is often required that a measurement have a validity of at least 5$\sigma_x$ to be considered a discovery. For example, this would mean that in order to claim that a new particle has been discovered, the probability of the data given the null hypothesis must be at least 5$\sigma_x$ from the mean expected if there were no new particle. A new particle may be discovered as a resonant peak in a spectrum; we would thus require that the peak indicating the presence of a particle be at least 5 times larger than the random fluctuations in the spectrum (under the assumption that those fluctuations are normally distributed).
 
 Figure \ref{fig:normal_pdfcdfsfl} shows, on the left, the normal distribution with $\mu_x$=20 and $\sigma_x$=5. Since this is not the probability of getting a given value of $x$ (you need to take the integral to get a probability), we call this the ``probability density function'' (or pdf). On the right are the ``cumulative probability density function'' (cdf) and the ``survival fraction'' (sf), which is simply 1 minus the cdf. The cdf is the integral of the pdf. Thus, the cdf is a probability. The cdf evaluated at a certain value of $x$ is the integral of the pdf from negative infinity to $x$, which corresponds to the \textbf{probability of obtaining a measurement $x$ or smaller}. The survival fraction is thus the probability of getting $x$ or bigger. There is no closed form for the cdf or sf corresponding to the normal distribution. Since the normal distribution is symmetric about the mean $\mu$, the cdf evaluated a $x=\mu_x$ is exactly 0.5 (there is a 50\% chance of measuring $x$ smaller than the mean).
 
-\capfig{0.7\textwidth}{figures/normal_pdfcdfsf.png}{\label{fig:normal_pdfcdfsfl} Normal probability density function (pdf), cumulative probability density function (cdf) and survival fraction (sf).}
+\capfig{0.6\textwidth}{figures/normal_pdfcdfsf.png}{\label{fig:normal_pdfcdfsfl} Normal probability density function (pdf), cumulative probability density function (cdf) and survival fraction (sf).}
 \clearpage
 \begin{example}{}{An IQ test is designed such that the test results, on a random sample of the population, are normally distributed with a mean of 100 and a standard deviation of 10. What is the probability that a random person will score between 120 and 130? What is the probability that a random person will score 75 or below?}{}
 As stated in the problem, the distribution of test results follows a normal distribution with $\mu_x$=100 and $\sigma_x$=10. The probability of scoring between 120 and 130 is given by:
@@ -173,7 +171,7 @@ P(x \leq 75)&=\int_{-\infty}^{75}P^{norm}(x,\mu_x=100,\sigma_x=10)dx\\
 which is the same as the cdf evaluated at $x$=75. 
 
 These probabilities are easiest to estimate with a computer program, as in the following python code:
-\begin{python}[caption = SF and CDF for normal distribution]
+\begin{lstlisting}[frame=single] 
 import scipy.stats as stats
 
 #In order to get the probability of being within a certain range,
@@ -183,11 +181,12 @@ pBigger130=stats.norm.sf(130,100,10)
 pSmaller120=stats.norm.cdf(120,100,10)
 print("Prob of scoring between 120 and 130: {:.2f} %".format(100*(1-pBigger130-pSmaller120)))
 print("Prob of scoring 75 or below: {:.2f} %".format(100*(stats.norm.cdf(75,100,10))))
-\end{python}
-\begin{poutput}
+\end{lstlisting}
+The output is:
+\begin{verbatim}
 Prob of scoring between 120 and 130: 2.14 %
 Prob of scoring 75 or below: 0.62 %
-\end{poutput}
+\end{verbatim}
 \end{example}
 
 \section{Why most measurements are normally distributed}
@@ -195,20 +194,19 @@ In this section, we motivate why we expect most measurements to be normally dist
 
  If we have 2 sources of random error (each equally probable to add or subtract $\epsilon$ from the true value $X$), then we can obtain three possible measurements: \{$X-2\epsilon,X,X+2\epsilon$\}, depending on whether the errors occurred in the same ``direction'' or not. The possible ways of obtaining the 3 possible results are listed in Table \ref{tab:twoerrors}, where we can see that there are 4 possible outcomes, 2 of which are to measure $X$ and two of which are to measure a value that is $2\epsilon$ away. Since the errors are random, each outcome is equally probable and we expect to measure $X$ 50\% of the time (2 out of 4 possible outcomes), $X-2\epsilon$, 25\% of the time, and $X+2\epsilon$, 25\% of the time.  
  
-\begin{center}
+\begin{table}[h!]
+\center
 \begin{tabular}{|c|c|}
 \hline
 \textbf{Result} & \textbf{Combination of the 2 errors}\\
 \hline
 $X-2\epsilon$ & $-\epsilon-\epsilon$\\
-\hline
 $X$ & $-\epsilon+\epsilon$ or $+\epsilon-\epsilon$\\
-\hline
 $X+2\epsilon$ & $+\epsilon+\epsilon$\\
 \hline
 \end{tabular}
-\captionof{table}{\label{tab:twoerrors}Ways to obtain different results when 2 random errors contribute.}
-\end{center}
+\caption{\label{tab:twoerrors}Ways to obtain different results when 2 random errors contribute.}
+\end{table}
 
 Another way to think about this is in terms of the binomial distribution. In order to evaluate the probability of obtaining $X+2\epsilon$, we need to know the probability of both errors being positive. Each error has a probability $p=0.5$ of being positive, and we would like to know the probability of having $k=2$ positive errors (``successes'') when we add $N=2$ errors (``trials''). The binomial probability for this case is:
 \begin{align*}
@@ -244,7 +242,7 @@ We already saw that the binomial distribution approaches the normal distribution
 
 Figure \ref{fig:norm_nmeas} shows how the distribution of the measured values, $x$, approaches the normal distribution when the number of random errors, $N$, is increased at the same time as the random error, $\epsilon$, is decreased in a way to keep $\epsilon\sqrt{N}=0.1$ constant. The histograms show the results of 100,000 (simulated) measurements of $x$ with a given $N$ and $\epsilon$. The histograms are normalized, and are seen to approach the normal distribution (black line) as $N$ becomes large. The mean value of the measurements of $x$ was chosen to be $X=1.0$ (which is small) to illustrate that while $N$ is large, this does not require the mean of the distribution of the $x$ values to be large. The histograms were created by generating random values of $k$ from a binomial distribution with $N$ and $p=0.5$ and then converting those to the corresponding values of $x$, given by $x=X+2k\epsilon-N\epsilon$.
 
-\capfig{0.7\textwidth}{figures/norm_nmeas.png}{\label{fig:norm_nmeas} Normalized histograms for the results of 100,000 measurements of a value of $x$ that is centred about $X=1.0$ with a standard deviation of $0.1$. The different histograms show how the distribution changes as the number of random errors, $N$, is increased and the random error of each measurement, $\epsilon$, is decreased in such a was as to keep $\sigma_x=\epsilon\sqrt{N}$ constant. As $N$ increased, the normal distribution, shown by the black line, is approached.}
+\capfig{0.5\textwidth}{figures/norm_nmeas.png}{\label{fig:norm_nmeas} Normalized histograms for the results of 100,000 measurements of a value of $x$ that is centred about $X=1.0$ with a standard deviation of $0.1$. The different histograms show how the distribution changes as the number of random errors, $N$, is increased and the random error of each measurement, $\epsilon$, is decreased in such a was as to keep $\sigma_x=\epsilon\sqrt{N}$ constant. As $N$ increased, the normal distribution, shown by the black line, is approached.}
 
 \subsection{The Central Limit Theorem}
 Although a full development of the Central Limit Theorem (CLT) is beyond the scope of this book, it is certainly worth mentioning in this context. The CLT states that the distribution of a sum of a large number of independent identically distributed variables is normally distributed, \textit{regardless} of the distribution that generated the independent variables. This is in fact a remarkable result, and applies to a wide range of quantities, as many things can be thought of as sums.
@@ -253,7 +251,7 @@ Although a full development of the Central Limit Theorem (CLT) is beyond the sco
  
 Figure \ref{fig:normal_ctl} shows a simulated histogram to illustrate the CTL. In this case, a class of 100 students was simulated. Each student has 20 marks (e.g. from 20 assignments), and for each of those marks, the student has an equal probability of obtaining any mark between 0 and 10 (a flat distribution of marks, certainly not a normal distribution). As you can seen, when we compute the average mark for each student (their ``final mark''), and plot the distribution of those marks for all students, we get a distribution that looks like a normal distribution, remarkable!
  
-\capfig{0.7\textwidth}{figures/normal_ctl.png}{\label{fig:normal_ctl} Simulated histogram of final marks from 100 students in a course.} 
+\capfig{0.5\textwidth}{figures/normal_ctl.png}{\label{fig:normal_ctl} Simulated histogram of final marks from 100 students in a course.} 
 
 \section{Combining normally distributed quantities}
 In this section, we examine the distribution of a quantity that depends on one or more normally distributed quantities.
@@ -284,13 +282,14 @@ where $a$ is a constant. Since $x$ is normally distributed, we have:
 \begin{align*}
 P_x(x)&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(x-\mu_x)^2}{2\sigma_x^2}}\\
 \end{align*}
-and we want to know the probability density function, $P_F(F)$. Since $F=ax$, the probability, $P_F(F)dF$, of obtaining a certain value of $F$ between $F$ and $F+dF$ is the same as that of obtaining the corresponding value of $x$, between $x=\frac{F}{a}$ and $x=\frac{F+dF}{a}=\frac{F}{a}+\frac{1}{a}\frac{dF}{dx}dx = \frac{F}{a}+dx$ (since  $\frac{dF}{dx}=a$). The probability of obtaining $F$ between $F$ and $F+dF$ is thus equal to the probability of obtaining $x$ between $\frac{F}{a}$ and $\frac{F}{a}+dx$: 
+and we want to know the probability density function, $P_F(F)$. Since $F=ax$, the probability, $P_F(F)dF$, of obtaining a certain value of $F$ between $F$ and $F+dF$ is the same as that for obtaining the corresponding value of $x$, between $x=\frac{F}{a}$ and $x=\frac{F}{a}+dF=\frac{F}{a}+\frac{dF}{dx}dx = \frac{F}{a}+adx$ (since  $\frac{dF}{dx}=1$). The probability of obtaining $F$ between $F$ and $F+dF$ is thus equal to the probability of obtaining $x$ between $\frac{F}{a}$ and $\frac{F}{a}+adx$
+
+ The probability is given by:
 \begin{align}
-\label{eqn:normmultconstant}
-P_F(F)dF=P_x(x=\frac{F}{a})dx&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(\frac{F}{a}-\mu_x)^2}{2\sigma_x^2}}dx \nonumber\\
+P_F(F)dF=P_x(x=\frac{F}{a})\frac{1}{a}dx&=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(\frac{F}{a}-\mu_x)^2}{2\sigma_x^2}}dx \nonumber\\
 &=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(F-a\mu_x)^2}{2\sigma_x^2a^2}}dx\nonumber\\
 &=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(F-\mu_F)^2}{2\sigma_F^2}}\frac{1}{a}dF\\
-&=\frac{1}{\sigma_F\sqrt{2\pi}}e^{-\frac{(F-\mu_F)^2}{2\sigma_F^2}}dF\\
+&=\frac{1}{\sigma_a\sqrt{2\pi}}e^{-\frac{(F-\mu_F)^2}{2\sigma_F^2}}dF\\
 \end{align}
 where we have introduced $\mu_F=a\mu_x$ and $\sigma_F=a\sigma_x$. $P_F(F)$ is the pdf for a normal distribution with mean $\mu_F=a\mu_x$ and standard deviation $\sigma_F=a\sigma_x$. Thus, multiplying a normally distributed quantity by a constant results in a quantity that is still normally distributed, but with a mean and standard deviation that are scaled by that constant. 
 
@@ -345,7 +344,7 @@ The first two multiplicative terms do not depend on $k$, so they can be taken ou
 P_z(z)&=\frac{1}{\sqrt{\sigma_x^2+\sigma_y^2}\sqrt{2\pi}}e^{-\frac{(z-(\mu_x+\mu_y))^2}{2(\sigma_x^2+\sigma_y^2)}}\int_{k=-\infty}^{k=+\infty}\frac{1}{\frac{\sigma_x\sigma_y}{\sqrt{\sigma_x^2+\sigma_y^2}}\sqrt{2\pi}}e^{-\frac{\left(k-\frac{\sigma_x^2(z-\mu_y)+\sigma_y^2\mu_x}{\sigma_x^2+\sigma_y^2}\right)^2}{2\left(\frac{\sigma_x\sigma_y}{\sqrt{\sigma_x^2+\sigma_y^2}}\right)^2}}dk\\
 &=\frac{1}{\sqrt{\sigma_x^2+\sigma_y^2}\sqrt{2\pi}}e^{-\frac{(z-(\mu_x+\mu_y))^2}{2(\sigma_x^2+\sigma_y^2)}}
 \end{align*}
-where we have recognized that the remaining integral corresponded to the integral of a normal distribution, which is equal to 1. We are thus left with $P_z(z)$ given by a normal distribution with mean $\mu_z=\mu_x+\mu_y$ and standard deviation $\sigma_z=\sqrt{\sigma_x^2+\sigma_y^2}$, as anticipated. Thus, we have shown that the sum of two normally distributed quantities is normally distributed, with a standard deviation given by the quadrature sum of the standard deviation of the variables in the sum. This is trivially extended to a sum of more than 2 terms.
+where we have recognized that the remaining integral corresponded to the integral of a normal distribution, which is equal to 1. We are thus left with $P_z(z)$ given by a normal distribution with mean $\mu_z=\mu_x+\mu_y$ and standard deviation $\sigma_z=\sqrt{\sigma_x^2+\sigma_y^2}$, as anticipated. Thus, we have shown that the sum of two normally distributed quantities is normally distributed, with a standard deviation given by the quadrature sum of the standard deviation of the variables in the sum. This is the origin of the prescription for summing in quadrature, and is trivially extended to a sum of more than 2 terms.
 \subsection{Function of normally distributed quantities}
 Although we just proved\footnote{Minus the lengthy algebra!} that the sum of two normally distributed quantities is normally distributed, we can generalize the result for any function of two variables. If a quantity $F(x,y)$ depends on independent and normally distributed quantities $x$ and $y$, and the standard deviations on $x$ and $y$ are ``small'', then we can use a Taylor series to approximate the value of $F$ for $x$ and $y$ near their mean values, $\mu_x$ and $\mu_y$:
 \begin{align*}
@@ -359,7 +358,52 @@ The first term is constant and will only shift the mean of the distribution of t
 \mu_F &=F(\mu_x,\mu_y)\nonumber\\
 \sigma_F^2&=\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2
 \end{align}
-just as we had prescribed in Chapter \ref{chap:ErrorPropagation} and found in Chapter \ref{Chap:statData}. This result is easily extended if $F$ depends on more than two variables.
+just as we had prescribed in Chapter \ref{chap:ErrorPropagation}. This result is easily extended if $F$ depends on more than two variables.
+
+\subsection{The general case: function of non-normally distributed quantities}
+\label{sec:generalFgauss}
+Let us suppose that we have a function, $F(x,y)$, of two variables that are not normally distributed. We have made $N$ measurements, \{$x_1, x_2, \dots, x_N$\} and \{$y_1, y_2, \dots, y_N$\} and wish to determine the best estimate for $F$ and its uncertainty, $\sigma_F$. Although $x$ and $y$ (and presumably $F$) are not normally distributed, we can still use the mean of the measurements, $\bar x$ and $\bar y$, as the best estimate and the standard deviation in the measurements, $\sigma_X$ and $\sigma_y$, as their uncertainty (they just will not correspond to 68\% confidence levels). We can evaluate $F(x,y)$ at all of the values of $x$ and $y$, and obtain the mean, $\bar F(x,y)$, and standard deviation, $\sigma_F$, as the best estimate and uncertainty for $F(x,y)$. 
+
+We assume that the standard deviations of $\sigma_x$ and $\sigma_y$ are small and that all of the measurements of $x$ and $y$ are therefore close to their respective means. The value of $F(x_i,y_i)$ evaluated at one of the data points can thus be approximated by a Taylor series of $F(x,y)$ evaluated near $\bar x$ and $\bar y$:
+\begin{align}
+F(x_i,y_i)\approx F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)
+\end{align} 
+where the partial derivatives are evaluates at $\bar x$ and $\bar y$.
+
+The mean value of $F(x,y)$ is thus given by:
+\begin{align}
+\bar F(x,y)&=\frac{1}{N}\sum_{i=1}^{i=N}F(x_i,y_i)\nonumber\\
+&=\frac{1}{N}\sum_{i=1}^{i=N} \left[ F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)  \right]\nonumber\\
+&=\left[F(\bar x,\bar y)\frac{1}{N}\sum_{i=1}^{i=N}1 \right]+\left[\die{F}{x}\frac{1}{N}\sum_{i=1}^{i=N}(x_i-\bar x) \right]+\left[\die{F}{y}\frac{1}{N}\sum_{i=1}^{i=N}(y_i-\bar y) \right]\nonumber\\
+&=F(\bar x,\bar y)
+\end{align}
+where the last two terms in the sum are identically zero, since:
+\begin{align}
+\bar x &\equiv \frac{1}{N}\sum_{i=1}^{i=N}x_i\nonumber\\
+\bar y &\equiv \frac{1}{N}\sum_{i=1}^{i=N}y_i\nonumber\\
+\end{align} 
+Thus the mean value, $\bar F(x,y)$, is given by evaluating $F(x,y)$ at the mean values, $\bar x$ and $\bar y$.
+
+We now evaluate the variance of $F(x,y)$ (and we can take the square root later to get the standard deviation), by using the definition of the variance:
+\begin{align}
+\sigma_F^2&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[F(x_i,y_i)-\bar F(x,y)\right]^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[F(\bar x,\bar y)+\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)-F(\bar x,\bar y)\right]^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[\die{F}{x}(x_i-\bar x)+\die{F}{y}(y_i-\bar y)\right]^2\nonumber\\
+&=\frac{1}{N-1}\sum_{i=1}^{i=N}\left[\left(\die{F}{x}(x_i-\bar x)\right)^2+\left(\die{F}{y}(y_i-\bar y)\right)^2+2 \die{F}{x}\die{F}{y}(x_i-\bar x) (y_i-\bar y) \right]\nonumber\\
+&=\left(\die{F}{x}\right)^2\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x)^2+\left(\die{F}{y}\right)^2\frac{1}{N-1}\sum_{i=1}^{i=N}(y_i-\bar y)^2\nonumber\\
+&+2\die{F}{x}\die{F}{y}\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x) (y_i-\bar y)\nonumber\\
+&=\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}
+\end{align}
+where we have used the definition of the covariance factor, $\sigma_{xy}$:
+\begin{align}
+\sigma_{xy}\equiv\frac{1}{N-1}\sum_{i=1}^{i=N}(x_i-\bar x) (y_i-\bar y)
+\end{align}
+We thus arrive at the formula for propagating the uncertainty in a general function of variables that are not necessarily normally distributed and independent:
+\begin{align}
+\label{eqn:coverror}
+\sigma_F=\sqrt{\left(\die{F}{x}\sigma_x\right)^2+\left(\die{F}{y}\sigma_y\right)^2+2\die{F}{x}\die{F}{y}\sigma_{xy}}
+\end{align} 
+This formula can always be used and reduces to our previous formula when the variables are normally distributed and independent (with a covariance of zero). The formula is trivially extended to the case of more than two variables by simply adding a covariance term for each pair of correlated variables, and the corresponding derivative term for each variable. We have also shown how to obtain the variance in the sum of two distributions, regardless of the underlying distributions.
 
 \section{Determining parameters of the normal distribution from data}
 Given a set of $N$ measurements, \{$x_1, x_2, \dots, x_N$\}, of a normally distributed quantity, we wish to estimate the ``true'' value of the mean and standard deviation, $\mu_x$ and $\sigma_x$, of the normal distribution that describes the data. As we will see, the sample mean and the sample standard deviation are good estimates of the mean and standard deviation of the underlying normal distribution.
@@ -376,7 +420,7 @@ Given a specific value of the parameters, $\vec\beta$, we can calculate the like
 \begin{align}
 \die{L}{\beta_i}=0
 \end{align}
-since the maximum of $L$ is found when the derivative is zero. Often, it is easier to work with a sum of probabilities rather than a product. We can define the ``log-likelihood'', to be the natural logarithm of the likelihood, and use the property that $\ln(ab)=\ln(a)+\ln(b)$. Because the logarithm is a monotonic function, the value of the parameters that maximize the log-likelihood also maximize the likelihood. Generally, the log-likelihood is:
+since the maximum of $L$ is found when the derivative is zero. Often, it is easier to work with a sum of probabilities rather than a product. We can define the ``log-likelihood'', to be the natural logarithm of the likelihood, and use the property that $\ln(ab)=\ln(a)+\ln(b)$. Because the logarithm is monotonic function, the value of the parameters that maximize the log-likelihood also maximize the likelihood. Generally, the log-likelihood is:
 \begin{align*}
 \ln \left(L(x|\vec\beta)\right) &= \ln \left( \prod_{i=1}^{i=N}P(x_i,\vec\beta) \right) \\
 & = \sum_{i=1}^{i=N} \ln\left(P(x_i,\vec\beta)\right)
@@ -487,8 +531,8 @@ Figure \ref{fig:norm_emean} shows an illustration of determining the parameters 
 
 The error on the mean is often confused with the standard deviation. Given many data points, the standard deviation is a measure of how spread out the individual points are. The error on the mean is representative of our ability to determine the average value of those points. Even if the points are very spread out (large standard deviation), if we have many of them, we can precisely determine the mean value (small error on the mean).
  
-\capfig{0.7\textwidth}{figures/norm_emean.png}{\label{fig:norm_emean} Histogram of 40 measurements that originate from a normal distribution (black curve) compared to a normal distribution (red curve) evaluated using the parameters estimated from the data. The vertical lines show the range of the estimated mean given by the error on the mean.}
-
+\capfig{0.5\textwidth}{figures/norm_emean.png}{\label{fig:norm_emean} Histogram of 40 measurements that originate from a normal distribution (black curve) compared to a normal distribution (red curve) evaluated using the parameters estimated from the data. The vertical lines show the range of the estimated mean given by the error on the mean.}
+\clearpage
 
 \section{Averaging multiple measurements with standard errors}
 

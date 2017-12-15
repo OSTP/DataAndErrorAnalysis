@@ -72,11 +72,11 @@ The value of a is 2 and the value of b is 4
 Always comment your code. You cannot over comment! You would be surprised at how quickly you will forget the logic in your code if you have no comments.
 \subsection{Lists}
 A particularly useful type of variable in python is the ``list''. This is analogous to ``arrays'' in other programming languages. A list is used to hold, well, a list of values. For example, let's say that we wish to work with a set of measurements, for example radii of circles from example \ref{ex:chapIntro_2pir}, and hold them into a single variable, \code{radii}, we can use a list as follows:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Defining a list]
 radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
 \end{python}
 Python automatically recognizes that the variable \code{radii} should be a list, since we are trying to assign a set of 10 comma-separated values to it. We can work with the whole list, but we can also get a particular element out of the list, by using the access operator ('{[ ]}') and the index of the element:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Indexing a list]
 radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
 print(radii[2])
 \end{python}
@@ -86,7 +86,7 @@ print(radii[2])
 One thing to note is that the above \code{print()} function printed out the third element of the list and not the second one. This is because \textbf{python indexes the first item in the list with the index 0}. If the list has \code{n} elements in it, then the last element has the index \code{n-1}. If you try to ask for an element that is beyond the size of the list, e.g. \code{radii[10]}, bad things happen. This is because you are really asking for a value stored in the memory of the computer in a location where you have not stored anything. 
 
 A useful operation on a list is to ask how many elements are in the list; this is done with the \code{len()} function:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Length of a list]
 radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
 print("We measured",len(radii),"radii")
 \end{python}
@@ -96,7 +96,7 @@ We measured 10 radii
 
 \subsubsection{Operations on lists}
 The code below illustrates a variety of operations that can be performed on lists, such as inserting and removing values. Try it for yourself and make sure you understand what is going on.
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Operations on lists]
 #a list of numbers
 array=[1,2,3,4,5,6]
 #len(array) is the number of elements in the list
@@ -147,7 +147,7 @@ Some elements from it: hello 42 4
 The sub list: [3, 4]
 \end{poutput}
 We should point out that in the second last example, we are accessing a list using two indices. This is because one can nest lists inside of each other. A good analogy is to think of a list as a vector. If each entry in the vector is a vector itself, then we really have a matrix. For example, we can build a 2x3 matrix in the following way:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Two dimensional lists]
 matrix = [[1,2,3],[4,5,6]]
 print("The first row:",matrix[0])
 print("Element [0][2]:",matrix[0][2])
@@ -158,7 +158,7 @@ Element [0][2]: 3
 \end{poutput}
 The \code{matrix} list in this case has 2 elements, and each of those elements is a list of 3 values. \code{matrix[0]} thus refers to the first set of 3 elements, and \code{matrix[0][2]} to the third element of that set. 
 
-\subsection{Type of variables}
+\subsection{Types of variables}
 We have already seen a few of the different types of variables that python offers (and it typically can infer from the context what type of variable you intend to use). A few common types of variables are:
 \begin{itemize}
 \item \textbf{integers:} These are signed integer numbers.
@@ -178,7 +178,7 @@ In python, we can define small little units of code that are only executed in ce
 
 \subsection{If-statements}
 One of the most useful types of scope, is the scope defined by an ``if-statement''. Code inside the scope of an if-statement is executed only if the if statement evaluates to the boolean value \code{True}:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = If statements]
 #define 3 variables:
 a = 2 
 b = 3
@@ -199,7 +199,7 @@ In this case, the code inside the scope of the second if-statement is never exec
 \subsection{Loops}
 The other very useful type of scope is the ``loop''. This is where computers really excel at doing repetitive tasks. The most common type of loop is the ``for'' loop, which defines a scope that is executed a specified number of times. A common application is to ``loop'' through all the elements inside of a list. For example:
 
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = For in loops]
 radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
 for r in radii:
   print("r =",r)
@@ -221,7 +221,7 @@ Again, the syntax is similar as that for the if-statment. We first have a statem
 
 A useful function for loops is the \code{range()} function. In its most basic implementation (when passed only 1 argument, \code{n}) it returns a list of numbers from 0 to \code{n-1}. This makes is particularly easy to loop through a list using the index of the elements:
 
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = For loop with range]
 radii=[0.9,1.0,0.95,1.1,1.2,1.0,0.8,0.85,1.05,1.0]
 n = len(radii)
 for index in range(n):
@@ -242,7 +242,7 @@ Element 9 has value: 1.0
 \end{poutput}
 
 \begin{example}{Use a for loop to create 2 lists that hold the numbers from 1 to 100 and their squares, respectively}{}
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Loop example]
 numbers=[] # an empty list that we will fill
 squares=[]
 for index in range(100):
@@ -257,7 +257,7 @@ print("the squares are:",squares)
 We have already encountered a few functions; \code{print()} and \code{range()}. Functions may take ``arguments'' (they don't have to), typically would do something (using the arguments if applicable), and may return a value (but they don't have to). Functions are extremely useful, especially as a way to make your code re-usable and to avoid re-writing the same code over and over. 
 
 You must first define a function before you can use it. Defining a function is a way for you to personalize python and give it additional functionality. Let's write a simple function to return the factorial of a number
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Defining a custom function]
 #define the factorial function
 def factorial(n):
     fact=1 # keep track of the factorial
@@ -266,7 +266,7 @@ def factorial(n):
     return fact
 \end{python}
 Functions are defined using the \code{def} statement, followed by the name of the function (\code{factorial} in this case) and then, if applicable, the arguments that the function needs in parenthesis. The statement ends with a colon and the next line is indented. This defines the scope of the function. To calculate the factorial, we declared a variable that will hold our result (\code{fact}). We then needed to do a for loop to calculate the factorial. Finally, outside of the scope of the for loop but still inside the scope of the function, we used the \code{return} statement to pass the calculated number (\code{fact}) out of the function. The function can then be used as follows:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Using a custom function]
 print("3 factorial is",factorial(3))
 print("10 factorial is",factorial(10))
 \end{python}
@@ -277,7 +277,7 @@ print("10 factorial is",factorial(10))
 You have now added the functionality of calculating factorials into python!
 
 Functions need not take an argument or return a value, for example:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Functions with no return values]
 #define a function to print a warning
 def printWarning():
   print("Hey, you should be warned here")
@@ -290,7 +290,7 @@ Hey, you should be warned here
 \end{poutput}
 
 Functions can also return multiple values (as a tuple):
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Functions with multiple return values]
 #define a function of 1 argument
 def squareCube(x):
   #return a tuple
@@ -308,7 +308,7 @@ In reality, python is not actually returning multiple values, but rather it is b
 
 \section{Importing modules}
 Fortunately, many have come before us to write a lot of useful functions, and made them available for us to use. Python comes already bundled with a large amount of functions already written for us, and these are available through ``modules''. In order to be able to use the functions inside of a module, you must ``import'' the module. This is typically done at the top of your program. For example, the \code{math} module has a large number of functions for doing math. To use the square root function for example, you would import the math module as follows:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Importing the math module]
 import math
 a=2
 sqrta = math.sqrt(a)
@@ -318,7 +318,7 @@ print("the square root of a is ",sqrta)
 the square root of a is  1.4142135623730951
 \end{poutput}
 We may also find it useful to change the name of a package when we import it (e.g. to make it shorter if we have to type it a lot). In this case, we can use the \code{import ... as} format:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Importing a module as]
 import math as m
 a=2
 sina = m.sin(a)
@@ -330,7 +330,7 @@ the sin of a is  0.9092974268256817
 There are other ways to ``import'' functions from modules, but the above ways are the most explicit (that is, it is clear when you call the function \code{math.sqrt()} that the function belongs to the math module).
 
 For completeness, other equivalent ways to achieve the same functionality are:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Import everything from a module]
 from math import *
 a=2
 sqrta =sqrt(a) # don't need the math. in this case
@@ -340,7 +340,7 @@ print("the square root of a is ",sqrta)
 the square root of a is  1.4142135623730951
 \end{poutput}
 which imports all functions from the math module and makes them available directly (without needing the \code{math.}), or:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Importing a single function from a module]
 from math import sqrt
 a=2
 sqrta =sqrt(a) # don't need the math. in this case
@@ -352,7 +352,7 @@ the square root of a is  1.4142135623730951
 which imports only the \code{sqrt} function (so for example, \code{sin(a)}) would not work.
 
 It is very easy to create your own modules. Simply place the definitions of your functions into a file called 'mymodule.py' (where 'mymodule' can be whatever name you choose), and you can then use them by simply typing \code{import mymodule} (without the '.py'). For example, you may have a file called 'errorAnalysis.py' with the following content:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Defining your own module]
 def factorial(n):
     fact=1 # keep track of the factorial
     for i in range(n):
@@ -364,7 +364,7 @@ def squareCube(x):
   return x*x, x*x*x    
 \end{python}
 and you can then use these functions in a program:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Importing your own module]
 import errorAnalysis
 
 print("8 factorial is:",errorAnalysis.factorial(8))
@@ -379,7 +379,7 @@ There a lot of modules available in python, some are included directly and many 
 Reading and writing data from and to files is very useful, as opposed to directly ``hardcoding'' data into a program (as we did above for the radii). This is useful if we have a large number of measurements that all need to be analysed in the same way or if the data themselves were already written into a file by a data acquisition system.
 
 Let's say that we have a text file with the following data in it (representing measurements of radius and circumference from an experiment like that in example \ref{ex:chapIntro_2pir}), and let's assume the file is named 'radcirc.dat':
-\begin{poutput}
+\begin{verbatim}
 0.9   5.4
 1.0   6.2
 0.95   6.2
@@ -390,9 +390,9 @@ Let's say that we have a text file with the following data in it (representing m
 0.85   4.8
 1.05   6.7
 1.0   6.5
-\end{poutput}
+\end{verbatim}
 The data are in 2 columns, one for radius and one for circumference. We now wish to read these values into our program, compute 2$\pi$r from the radius, compare that with the measured circumference, and then output the difference to a new file, called 'results.dat'. This can be done with the following code:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Reading and writing to a file]
 import math #because we need pi, and it's defined in math
 
 #open the file with the data, need quotation marks on the file name!
@@ -423,7 +423,7 @@ The file 'results.dat' now contains a single column with the differences between
 
 If you look at the file 'results.dat', you will find that the numbers have more decimal places that would really be considered significant. We can thus use the \code{format()} method to clean it up.
 
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Reading and writing to a file with formatted data]
 import math #because we need pi, and it's defined in math
 
 #open the file with the data, need quotation marks on the file name!
@@ -452,7 +452,7 @@ for line in dataFile:
 \end{python}
 
 
-\section{Module of use in scientific computing}
+\section{Modules of use in scientific computing}
 
 Data science needs in industry have led to the rapid development of python modules for data analysis. Traditionally, programming languages like python, which are ``interpreted'' on the fly as the computer tries to run the code, are slower at processing numbers than compilable languages like C++. In order to alleviate this issue somewhat, people have programmed modules that provide ``pythonic'' (easy to program) interfaces for dealing with numbers that, behind the scenes, are much more efficient than regular python code. These interfaces basically figure out what the user is trying to accomplish and then run the calculations using C++ code before passing the result back in python. Some of these interfaces are quite complex and actually allow the code to be run on highly efficient graphical processing units (graphics card); these are highly optimized for matrix algebra and anything where parallel computations are efficient.
 
@@ -463,7 +463,7 @@ A common module (actually, a set of modules) for scientific work in python is ``
 \subsection{Working with numbers, numpy}
 In scientific computing, we work predominantly with numbers, and usually a lot of them (think of a list of measurements). We already saw that the python list is a handy way to hold an array of numbers. The list has a lot of useful functions (e.g. dynamically changing the size of the list, searching) that are not very useful in numerical computation, and this added functionality makes lists inefficient for scientific computing. At the core of the numpy module is a type of array that is much more efficient than lists for dealing with numbers. All of the elements in a numpy array must be of the same type. Numpy arrays can also be mult-dimensional (e.g. a matrix or tensor). There are also a variety of functions that can act on numpy arrays, to fill them, evaluate properties about them, and change their shape. Here are a few examples:
 
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = The numpy module for arrays]
 # We import numpy (and by convention shorten it to np, since
 # we use it a lot)
 import numpy as np
@@ -471,7 +471,7 @@ import numpy as np
 # a simple one-dimensional array
 a = np.array([1,2,3,4,5,6])
 
-# we can print the array and see it's "shape":
+# we can print the array and see its "shape":
 print("The array is",a," and has shape:",a.shape, "and the second element is ", a[1])
 print("The size of the array is",a.size)
 
@@ -524,7 +524,7 @@ Numpy has a lot of more advanced useful features, such as the ability to directl
 
 \subsubsection{Reading and writing to file}
 Here is a simple way to read and write a numpy array directly to a file. In this example, it uses the default format, which is to separate entries in the file with a space. One can specify different delimiters, such as commas, if preferred.
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Reading and writing numpy arrays from/to a file]
 import numpy as np
 
 #make a 4x5 array from random numbers that are normally distributed
@@ -554,7 +554,7 @@ b:
 
 \subsubsection{Calculating properties of an array}
 Numpy includes some basic functions to calculate simple properties of arrays (such as the mean of the elements or the sum of the elements):
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Numpy for statistical properties of an array of values.]
 import numpy as np
 
 #make an array of 15 random numbers that are normally distributed
@@ -579,7 +579,7 @@ The sum is  106.801336755  and the average is thus:  7.12008911701
 \subsubsection{Operations on arrays}
 Numpy arrays can be used in computations (e.g. multiplying or summing arrays together) and operated on with numpy functions (such as taking the square root of all elements).
  
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Numpy operations on arrays]
 import numpy as np
 
 #make two arrays of numbers
@@ -614,7 +614,7 @@ a squared: [  1.   4.   9.  16.  25.]
 \end{poutput}
 
 You can even define a function that is can act on both arrays or on regular numbers. For example, the following will add two numbers ``in quadrature'', or if given two arrays as inputs, it will return an array of the values added in quadrature:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Defining a function to operated on a numpy array]
 import numpy as np
 #Define a simple function to add two numbers in quadrature:
 def addInQuad (e1,e2):
@@ -647,7 +647,7 @@ Matplotlib can easily plot the data from numpy arrays. The \code{plot} function 
 
 The following code produces a simple plot of the sine and cosine functions, by building numpy arrays to hold the values and then plotting them (the result is shown in Figure \ref{fig_chapPyton_sincos}):
 
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Pylab to make a scatter plot and plot a function]
 import numpy as np
 import pylab as pl
 import math 
@@ -673,14 +673,14 @@ pl.grid(True)
 
 #show the plot:
 pl.show()
-
 \end{python} 
-
-\capfig{0.5\textwidth}{figures/sincos.png}{\label{fig_chapPyton_sincos}Two data sets plotted with a legend.}
+\begin{poutput}
+(* \capfig{0.7\textwidth}{figures/sincos.png}{\label{fig_chapPyton_sincos}Two data sets plotted with a legend.} *)
+\end{poutput}
 \subsubsection{Plot with error bars}
 The \code{errorbar()} function allows us to plot a set of data points with error bars. The function expects the first two arguments to be numpy arrays of the $x$ and $y$ coordinates of the data points, and the error bars on those points can be specified using the \code{xerr} and \code{yerr} keywords. The error bars can be specified as arrays (thus each point could have different sized error bars), or as a constant number (all points then having the same errorbar). The result is shown in Figure \ref{fig_chapPyton_sinerrors}.
 
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Pylab to make a plot with error bars]
 import numpy as np
 import pylab as pl
 import math 
@@ -698,13 +698,15 @@ pl.title("Plot with error bars")
 pl.show()
 
 \end{python} 
-\capfig{0.5\textwidth}{figures/sinerrors.png}{\label{fig_chapPyton_sinerrors}Data set with constant $x$ and variable $y$ error bars.}
+\begin{poutput}
+(* \capfig{0.7\textwidth}{figures/sinerrors.png}{\label{fig_chapPyton_sinerrors}Data set with constant $x$ and variable $y$ error bars.}*)
+\end{poutput}
 
 \subsubsection{Plotting histograms}
 \label{subsub:pythonhist}
 A particularly useful way to plot data of a statistical nature is the ``histogram'' (See Chapter \ref{Chap:statData} for details on histograms). This is done very easily with the \code{hist()} function. (see Fig. \ref{fig_chapPyton_normal}):
 
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Pylab to plot a histogram]
 import numpy as np
 import pylab as pl
 import math 
@@ -727,19 +729,21 @@ pl.axis([0,12,0,80])
 pl.show()
 
 \end{python} 
-\capfig{0.5\textwidth}{figures/normal.png}{\label{fig_chapPyton_normal}Histogram with 40 bins of random values normally distributed with a mean of 7 and standard deviation of 1.}
+\begin{poutput}
+(* \capfig{0.7\textwidth}{figures/normal.png}{\label{fig_chapPyton_normal}Histogram with 40 bins of random values normally distributed with a mean of 7 and standard deviation of 1.} *)
+\end{poutput}
 
 The \code{hist()} function plots the histogram and returns a tuple \code{(n,bins,patches)}. The first element in the tuple (\code{n}) is an array containing the number of counts in each bin, the second element (\code{bins}) is an array with the left edge of each bin, and the third element (\code{patches}) contains information on drawing the actual histogram (e.g. where to place rectangles) and has no analysis use for us.
 
 The \code{hist()} function takes as first argument the array of values that it should histogram, and it can take a variety of other arguments to control the display of the histogram. A particularly important argument is the \code{bins} argument, which controls the binning of the histogram. If this is a single number, then python will automatically figure out the range of values in the array and create that many equal bins (40 bins in the example above). One can also specify \code{bins} by setting it equal to an array of values which correspond to the left side of the bins that we specify (and the last value in the array in the right edge of the highest bin). For example:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Making a histogram with customized bins]
 #histogram the values
 n,bins,patches=pl.hist(x,bins=[6.5,7,7.1,7.2,7.3,7.4,7.5,8])
 \end{python}
 would create a histogram with only a subset of the data (from 6.5 to 8), with two wider bins on either side (from 6.5 to 7 and from 7.5 to 8), and a set of smaller bins between 7 and 7.5.
 
 There are also a variety of options for controlling the look of the histogram, and these can be combined onto a single plot, as below, which produces Figure \ref{fig_chapPyton_normal_demo}.
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Plotting multiple histograms]
 import numpy as np
 import pylab as pl
 import math 
@@ -762,10 +766,12 @@ pl.axis([3.5,10.5,0,250])
 #show the plot:
 pl.show()
 \end{python}
-\capfig{0.4\textwidth}{figures/normal_demo.png}{\label{fig_chapPyton_normal_demo}Two different histograms of the same data, with different binning.}
+\begin{poutput}
+(* \capfig{0.7\textwidth}{figures/normal_demo.png}{\label{fig_chapPyton_normal_demo}Two different histograms of the same data, with different binning.} *)
+\end{poutput}
 
 We can also normalize the histograms (so that the sum of the bin contents is 1), and we can also plot the ``cumulative'' histogram (where each bin is the sum of the bin contents that are below it). The cumulative histogram is effectively the integral of a histogram. The code below illustrates some of the various possibilities for plotting histogram, and also shows how to make ``sub-plots'' in python (which does not apply only to histograms).
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Making a normalized histogram and making sub figures]
 import numpy as np
 import pylab as pl
 import math 
@@ -809,21 +815,23 @@ pl.ylabel("frequency of value")
 pl.tight_layout() #space out the sub plots
 pl.show()
 \end{python}
-\capfig{0.8\textwidth}{figures/normal_subplot.png}{\label{fig_chapPyton_normal_subplot}Various ways to display a histogram, also showing how to use subplots.}
+\begin{poutput}
+(* \capfig{0.8\textwidth}{figures/normal_subplot.png}{\label{fig_chapPyton_normal_subplot}Various ways to display a histogram, also showing how to use subplots.} *)
+\end{poutput}
 
 \subsection{Sympy: Symbolic computations in python}
 In later chapters, we will find that we often need to take derivatives of quantities. As in other popular software packages, it is also possible to evaluate derivatives symbolically in python. This is done using the \code{sympy} (``symbolic python'') package. 
 
 In order to use symbolic computation, one must first import the sympy package, and then define variable that python will represent as symbols. In this example, we define $x$ and $y$ as symbols, as well as a symbolic function $f(x,y)=\sqrt{x^2+y^2}$, that depends on $x$ and $y$:
 
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Sympy for symbolic computations in python]
 import sympy as sym
 x,y = sym.symbols('x y')  #declare variables x and y to be used as symbols
 f = sym.sqrt(x**2+y**2) #a function of x and y
 \end{python}
 
 The derivatives of $f$ with respect to $x$ and $y$ can be found easily, and manipulated as a symbolic expressions themselves (which we sum below):
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Using sympy to compute a symbolic derivative]
 import sympy as sym
 sym.init_printing()
 
@@ -844,7 +852,7 @@ df/dx+df/dy =  x/sqrt(x**2 + y**2) + y/sqrt(x**2 + y**2)
 \end{poutput}
 
 Finally, we can also substitute in numerical values using the \code{subs()} command on an expression and passing it an array of tuples. We can numerically evaluate an expression using \code{N()}:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Substituting numerical values into expressions from sympy]
 #substitute some numbers for x and y into our dSum expression
 nValue1 = dSum.subs([(x,2),(y,3)])
 nValue2 = dSum.subs([(x,4),(y,5)])
@@ -857,7 +865,7 @@ value 1: 1.39, value 2: 1.41
 \subsection{Curve fitting with scipy optimize}
 
 It is often the case that given a set of data points, $(x_i,y_i)$, we want to ``fit'' a model function, $y=f(x,\vec\beta)$, to the data. The goal is to determine the set of parameters $\vec\beta=(\beta_1, \beta_2,\dots)$ that best fit the data. For example, a set of data may be described by a second order polynomial, $f(x)=a+bx+cx^2$, and we may wish to use the data to determine the parameters, $a$, $b$, and $c$ that best fit the data. This can be done using the \code{scipy.optimize} module. The first thing to do is to define a python function to represent our model function:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Defining a function to use for fitting]
 import numpy as np
 def model(x,*pars):
     return pars[0]+pars[1]*x+pars[2]*x*x
@@ -866,20 +874,20 @@ where you should note that the dependent variable, $x$, is the first argument of
 
 Let us assume that our data is stored into three one-dimensional numpy arrays, \code{xdata}, \code{ydata}, and \code{ydataErr}, holding the $x$ and $y$ coordinates of the points, and the uncertainties on the $y$ values, respectively. The algorithm that varies the model parameters can have some difficulties in finding good fit values for the fit parameters, especially if the fit function is complicated. It is thus often necessary to give the fitter an initial guess for the parameters. The fitter is run with the following code:
 
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Fitting a function to a set of xy data with error bars]
 from scipy.optimize import curve_fit
 #Guesses for the parameters
 pars_guess = [5,50,-3]
 pars_fit, pcov = curve_fit(model, xdata, ydata,sigma=ydataErr,p0=pars_guess)
 \end{python}
 where we imported only the \code{curve\_fit()} function from the \code{scipy.optimize} module. The \code{curve\_fit()} function returns a tuple, \code{pars\_fit,pcov}, where \code{pars\_fit} are the best fit values for the parameters that we want and \code{pcov} is the covariance matrix of the parameters. The square root of the diagonal elements of the covariance matrix correspond to the errors on the parameters from the fit, which we can easily get:
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = Obtaining the errors from the fit]
 #Get the errors out of the covariance matrix
 pars_err = np.sqrt(np.diag(pcov))
 \end{python}
 
 Below is a full example that creates ``fake data'', fits those data to the model, and then makes a plot showing the fitted function, the data, and the residuals from the fit (see Chapter \ref{Chap:statModelData}, the residuals are the difference between the data and the model evaluated with the best fit parameters).
-\begin{python}[caption = \mbox{}]
+\begin{python}[caption = A complete fit including residuals]
 import numpy as np
 import pylab as pl
 import matplotlib.gridspec as gridspec  # for unequal plot boxes
@@ -960,6 +968,7 @@ pl.tight_layout()
 pl.show()
 \end{python}
 The result is shown in Figure \ref{fig:pol2fitexample}.
-
-\capfig{0.7\textwidth}{figures/pol2fitexample.png}{\label{fig:pol2fitexample}Example of a fit to a second order polynomial and the residual plot.}
+\begin{poutput}
+(* \capfig{0.7\textwidth}{figures/pol2fitexample.png}{\label{fig:pol2fitexample}Example of a fit to a second order polynomial and the residual plot.} *)
+\end{poutput}
  
