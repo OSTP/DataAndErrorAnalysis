@@ -15,7 +15,7 @@ The sequence will ultimately repeat itself and has a ``period'' that depends bot
 
 Apart from their use in Monte Carlo simulations, PRNGs are used widely in encryption, where very large random numbers are needed to produce encryption keys that are difficult to break. They are also used in a variety of other applications, including electronic lottery machines.
 
-A very simple class of random number generators are the "Linear Congruential Generators" (LCG). They are given by the simple recursive relation:
+A very simple class of random number generators are the ``Linear Congruential Generators'' (LCG). They are given by the simple recursive relation:
 \begin{align*}
  N_i = (aN_{i-1} + b) \; mod \; M 
 \end{align*}
@@ -79,9 +79,9 @@ and invert the functions, such that:
 y(x) = G^{-1}(x)
 \end{align*}
 
-The function inversion cannot usually be done analytically, although one can easily program a function inversion using interpolation from tabulated values. Also note that for distributions, $g(y)$ that are not monotonous, it may not be possible to use this method if the function inverse is not one-to-one. For example, if this method were used for the normal distribution, then it would only generate values on one side of the mean (but the algorithm could easily be modified to generate numbers that are symmetric about the mean).
+The function inversion cannot usually be done analytically, although one can easily program a function inversion using interpolation from tabulated values. Also note that for those distributions, $g(y)$, that are not monotonous, it may not be possible to use this method if the function inverse is not one-to-one. For example, if this method were used for the normal distribution, then it would only generate values on one side of the mean (but the algorithm could easily be modified to generate numbers that are symmetric about the mean).
 
-As an example that can be done analytically, let us suppose that we want to generate random numbers that are distributed according to an exponential probability density function, $g(y) = \frac{1}{\tau}e^{-\frac{y}{\tau}}$. The cdf, $G(y)$, is easily found:
+As an example that can be done analytically, let us suppose that we want to generate random numbers that are distributed according to an exponential probability density function, $g(y) = \frac{1}{\tau}e^{-\frac{y}{\tau}}$. That is, we can generate uniform random numbers, $x$, and we want to know how to transform those numbers, $y(x)$, so that the $y$ are exponentially distributed. The cdf for the exponential distribution, $G(y)$, is easily found:
 \begin{align*}
 g(y) &= \frac{1}{\tau}e^{-\frac{y}{\tau}}\nonumber\\
 G(y) &= \int_{0}^y g(y) = 1- e^{-\frac{y}{\tau}} 
@@ -282,7 +282,7 @@ Let us suppose that we are interested in measuring Coulomb's force from two char
 \begin{align*}
 F = k\frac{q_1q_2}{r^2}
 \end{align*}
-Let us suppose that we have measured all of the quantities with 1\% relative uncertainty, and obtained the following values: $q_1 =10^{-6}$\,C, $q_2 =2\times10^{-5}$\,C, and $r=0.1$\,m (all measurements are $\pm$ 1\%). The following python code calculates the uncertainty using standard error propagation:
+Let us suppose that we have measured all of the quantities with 1\% relative uncertainty, and obtained the following values: $q_1 =10^{-6}$\,C, $q_2 =2\times10^{-5}$\,C, and $r=0.1$\,m (all measurements are $\pm$ 1\%). The following python code calculates the central value and uncertainty in the force using standard error propagation:
 \begin{python}[caption = Standard error propagation] 
 import numpy as np
 import pylab as pl
@@ -316,7 +316,7 @@ Using error propagation, the force is:
 F = 18.00 +/ 0.44 N
 \end{poutput}
 
-Now let us compare this with a Monte Carlo simulation. We will assume that the errors in $q_1$, $q_2$, and $r$ are standard, although it is easy to relax this assumption by using different distributions. The strategy is very simple:
+Now let us compare this with a Monte Carlo simulation. We will assume that the errors in $q_1$, $q_2$, and $r$ are standard, although it is easy to relax this assumption by using different distributions. We will also assume that the measurements are uncorrelated, as we did above\footnote{Generating correlated random numbers is not too difficult, but it definitely adds a complication!}. The strategy is very simple:
 \begin{enumerate}
 \item generate $N$ randomly normally distributed\footnote{If the errors were not standard, but corresponded to some different distribution, we could generate the random numbers from that distribution.} samples for $q_1$, $q_2$, and $r$
 \item for each sample, calculate a corresponding value of $F$
@@ -364,7 +364,7 @@ F = 18.00 +/ 0.44 N
 \end{poutput}
 
 
-Figure \ref{fig:MCErrorProp} shows the histogram of the simulated values of the Coulomb force, and we note that it is very close to being normally distributed, thus supporting the use of the Taylor series expansion to propagate the uncertainty. When we take the mean and standard deviations of the values in the histogram, we get an estimate of $F$ that is consistent with the obtained from the error propagation formula, as expected. It is worth noting that the Monte Carlo method is quite a bit easier to implement, since it does not require evaluating the partial derivatives.
+Figure \ref{fig:MCErrorProp} shows the histogram of the simulated values of the Coulomb force, and we note that it is very close to being normally distributed, thus supporting the use of the Taylor series expansion to propagate the uncertainty. When we take the mean and standard deviations of the values in the histogram, we get an estimate of $F$ that is consistent with that obtained from the error propagation formula, as expected. It is worth noting that the Monte Carlo method is quite a bit easier to implement, since it does not require evaluating the partial derivatives.
 
 We now repeat the same exercise, but using 10\% relative uncertainties on all measurements. Modifying the relevant lines in the python code, we get the following output:
 \begin{verbatim}

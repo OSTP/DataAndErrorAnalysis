@@ -4,7 +4,7 @@
 %This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
 \chapter{Error Propagation}
 \label{chap:ErrorPropagation}
-In this chapter, we show how to propagate the uncertainties from ``direct'' measurements to uncertainties in quantities calculated from those measurements. We will justify many of the rules that we present here in chapter \ref{chap:StatsNormal}.
+In this chapter, we show how to propagate the uncertainties from ``direct'' measurements to uncertainties in quantities calculated from those measurements. We will justify many of the rules that we present here in the following chapters.
 
 \section{The Min-Max method}
 We will look at the ``Min-Max'' method as an introduction to propagating uncertainties, although it is only typically used in first year introductory physics labs. The Min-Max method is based on considering the maximal change in a calculated quantity that can result from the variation of the measured quantities.
@@ -38,7 +38,7 @@ X=\sum_{i=1}^{i=N}x_i\nonumber\\
 \sigma_X=\sum_{i=1}^{i=N}\sigma_{x_i}
 \end{align}
 
-\begin{example}{}{Using the Min-Max method, show that the best estimate and uncertainty on the difference of two measurements, $x_1$ and $x_2$, with uncertainty $\sigma_{x_1}$ and $\sigma_{x_2}$, are given by $X=x_1-x_2$ and $\sigma_{X} =\sigma_{x_2} + \sigma_{x_2}$, respectively.}{} 
+\begin{example}{Using the Min-Max method, show that the best estimate and uncertainty on the difference of two measurements, $x_1$ and $x_2$, with uncertainty $\sigma_{x_1}$ and $\sigma_{x_2}$, are given by $X=x_1-x_2$ and $\sigma_{X} =\sigma_{x_2} + \sigma_{x_2}$, respectively.}
 The maximum value of the difference is given when $x_1$ has the biggest value in its range, while $x_2$ has the smallest values in its range:
 \begin{align*}
 X^{max}=(x_1+\sigma_{x_1})-(x_2-\sigma_{x_2})
@@ -95,7 +95,7 @@ More conveniently, we can see that the relative uncertainty of $A$ is given by s
 \frac{\sigma_{A}}{A}=\frac{\sigma_{l_1}}{l_1}+\frac{\sigma_{l_2}}{l_2}
 \end{align}
 
-\begin{example}{}{Use the Min-Max method to determine the uncertainty on the quotient, $Q=\frac{x_1}{x_2}$, of two numbers, $x_1$ and $x_2$, that have uncertainties $\sigma_{x_1}$ and $\sigma_{x_2}$}{}
+\begin{example}{Use the Min-Max method to determine the uncertainty on the quotient, $Q=\frac{x_1}{x_2}$, of two numbers, $x_1$ and $x_2$, that have uncertainties $\sigma_{x_1}$ and $\sigma_{x_2}$}
 We proceed in the same way as we did for the product, using the relative uncertainties. The biggest value that the quotient can have is:
 \begin{align*}
 Q^{max}&=\frac{x_1^{max}}{x_2^{min}}\nonumber\\
@@ -149,7 +149,7 @@ F^{min}=F(x^{min},y^{min})\\
 \end{align*}
 In more complicated situations, it may be necessary to find out the answer numerically, which thankfully is easy with a computer!
 
-\begin{example}{}{Given the function $F(x,y)=\sin(x+\log y)$, and the measured values of $x=0\pm1$ and $y=0.5\pm0.2$, use the Min-Max method to find the best estimate and the uncertainty in $F$}{}
+\begin{example}{Given the function $F(x,y)=\sin(x+\log y)$, and the measured values of $x=0\pm1$ and $y=0.5\pm0.2$, use the Min-Max method to find the best estimate and the uncertainty in $F$}
 Since this is not a trivial function, we can solve this numerically using python:
 
 \begin{python}[caption = Min-Max method] 
@@ -232,7 +232,7 @@ F \pm \sigma_{F} &= F(x) \pm \frac{dF}{dx}\sigma_{x}\nonumber\\
 \end{align}
 That is, the best estimat of $F(x)$ is obtained by evaluating $F(x)$ at the best estimate value for $x$ and the uncertainty, $\sigma_{F}$ is given by the derivative of $F(x)$ with respect to $x$ multiplied by $\sigma_{x}$.  The derivative is the rate of change of $F(x)$ with respect to $x$, so it makes sense that the change in $F(x)$ due to a change in $x$ is given by the derivative.
 
-\begin{example}{}{Show that the uncertainty in $F(x)=ax$, where $a$ is a constant, is given by $\sigma_{F}=a \sigma_{x}$}{}
+\begin{example}{Show that the uncertainty in $F(x)=ax$, where $a$ is a constant, is given by $\sigma_{F}=a \sigma_{x}$}
 The derivative of $F(x)$ with respect to $x$ is:
 \begin{align*}
 \frac{dF}{dx}=a
@@ -244,7 +244,7 @@ Hence the uncertainty is given by:
 as required
 \end{example}
 
-\begin{example}{}{Show that the uncertainty in $F(\theta)=\sin\theta$ is given by $\sigma_{F}=\cos\theta\sigma\theta$}{}
+\begin{example}{Show that the uncertainty in $F(\theta)=\sin\theta$ is given by $\sigma_{F}=\cos\theta\sigma\theta$}
 The derivative of $F(\theta)$ with respect to $\theta$ is:
 \begin{align*}
 \frac{dF}{d\theta}=\cos\theta
@@ -275,7 +275,7 @@ This derivation however assumed that both $x$ and $y$ have changed in the ``wors
 \end{align}
 This formula applies no matter how many variables $F$ depends on; you can just add more terms to the sum in quadrature. 
 
-\begin{example}{}{Use the derivative method to find a formula for the uncertainty, $\sigma_{F}$, in $F(x,y)=\frac{x}{y}$ if $x$ and $y$ have uncertainties $\sigma_{x}$ and $\sigma_{y}$. Show that this gives the same uncertainty as found by adding the relative uncertainties in $x$ and $y$ together in quadrature.}{}
+\begin{example}{Use the derivative method to find a formula for the uncertainty, $\sigma_{F}$, in $F(x,y)=\frac{x}{y}$ if $x$ and $y$ have uncertainties $\sigma_{x}$ and $\sigma_{y}$. Show that this gives the same uncertainty as found by adding the relative uncertainties in $x$ and $y$ together in quadrature.}
 We have:
 \begin{align*}
 F(x,y)&=\frac{x}{y}\\
@@ -295,7 +295,7 @@ If we factor out $\frac{x}{y}$ from the above expression, we have:
 which is exactly the expression that one obtains from adding the relative uncertainties together. 
 \end{example}
 
-\begin{example}{}{Use the derivative method to evaluate a formula for the uncertainty, $\sigma_{F}$, in the function $F(x,y)=\sin(x+\ln y)$ if $x$ and $y$ have uncertainties $\sigma_{x}$ and $\sigma_{y}$. Give the best estimate and uncertainty in $F(x,y)$ for the case of $x=3.0\pm0.5$\,rad and $y=8\pm1$.}{}
+\begin{example}{Use the derivative method to evaluate a formula for the uncertainty, $\sigma_{F}$, in the function $F(x,y)=\sin(x+\ln y)$ if $x$ and $y$ have uncertainties $\sigma_{x}$ and $\sigma_{y}$. Give the best estimate and uncertainty in $F(x,y)$ for the case of $x=3.0\pm0.5$\,rad and $y=8\pm1$.}
 We have:
 \begin{align*}
 F(x,y)&=\sin(x+\log y)\\
@@ -347,7 +347,7 @@ The best estimate and uncertainty in F(x,y) is -0.93 +/- 0.18
 \end{poutput}
 \end{example}
 
-\begin{example}{}{Evaluate the best estimate of $F(x,y,z)$ and its uncertainty, $\sigma_{F}$, for the case where $F(x,y,z)=\sin(x+\ln y)\cos(z)\sqrt{x^2+y^2+2z}$, where the following values have been measured: $x=8\pm0.1$, $y=3\pm0.2$, and $z=10\pm0.3$ }{}
+\begin{example}{Evaluate the best estimate of $F(x,y,z)$ and its uncertainty, $\sigma_{F}$, for the case where $F(x,y,z)=\sin(x+\ln y)\cos(z)\sqrt{x^2+y^2+2z}$, where the following values have been measured: $x=8\pm0.1$, $y=3\pm0.2$, and $z=10\pm0.3$ }
 In this case, it is much easier to just use symbolic computation in python.
 \begin{python}[caption = Symbolic-based derivative error with sympy]
 import sympy as sym

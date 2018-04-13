@@ -15,7 +15,7 @@ P^{norm}(x,\mu_x,\sigma_x)=\frac{1}{\sigma_x\sqrt{2\pi}}e^{-\frac{(x-\mu_x)^2}{2
 \end{align}
 and has two parameters: the mean, $\mu_x$, and the standard deviation, $\sigma_x$. We cannot interpret the value of the pdf to give us the probability of obtaining the value $x$ in a given measurement, because $x$ is a continuous variable: we can never measure anything to infinite accuracy, so the probability of getting \textit{exactly} $x$ is always zero. This was not the case for the discrete binomial and Poisson distributions, where one can expect to get exactly a given number of successes. Rather, the pdf for the normal distribution gives us the probability, $P^{norm}(x,\mu_x,\sigma_x)dx$, of obtaining a value that is between $x$ and $x+dx$, where $dx$ is a small increment in $x$ (small in the sense that $P^{norm}(x+dx,\mu_x,\sigma_x)$ is equal to $P^{norm}(x,\mu_x,\sigma_x)$). The probability, $P^{norm}(x,\mu,\sigma)dx$, is the area underneath the curve $P^{norm}(x,\mu_x,\sigma_x)$ between $x$ and $x+dx$. 
 
-Figure \ref{fig:normaldist} shows the normal distribution as a function of $x$ for different values of the parameters $\mu$ and $\sigma$. The normal distribution is symmetric about the mean $\mu$ (as evidenced by equation \ref{eqn:gaus}) and has a width that is proportional to $\sigma$. The factor $\frac{1}{\sigma\sqrt{2\pi}}$ in front of the exponential normalizes the distribution so that the total area under the curve is equal to 1. Just as in the case of the binomial and Poisson distributions, we need the sum of the probabilities of all possible outcomes to be equal to 1. For the normal distribution, we thus require:
+Figure \ref{fig:normaldist} shows the normal distribution as a function of $x$ for different values of the parameters $\mu_x$ and $\sigma_x$. The normal distribution is symmetric about the mean $\mu_x$ (as evidenced by equation \ref{eqn:gaus}) and has a width that is proportional to $\sigma_x$. The factor $\frac{1}{\sigma_x\sqrt{2\pi}}$ in front of the exponential normalizes the distribution so that the total area under the curve is equal to 1. Just as in the case of the binomial and Poisson distributions, we need the sum of the probabilities of all possible outcomes to be equal to 1. For the normal distribution, we thus require:
 \begin{align*}
 \sum_{x=-\infty}^{x=+\infty}P^{norm}(x,\mu_x,\sigma_x)dx &=1
 \end{align*}
@@ -32,9 +32,9 @@ The main reason that the normal distribution is so important is that both the bi
 \capfig{0.7\textwidth}{figures/normal_binomial.png}{\label{fig:normal_binomial} Comparison of binomial and normal distributions with different means.}
 \capfig{0.7\textwidth}{figures/normal_poisson.png}{\label{fig:normal_poisson} Comparison of Poisson and normal distributions with different means.}
 
-The normal distribution is much more straightforward to evaluate than the binomial or Poisson distribution, because it a function of a continuous variable, and it does not require evaluating the factorial of a number (calculators struggle with factorials of numbers as small as 100). As we will see, many physical situations are in a regime (e.g Poisson with a large mean) where they can be well approximated by the gaussian distribution. Grades in a class, heights of people, lengths of 8 month old cats, weights of brand new pencils, the rapid fluctuations in stock prices, time spent by patients in the ER, etc. are all normally distributed. 
+The normal distribution is much more straightforward to evaluate than the binomial or Poisson distribution, because it is a function of a continuous variable, and it does not require evaluating the factorial of a number (calculators struggle with factorials of numbers as small as 100). As we will see, many physical situations are in a regime (e.g Poisson with a large mean) where they can be well approximated by the gaussian distribution. Grades in a class, heights of people, lengths of 8 month old cats, weights of brand new pencils, the rapid fluctuations in stock prices, time spent by patients in the ER, etc. are all normally distributed. 
 \clearpage
-\begin{example}{}{Compare the probability of obtaining 140 heads in 300 coin tosses (of a fair coin) evaluated using the binomial and normal distributions.}{}
+\begin{example}{Compare the probability of obtaining 140 heads in 300 coin tosses (of a fair coin) evaluated using the binomial and normal distributions.}
 We need to evaluate the binomial probability given by $P^{binom}(k=140,N=300,p=0.5)$:
 \begin{align*}
 P^{binom}(k=140,N=300,p=0.5)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}=0.02367
@@ -84,7 +84,7 @@ As we stated earlier, the total area underneath the normal distribution pdf must
 P(x_a \leq x \leq x_b) = \int_{x_a}^{x_b}P^{norm}(x,\mu_x,\sigma_x)dx
 \end{align}
 
-\begin{example}{}{On average, 25 students skip any given Error Analysis class. Use the Poisson and normal distributions to evaluate the probability that 30 students will skip class on a given day, and compare the results. When using the normal distribution, compare the probabilities obtained by doing the integral from $x=30$ to $x=31$ and that obtained by evaluating the pdf at $x=30$ with $dx=1$.}{}
+\begin{example}{On average, 25 students skip any given Error Analysis class. Use the Poisson and normal distributions to evaluate the probability that 30 students will skip class on a given day, and compare the results. When using the normal distribution, compare the probabilities obtained by doing the integral from $x=30$ to $x=31$ and that obtained by evaluating the pdf at $x=30$ with $dx=1$.}
 This problem is well modeled by the Poisson distribution, $P^{Poisson}(k,n)$, with the expected number of students skipping class, $n=25$. Evaluating the probability of having $k=30$ students gives:
 \begin{align*}
 P^{Poisson}(k=30,n=25)=\frac{n^k e^{-n}}{k!} =0.0454
@@ -158,7 +158,7 @@ Figure \ref{fig:normal_pdfcdfsfl} shows, on the left, the normal distribution wi
 
 \capfig{0.7\textwidth}{figures/normal_pdfcdfsf.png}{\label{fig:normal_pdfcdfsfl} Normal probability density function (pdf), cumulative probability density function (cdf) and survival fraction (sf).}
 \clearpage
-\begin{example}{}{An IQ test is designed such that the test results, on a random sample of the population, are normally distributed with a mean of 100 and a standard deviation of 10. What is the probability that a random person will score between 120 and 130? What is the probability that a random person will score 75 or below?}{}
+\begin{example}{An IQ test is designed such that the test results, on a random sample of the population, are normally distributed with a mean of 100 and a standard deviation of 10. What is the probability that a random person will score between 120 and 130? What is the probability that a random person will score 75 or below?}
 As stated in the problem, the distribution of test results follows a normal distribution with $\mu_x$=100 and $\sigma_x$=10. The probability of scoring between 120 and 130 is given by:
 \begin{align*}
 P(120 \leq x \leq 130)&=\int_{120}^{130}P^{norm}(x,\mu_x=100,\sigma_x=10)dx\\
@@ -222,11 +222,19 @@ If we have $N$ source of random errors, each error being equal to $\epsilon$ and
 P(x)=P^{binom}(k,N,p=0.5)
 \end{align*}
 which corresponds to the probability that the correct number of errors, $k$, are positive. The possible range in values of $x$ is between $X-N\epsilon$ and $X+N\epsilon$. The distribution of our measurements will be symmetric about $X$ and each measurement, $x$, will have a binomial probability of occurring (evaluated by determining how many errors, $k$, are needed to be positive). If we have $k$ positive errors, then our measured value, $x$, is given by:
-\begin{align}
+\begin{align*}
 x&=X+k\epsilon-(N-k)\epsilon\\
 &=X+2k\epsilon-N\epsilon
-\end{align}
-If we repeat our measurement many times, $x$ will have a distribution of values. The standard deviation (variance) of the distribution of values of $x$ will depend on the standard deviation (variance) of the values that we obtain for $k$ ($X$ and $N$ are both constants, so they will not contribute to giving a distribution of values to $x$)\footnote{The variance of a sum of uncorrelated quantities is the sum of their variances, as we will show in section \ref{sec:generalFgauss}}. A standard deviation (i.e. a spread) in the values of $k$ of $\sigma_k$ will result in a standard deviation (a spread) for values for $x$ given by:
+\end{align*}
+If we repeat our measurement many times, $x$ will have a distribution of values. The average value of $x$ will be:
+\begin{align*}
+\bar x &=X+2\bar k\epsilon-N\epsilon\\
+&=X+2Np\epsilon-N\epsilon\\
+&=X
+\end{align*}
+where we have used the fact that $p=0.5$, and that $X$, $\epsilon$, and $N$ are constants. 
+
+The standard deviation (variance) of the distribution of values of $x$ will depend on the standard deviation (variance) of the values that we obtain for $k$ ($X$, $\epsilon$, and $N$ are constants, so they will not contribute to giving a distribution of values to $x$). A standard deviation (i.e. a spread) in the values of $k$ of $\sigma_k$ will result in a standard deviation (a spread) for values for $x$ given by:
 \begin{align}
 \sigma_x=2 \sigma_k \epsilon
 \end{align}
@@ -251,7 +259,7 @@ Although a full development of the Central Limit Theorem (CLT) is beyond the sco
 
  For example, the final marks from all of the students in a course are usually normally distributed (if there are many students and each students has multiple marks contributing to their final mark). The final mark from a single student is given by the sum of all of the marks that they obtained in the course (usually scaled by some number to get an average, but ultimately, it is still a sum). Each individual mark that the student obtained may not be from a normal distribution (e.g. for a given assignment, the professor could have graded the marks such that they are not normally distributed). It is thus quite remarkable that even if the individual assignments marks are not normally distributed, the final marks in the course are! This is the reason that some professors will adjust their final marks with a ``bell curve'' (a normal distribution!). In effect, the strategy is usually to shift all of the marks so that only a fraction of the students fail (e.g. only those 1 standard deviation below the mean). 
  
-Figure \ref{fig:normal_ctl} shows a simulated histogram to illustrate the CTL. In this case, a class of 100 students was simulated. Each student has 20 marks (e.g. from 20 assignments), and for each of those marks, the student has an equal probability of obtaining any mark between 0 and 10 (a flat distribution of marks, certainly not a normal distribution). As you can seen, when we compute the average mark for each student (their ``final mark''), and plot the distribution of those marks for all students, we get a distribution that looks like a normal distribution, remarkable!
+Figure \ref{fig:normal_ctl} shows a simulated histogram to illustrate the CTL. In this case, a class of 100 students was simulated. Each student has 20 marks (e.g. from 20 assignments), and for each of those marks, the student has an equal probability of obtaining any mark between 0 and 10 (a flat distribution of marks, certainly not a normal distribution). As you can see, when we compute the average mark for each student (their ``final mark''), and plot the distribution of those marks for all students, we get a distribution that looks like a normal distribution, remarkable!
  
 \capfig{0.7\textwidth}{figures/normal_ctl.png}{\label{fig:normal_ctl} Simulated histogram of final marks from 100 students in a course.} 
 
@@ -310,7 +318,7 @@ P_z(z)&=\sum_kP_z(z|x=k)\nonumber\\
 P_z(z)&=\sum_kP_x(k)P_y(z-k)
 \end{align}
 which can be applied to any discrete distributions, $P_x$ and $P_y$, to obtain the distribution of their sum. 
-\begin{example}{}{When rolling two dice, what is the probability that their sum is 7?}{}
+\begin{example}{When rolling two dice, what is the probability that their sum is 7?}
 Using our above notation, we are interested in the probability of $P_z(7)$ given the probability distribution for digits from each of the dice. If the number on the individual dice are given by $x$ and $y$ with probabilities $P_x(x)$ and $P_y(y)$, respectively, equation \ref{eqn:probconvodiscrete} gives $P_z(7)$ as:
 \begin{align*}
 P_z(7)&=\sum_{k=1}^{k=6} P_x(k)P_y(7-k)\\
@@ -572,7 +580,7 @@ Therefore, the uncertainty on our estimate of the average, $\hat X$, is given by
 \hat \sigma=\frac{1}{\sqrt{\sum_{i=1}^{i=N}w_i}}
 \end{align}
 
-\begin{example}{}{The ATLAS and CMS experiments at the Large Hadron Collider measured the mass of the Higgs boson by looking for the decay of the Higgs into two gamma rays (amongst other channels), and obtained $m_H^{ATLAS}=126.02 \pm 0.51$\,GeV and $m_H^{CMS}=124.70 \pm 0.34$\,GeV, respectively. Both uncertainties contain a contribution from systematic and random errors. Assuming that all of the uncertainties are in fact random (and standard), and that the measurements are considered as being consistent with each other, what is the best estimate and uncertainty of the Higgs mass when combining the results from these two experiments?}{}
+\begin{example}{The ATLAS and CMS experiments at the Large Hadron Collider measured the mass of the Higgs boson by looking for the decay of the Higgs into two gamma rays (amongst other channels), and obtained $m_H^{ATLAS}=126.02 \pm 0.51$\,GeV and $m_H^{CMS}=124.70 \pm 0.34$\,GeV, respectively. Both uncertainties contain a contribution from systematic and random errors. Assuming that all of the uncertainties are in fact random (and standard), and that the measurements are considered as being consistent with each other, what is the best estimate and uncertainty of the Higgs mass when combining the results from these two experiments?}
 First, we compute the weight for each measurement:
 \begin{align*}
 w^{ATLAS}&=\frac{1}{0.51^2}=3.84\\

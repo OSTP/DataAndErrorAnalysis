@@ -49,7 +49,7 @@ P(A|B) &= \frac{P(A \cap B)}{P(B)} \nonumber\\
 \end{align}
 That is, if $A$ and $B$ are independent, the probability of $A$ given $B$ is just the probability of $A$ and does not depend on $B$.
 
-\begin{example}{}{What is the probability of the sum of two dice being 7 given that one of the dice is a 5?}{}
+\begin{example}{What is the probability of the sum of two dice being 7 given that one of the dice is a 5?}
 \label{ex:ConditionalDice1}
 We need to calculate the conditional probability, $P(sum=7|\text{rolled a 5})$.
 \begin{align}
@@ -74,7 +74,7 @@ We can verify the result by tabulating all of the outcomes that contain a 5, the
 there are 11 such outcomes, two of which sum to seven. 
 \end{example}
 
-\begin{example}{}{If we rolled two dice and the sum was 7, what is the probability that one of the dice is a 5?}{}
+\begin{example}{If we rolled two dice and the sum was 7, what is the probability that one of the dice is a 5?}
 \label{ex:ConditionalDice2}
 This is the inverse of the conditional probability that we had in the previous example. We now need to calculate the conditional probability, $P(\text{rolled a 5}|sum=7)$.
 \begin{align}
@@ -116,7 +116,7 @@ This is often re-arranged in the form:
 P(A|B) = \frac{P(B|A)P(A)}{P(B)}
 \end{align}
 and is called ``Bayes' Theorem''. Bayes' theorem not only gives us a way to invert the conditional probability, but as we will see, it gives us an entirely new way to interpret probabilities. The ability to invert the conditional probability also highlights some properties of probabilities that are counter-intuitive. 
-\begin{example}{}{Suppose that there is a rare disease, that only 1\% of the population carries, and a test that is 99\% accurate when someone has the disease (for someone with the disease, the test will be positive 99\% of the time). Furthermore, the test has a false positive rate of 2\% (for someone without the disease, there is a 2\% chance that the test will be positive). If someone tests positive for the disease, what is the probability of actually having the disease?}{}
+\begin{example}{Suppose that there is a rare disease, that only 1\% of the population carries, and a test that is 99\% accurate when someone has the disease (for someone with the disease, the test will be positive 99\% of the time). Furthermore, the test has a false positive rate of 2\% (for someone without the disease, there is a 2\% chance that the test will be positive). If someone tests positive for the disease, what is the probability of actually having the disease?}
 \label{ex:BayesDisease}
 We need to calculate the probability of having the disease given that we have tested positive. Bayes' theorem tells us:
 \begin{align*}
