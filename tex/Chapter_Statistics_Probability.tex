@@ -402,3 +402,57 @@ If we use the mean and standard deviations to define our best estimate of the pa
 Finally, Figure \ref{fig:posterior1d_sigma0p1} shows the 1-d posterior probabilities for the case where $\mu_b=10$ and $\sigma_b=0.1$; that is, when the prior knowledge of $b$ is given a much smaller uncertainty. In this case, we see that posterior for $b$ has a mean that is much closer to 10, and that the distribution is quite narrow, because the prior is given a lot of importance (a small $\sigma_b$). If we use the mean and standard deviations to define our best estimate of the parameters, we obtain $a=-5.141\pm1.22$ and $b=9.75 \pm 0.09$ We also see that the mean value of the parameter $a$ has shifted down; this is to compensate for the higher value of $b$, since the slope and offset in a linear fit are usually anti-correlated. This again illustrates how the Bayesian approach allows us to combine prior information with data to update our knowledge. In this case, our prior knowledge was very ``significant'' and the data only had a small effect.
 
 \capfig{0.7\textwidth}{figures/posterior1d_sigma0p1.png}{\label{fig:posterior1d_sigma0p1} 1-dimensional posterior distributions for $a$ and $b$, for the case with $\mu_b=10$ and $\sigma_b=0.1$. The prior probability for $b$ is also shown.}
+
+\section{Summary}
+In this chapter, we explored the meaning of the word ``probability'' and how to interpret probabilities.
+
+We defined $S$ to be a set of elements or outcomes. A subset is a group of objects within $S$ that share some property. We define $A$ and $B$ to be two of these subsets. $P(A)$, then, is the probability that an element in $S$ is part of the subset $A$. The complement of $A$, $!A$,  consists of all the elements that are not part of $A$.
+
+We used Kolmogorov's axioms to define the meaning of probabilities. The three axioms are:
+\begin{enumerate}
+\item $P(A) \geq 0$ is a non-negative real number for any element $A$
+\item The sum of the probabilities of all mutually exclusive subsets in $S$ is equal to 1, $P(S) = 1$
+\item For any two mutually exclusive subsets, $A$ and $B$, of $S$, the probability assigned to their union, $A \cup B$, is given by the sum of their individual probabilities: $P(A \cup B) = P(A) + P(B)$. For $A$ and $B$ to be mutually exclusive, an element of the subset $A$ must not be an element of the subset $B$.
+\end{enumerate}
+
+Next we looked at conditional probabilities. The conditional probability $P(A|B)$ is the probability of $A$ given $B$. That is, given that an element is part of $B$, what is the probability that it also part of $A$? The conditional probability is given as:
+
+\begin{align*}
+P(A|B) = \frac{P(A \cap B)}{P(B)}
+\end{align*}
+
+If $A$ and $B$ are independent, the probability that an element is in $A$ should not depend on whether it is in $B$ (i.e. $P(A|B)=P(A)$). With our formula for the conditional probability, we see that $A$ and $B$ are independent if $P(A \cap B)=P(A)P(B)$.
+
+From the formula for conditional probability, we derived Bayes' Theorem,
+
+\begin{align*}
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+\end{align*}
+
+Useful tip: $P(B)$ can also be written as $P(B|A)P(A)+P(B|!A)P(!A)$.
+
+We looked at two different definitions/interpretations of probability:
+\begin{itemize}
+\item \textbf{Frequentist definition}: The probability is the frequency with which you expect a certain outcome.
+\item \textbf{Bayesian definition}: The probability is the "degree of belief for something to happen" (it is a subjective definition). It is a statement of confidence in a hypothesis.
+\end{itemize}
+
+The Bayesian interpretation is particularly useful for thinking about the process of conducting science; we start with a prior probability (a degree of belief about the hypothesis), then perform an experiment which modifies our prior probability to give us the posterior probability (i.e. our new degree of belief in the hypothesis). This can be formalized using Bayes' theorem, which can be written as,
+\begin{align*}
+P(hypothesis|data) &= \frac{P(data | hypothesis)P(hypothesis)}{P(data)}
+\end{align*}
+We usually omit $P(data)$ and write:
+\begin{align*}
+P(hypothesis|data) \propto P(data | hypothesis)P(hypothesis)
+\end{align*},
+
+Where:
+\begin{itemize}
+\item $P(hypothesis)$ is the prior probability
+\item $P(hypothesis | data)$ is the posterior probability
+\item $P(data|hypothesis)$ is the likelihood of the data: the probability that given our hypothesis we would get the measured data
+\end{itemize}
+
+The prior is subjective in nature, and can have quite a large effect on the posterior probability. The more significant the data, the less the choice of prior matters, because the data will carry more weight.
+
+We then looked at specific examples of using the Bayesian method. We first looked at using the Bayesian method to determine the probability, $p$, of getting heads when you flip a coin, and saw that the choice of prior can have a large impact on the posterior probability. We then saw that the Bayesian method can be used to fit a straight line to fit a set of data, which is a useful tool to use when one or more of the parameters has been measured in a previous experiment.
