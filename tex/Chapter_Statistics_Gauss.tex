@@ -588,13 +588,14 @@ w^{CMS}&=\frac{1}{0.34^2}=8.65
 \end{align*}
 which we then use to compute the weighted average and uncertainty as:
 \begin{align*}
-\hat m_H=\frac{3.84\times 126.020+8.65\times 124.70}{3.84+8.65}=125.11\\
-\hat \sigma=\frac{1}{\sqrt{3.84+8.86}}=0.28
+\hat m_H=\frac{3.84\times 126.020+8.65\times 124.70}{3.84+8.65}=\SI{125.11}{GeV/c^2}\\
+\hat \sigma=\frac{1}{\sqrt{3.84+8.86}}=\SI{0.28}{GeV/c^2}
 \end{align*}
-The best estimate from combining these two measurements as if they had random errors and were completely independent, is $m_H=125.11\pm0.28$, which has an uncertainty that is smaller than that of the individual measurements. 
+The best estimate from combining these two measurements as if they had random errors and were completely independent, is $m_H=\SI{125.11\pm0.28}{GeV/c^2}$, which has an uncertainty that is smaller than that of the individual measurements. 
 \end{example}
-
+\newpage
 \section{Summary}
+\begin{chapterSummary}
 In this chapter, we introduced the probability density function for the normal distribution:
 \begin{align}
 P^{norm}(x,\mu,\sigma)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
@@ -630,3 +631,4 @@ Finally, we used the principle of maximum likelihood to show how to combine $N$ 
 w_i &\equiv \frac{1}{\sigma_i^2}
 \end{align}
 which corresponds to a weighted average where each measurement is weighed by the inverse of the square of the uncertainty in the measurement.
+\end{chapterSummary}

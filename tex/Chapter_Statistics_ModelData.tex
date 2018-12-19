@@ -516,6 +516,7 @@ The p-value is the probability of obtaining a chi-squared equal or worse (bigger
 \capfig{0.7\textwidth}{figures/chi2n14.png}{\label{fig:chi2n14} Probability density and cumulative density functions for the chi-squared distribution for 14 degrees of freedom (as in the case for the fit in Figure \ref{fig:resdata_fit}).}
 
 \section{Summary}
+\begin{chapterSummary}
 In this chapter, we used the principle of maximum likelihood to evaluate the parameters, $\vec\beta$, of a model, $y^{exp}(x,\vec\beta)$, to fit a set of $N$ pairs of data points, \{$(x_1,y_1), (x_2,y_2), \dots, (x_N,y_N)$\}. We found that this led to the requirement that we minimize the chi-squared, $\chi^2$, given by:
 \begin{align}
 \chi^2=\sum_{i=1}^{i=N}\frac{(y_i-y^{exp}(x_i,\vec\beta))^2}{\sigma_{y_i}^2}
@@ -547,3 +548,4 @@ We finished by discussing one method to evaluate the goodness of the fit of the 
 \nu\equiv N-n-1
 \end{align}
 where $N$ is the number of data points and $n$ is the number of parameters. We saw that if a model is correct, we will obtain a well-defined distribution of chi-squared values when the model is fit to various data sets with statistical fluctuations. We introduced the p-value as the probability that if the model is correct, one would obtain an equal or worse value of chi-squared (the p-value is one minus the cdf of the chi-squared distribution). We cautiously recommended that in general, if the p-value is less than 5\%, then the model is unlikely to be a good representation of the data.
+\end{chapterSummary}

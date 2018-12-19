@@ -14,7 +14,7 @@ In many physical situations, the data will follow particular ``distributions''. 
 The binomial distribution is used to describe the result of an experiment that can go in one of two ways (for example, flipping a coin can be either heads or tails). Very generally, a lot of processes can be thought of as binomial even if there are more than two possible outcomes. If you are interested in the number 5 coming up when rolling a single dice, even though there are 6 possible outcomes, you can think of it as a binomial problem (you either get 5 or you do not).
 
 The binomial distribution describes \textbf{how often we will get $k$ successes in $N$ independent trials, when we expect $pN$ successes}. We call $p$ the probability of getting the ``successful" outcome'', and reserve a more formal description of probability for a later chapter. For example, if we have a coin and we are interested in the number of times that we get ``heads'', we can think of $k$ as the number of times we get heads in $N$ coin tosses. We can think of $p$ as the fraction of times we get heads (either that we expect or that we measured). If we have a biased coin that, on average, gives 70\% heads, then $p=0.7$ which can be measured by tossing the coin many times and measuring the fraction of time that we get heads (this would be the ``frequentist'' definition of the probability, $p$). 
-
+\newpage
 
 \begin{example}{For an unfair coin that has a $p=0.7$ of being heads on any given toss, what is the probability of obtaining exactly 2 heads in 3 coin tosses?}
 If we label each toss by H (heads) or T (tails), then there are three possible sequences of 3 tosses that give two heads: HHT, HTH, and THH. The probability of obtaining the first sequence (HHT) is given by:
@@ -320,7 +320,7 @@ For example, what is the chance that 14 babies will be born at the hospital toni
 It can sometimes be difficult to conceptualize a counting experiment with the concept of a probability in a binomial process being small. Usually, the way to think about it is that there is a small probability for a specific item out of many to be the one that is counted, but a finite number of items that will be counted. 
 
 When we count something that has intrinsic randomness (as the examples above), the Poisson distribution can help us to understand the uncertainty on a measured number of counts. Since we understand that when we count something, the result we get follows the Poisson distribution, we can very precisely quantify the probability of getting a number that is bigger or smaller than what we obtained. In fact, we can use the Poisson distribution to define a range in which we are, say, 90\% confident that the true value lies.
-
+\vspace{-0.3cm}
 \begin{example}{Suppose that we spent one week in an all-inclusive vacation in the Caribbean, lounging on the beach and watching tourists get hit on the head by falling coconuts. In one week, we counted that 10 tourists were hit on the head by coconuts. Upon returning to our university, we want to tell our physics professor about our measurement and wish to report with a high degree of confidence (90\%) how many tourists get hit by coconuts every week. What range should we quote?}
 \label{ex:PoissonCoconut}
 Note that this is a Poisson process, and the probability of a specific tourist getting hit by a coconut is small, but the number of tourists that will get hit is finite.
@@ -454,7 +454,7 @@ Prob that at least 10 out 16 people do a little better:0.23
 Prob that 10 out 16 people do significantly better:0.000031
 Prob that at least 10 out 16 people do significantly better:0.000034
 \end{poutput}
-
+\vspace{-0.2cm}
 \begin{example}{The 2013 Ontario Road Safety Annual Report shows the following number of fatal car collisions by month: \{35,17,26,24,39,27,61,44,37,46,42,31\}, which add up to 429 for the year. Upon looking at the data, a politician decides that their next campaign will be based on banning driving in July since that is a particularly deadly month for driving in Ontario (61 deaths). Can you support the politician's claim that July is a bad month for driving?}
 We must first develop a null hypothesis, namely that no month is particularly worse for driving. If the data are consistent with the null hypothesis, then there is little reason to support the politician's claim. We thus need to evaluate the probability of having 61 or more fatal accidents in a particular month under the hypothesis that all months are equal. 
 
@@ -484,6 +484,7 @@ Prob of 50 accidents when we expect 42:0.1250
 
 
 \section{Summary}
+\begin{chapterSummary}
 In this chapter, we introduced the concept of a statistical distribution to model the spread of results that arises from processes that have some randomness associated with them. We introduced the binomial distribution to model processes where we expect $k$ successes after $N$ independent trials, when a given success has a probability of $p$. The binomial distribution gives the probability of having exactly $k$ successes, and the probability mass function is given by:
 \begin{align}
 P^{binom}(k,N,p)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}
@@ -511,3 +512,4 @@ The mean and variance of a quantity that is Poisson distributed are given by:
 The variance of the Poisson distribution is equal to its mean, $n$. The standard deviation is thus $\sqrt{n}$, which is the origin of the square root uncertainty in a counted quantity.
 
 Finally, we introduced the concept of statistical hypothesis testing, which involved determining the probability of a particular outcome given a particular hypothesis. We argued that it is usually easier to model the null hypothesis, that is, to determine the probability of the results occurring out of pure chance. We cautioned against drawing conclusions simply based on the probability of the null hypothesis being below a given bar (5\% is often used). Generally, the null hypothesis is of the form: ``what is the probability of getting x or more successes out of pure chance?''.
+\end{chapterSummary}

@@ -384,6 +384,7 @@ Counts in each bin [ 2.  7.  3.]
 We now have a few tools that can allow us to compare statistical data to a model (or between different data sets). For example, if one researcher has measured the lengths of 8 month old Canadian sphynx cats and another researcher has measured the lengths of 8 month old American sphynx cats, we can think about whether the Canadian and American cats are statistically similar. We could compare the mean lengths of the two samples using the corresponding errors on the mean to see if they agree. If the means agree within their respective errors on the mean, we could still conclude that Canadian and American cats are different if the shapes of the normalized histograms of the measurements were very different (e.g. you could get the same mean, but vastly different distributions).
 
 \section{Summary}
+\begin{chapterSummary}
 In this chapter, we covered a few useful metrics to characterize a set of $N$ measurements, \{$x_1, x_2, \dots,x_N$\}, of a single quantity. In particular, we defined the mean:
 \begin{align}
  \bar{x} \equiv \frac{1}{N} \sum_{i=1}^{i=N} x_i 
@@ -419,3 +420,4 @@ We then considered the statistical properties of a function $F(x,y)$, when evalu
 which is the basis of the error propagation formula presented in the previous chapter. In order for the formula to be valid for error propagation, the errors in $x$ and $y$ must be well modelled by the standard deviation of the corresponding values, and the uncertainties must be small enough so that the first order Taylor series used to derive the formula is a valid approximation.
 
 We finished by introducing the histogram as a way to visualize the distribution of measurements of a single quantity. We saw that we have liberty in how we define the location and sizes of the bins. We saw that by normalizing the area of the histogram, we could approximate a probability density function for the data.
+\end{chapterSummary}

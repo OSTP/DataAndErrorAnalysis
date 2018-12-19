@@ -1,16 +1,17 @@
-%Copyright 2016 R.D. Martin
-%This book is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-%
-%This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
+\documentclass[12pt, openany]{book}
+\usepackage{comment}
+\specialcomment{answer}{\textbf{Answer: }}{}
 
+%Change below to decide whether answers are displayed in the text
 
-\documentclass[12pt]{book}
-\usepackage[paper=letterpaper,
-            %includefoot, % Uncomment to put page number above margin
-            marginparwidth=.0in,     % Length of section titles
-            marginparsep=.05in,       % Space between titles and text
-            margin=1in,               % 1 inch margins
-            includemp]{geometry}
+%Decide whether to show answers:
+%Hides the answers to short answer questions
+\excludecomment{answer}
+%Shows multiple choice answers
+%\newcommand{\correct}{\textbf{(Correct)}}
+%Hides multiple choice answers
+\newcommand{\correct}{}
+
 \usepackage{mathtools} % for \Aboxed
 \usepackage{paralist}
 \usepackage{calc}
@@ -20,43 +21,49 @@
 \usepackage{amsmath}
 \usepackage{amstext}
 \usepackage[font={small,it}]{caption}
-\usepackage[pdftex]{graphicx} 
+\usepackage[pdftex]{graphicx} %Does not work in pressbooks!!!
 \usepackage{fancyhdr,lastpage}
 \usepackage{url}
 \usepackage{longtable}
 \usepackage{comment}
 \usepackage{ifthen}
 \usepackage{color}
-\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
 \usepackage[explicit]{titlesec}
 \usepackage{lmodern}
 \usepackage{listings}
 \usepackage{parskip}
 \usepackage[table]{xcolor}
-\usepackage{enumitem}
+%\usepackage{enumitem}
 \usepackage{wrapfig}
 \usepackage[framemethod=TikZ]{mdframed}
 \usepackage{titlesec} %for spacing around titles
 \usepackage{caption}
+\usepackage[separate-uncertainty = true]{siunitx}
+\usepackage{float}
+\restylefloat{table}
+\usepackage{multicol}
+\usepackage[shortlabels]{enumitem}
 %\lstset{language=Python,showstringspaces=false,commentstyle=} 
 
-
-%%TODO:
-%Chapter reference are out of whack
-%Padding around wrapfigures
-
-
 %%Some math and other shortcuts
-\newcommand{\chloe}{Chlo\"e}
-\newcommand{\chloesp}{Chlo\"e~}
+\newcommand{\chloe}{Chlo\"e~}
 \newcommand{\die}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\ddt}{\frac{d}{dt}}
 \newcommand{\lagd}{\mathcal{L}}
 \newcommand{\code}[1]{\texttt{#1}}
 
+\newcommand{\pvec}[1]{\vec{#1}\mkern2mu\vphantom{#1}} % for a vector of a primed quantity, e.g. \vec p ', should be \pvec p'
+
+%Colours
+\definecolor{mygreen}{rgb}{0.2,0.6,0}
+\definecolor{TBgreen}{rgb}{0.0,0.5,0.0}
+\definecolor{TBblue}{rgb}{0.0, 0.58, 0.71}
+\definecolor{TBred}{rgb}{0.8, 0.25, 0.33}
+\definecolor{TBorange}{rgb}{0.89, 0.35, 0.13}
 
 %Stuff for writing code:
 
-\definecolor{mygreen}{rgb}{0.2,0.6,0}
 \lstset{ %
   belowskip=0pt,
   aboveskip=0pt,
@@ -91,7 +98,7 @@
 %Environments for writing code
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
-
+  
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
 \renewcommand{\lstlistingname}{Python Example}
 \renewcommand{\lstlistlistingname}{List of \lstlistingname s}
@@ -102,11 +109,10 @@
 }{}
 
 \lstnewenvironment{poutput}{
- \lstset{caption=Output, language=,aboveskip=-3pt}
+ \lstset{caption=\mbox{}, language=,aboveskip=-3pt}
  \addtocounter{lstlisting}{-1}
- \renewcommand\lstlistingname{}
+ \renewcommand\lstlistingname{Output}
 }{}
-
 
 
 %%Pretty chapter headings:
@@ -155,80 +161,254 @@
 
 \setlength{\intextsep}{12pt}
 
+%space before itemized list:
+%\setlength{\topsep}{-10pt} %does nothing?
 
 %%Simplifed figure environment:
-%\newenvironment{capfig}[3]{\begin{figure}[h!]\centering\includegraphics[width=#1]{#2}\caption{#3}\end{figure}}{}
+
 \newenvironment{capfig}[3]{\begin{center}\includegraphics[width=#1]{#2}\captionof{figure}{#3}\end{center}}{}
+
+
 %Wrap figure environments (right or left). Argument #1 (default value 12, specified as optional), is the number of 
 %lines that the figure should take.
 %space around wrap figures:
 %\setlength{\intextsep}{20pt}%
 %\setlength{\columnsep}{5pt}%
-\newenvironment{rwcapfig}[4][0]{
+\newenvironment{Rwcapfig}[4][0]{
 \begingroup
 %\setlength{\intextsep}{0pt}%
 \setlength{\columnsep}{10pt}%
 \begin{wrapfigure}[#1]{R}{#2}\centering\includegraphics[width=#2]{#3}\caption{#4}\end{wrapfigure}}{\endgroup}
 
-\newenvironment{lwcapfig}[4][0]{
+\newenvironment{rwcapfig}[4][0]{
+\begingroup
+%\setlength{\intextsep}{0pt}%
+\setlength{\columnsep}{10pt}%
+\begin{wrapfigure}[#1]{r}{#2}\centering\includegraphics[width=#2]{#3}\caption{#4}\end{wrapfigure}}{\endgroup}
+
+\newenvironment{Lwcapfig}[4][0]{
 \begingroup
 %\setlength{\intextsep}{0pt}%
 \setlength{\columnsep}{10pt}%
 \begin{wrapfigure}[#1]{L}{#2}\centering\includegraphics[width=#2]{#3}\caption{#4}\end{wrapfigure}}{\endgroup }
 
-%%Checkpoint question in a box, with counter:
-\newcounter{ncheckpoint}[chapter]
-\def\thecheckpoint{\thechapter-\arabic{ncheckpoint}}
 
-%%MC checkpoint
-\newenvironment{checkpointMC}[1]{\refstepcounter{ncheckpoint}%
-    \textbf{Checkpoint \thecheckpoint: }#1 %
-    \begin{enumerate}[label=\Alph*),topsep=-10pt]}%  ithmdframed[skipabove=10pt,linewidth=2pt, backgroundcolor=green!10, roundcorner=10pt,nobreak=true]{checkpointSA}
+\newenvironment{lwcapfig}[4][0]{
+\begingroup
+%\setlength{\intextsep}{0pt}%
+\setlength{\columnsep}{10pt}%
+\begin{wrapfigure}[#1]{l}{#2}\centering\includegraphics[width=#2]{#3}\caption{#4}\end{wrapfigure}}{\endgroup }
+
+\newenvironment{lwfig}[3][0]{
+\begingroup
+\setlength{\intextsep}{0pt}%
+\setlength{\columnsep}{10pt}%
+\begin{wrapfigure}[#1]{l}{#2}\centering\includegraphics[width=#2]{#3}\end{wrapfigure}}{\endgroup }
+
+%Environments (in the works) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Environments to Keep
+%%Learning Objectives:
+\newenvironment{learningObjectives}[1]{%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=west,rectangle,fill=TBblue, minimum width=5cm, rounded corners=0.2cm]
+        {\strut Learning Objectives};},
+    frametitlefont=\color{white}\sffamily\bfseries,
+    innertopmargin=0pt,linecolor=TBblue,%
+    linewidth=1pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\vspace{10pt}
+\begin{mdframed}\begin{itemize}[label=\textcolor{TBblue}{\textbullet}] #1 \end{itemize}}{\end{mdframed}}
 
 
-%%Learning objectives box:
-\newenvironment{learningObjectives}{\textbf{Learning Objectives:} \begin{itemize}[topsep=-10pt]}{\end{itemize}}
-\surroundwithmdframed[linewidth=2pt, backgroundcolor=blue!10, roundcorner=10pt,nobreak=true]{learningObjectives}
+%%Opening Question:
+\newenvironment{opening}[1]{%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=west,rectangle,fill=TBblue, minimum width=5cm,rounded corners=0.2cm]
+        {\strut Think About It};},
+    frametitlefont=\color{white}\sffamily\bfseries,
+    innertopmargin=0pt,linecolor=TBblue,backgroundcolor=TBblue!5,%
+    linewidth=1pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\vspace{10pt}
+\begin{mdframed}[nobreak=true]\relax #1}{%
+\end{mdframed}}
 
-%%End of chapter summary box:
-\newenvironment{chapterSummary}{\begin{itemize}[topsep=-10pt]}{\end{itemize}}
-\surroundwithmdframed[linewidth=2pt, backgroundcolor=yellow!10, roundcorner=10pt]{chapterSummary}
-
-%%Worked out example box with a counter
-\newcounter{example}[chapter]
-\def\theexample{\thechapter-\arabic{example}}
-
-\newenvironment{example}[2]
-{\refstepcounter{example} \textbf{Example \theexample:} #1\\ \\ \itshape #2}{}
-\surroundwithmdframed[skipabove=10pt,linewidth=2pt, backgroundcolor=red!10, roundcorner=10pt]{example}
-
-
+%Problems
 \newcounter{problem}[chapter]
 \def\theproblem{\thechapter-\arabic{problem}}
 
-\newenvironment{problem}[1]
-  {\refstepcounter{problem}\textbf{Problem \theproblem: #1}\\}
-  {\vspace{2ex}\\}
+\newenvironment{problem}[2]
+  {\refstepcounter{problem}\textbf{Problem \theproblem: }#2 (\hyperref[#1]{Solution})} %
+  {\vspace{2ex}}
+  
+\newenvironment{problemParts}[2]
+  {\refstepcounter{problem}\textbf{Problem \theproblem: }#2 (\hyperref[#1]{Solution}) %
+  \begin{enumerate}[label=\alph*),topsep=-10pt]}%
+   {\end{enumerate}}
+  {\vspace{2ex}}
+  
+\newenvironment{MCquestion}[1]{#1%
+   \begin{enumerate}[label=\Alph*),topsep=-10pt]}{%
+   \end{enumerate}}
+
+%Example Box with counter  
+\newcounter{example}[chapter]
+\def\theexample{\thechapter-\arabic{example}}
+\newenvironment{example}[2]{% 
+\refstepcounter{example}%
+\mdfsetup{%
+    frametitle={% 
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=west,rectangle,fill=TBred, minimum width=5cm,rounded corners=0.2cm]
+        {\strut Example~\theexample};},
+    frametitlefont=\color{white}\sffamily\bfseries,
+    skipabove=\strutbox,
+    innertopmargin={0.5cm},
+    linecolor=TBred,%
+    linewidth=1pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+    %frametitleaboveskip=-\strutbox
+}
+\begin{mdframed}[]\relax #1 \leavevmode \\ \newline { \color{TBred}\textsf{\large Solution}} \\ {\color{TBred}\rule[10pt]{\textwidth}{1pt}} \\ #2}{%
+\end{mdframed}}
+
+%Review Box
+\newenvironment{review}[1]{%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=west,rectangle,fill=TBorange, minimum width=5cm,rounded corners=0.2cm]
+        {\strut Review Topics};},
+    frametitlefont=\color{white}\sffamily\bfseries,
+    innertopmargin=0pt,linecolor=TBorange,backgroundcolor=TBorange!5,%
+    linewidth=1pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\vspace{10pt}
+\begin{mdframed}[nobreak=true]\relax #1}{%
+\end{mdframed}}
+
+%Reflect and Research
+\newenvironment{chapteractivity}[2]{%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=west,rectangle,fill=TBgreen!80, minimum width=5cm,rounded corners=0.2cm]
+        {\strut #1};},
+    frametitlefont=\color{white}\sffamily\bfseries,
+    innertopmargin=0pt,linecolor=TBgreen!80,backgroundcolor=TBgreen!5,%
+    linewidth=1pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\vspace{10pt}
+\begin{mdframed}\begin{enumerate}[itemsep=1ex] #2
+   \end{enumerate}}
+{\end{mdframed}}
 
 
-%\def\secondpage{\clearpage\null\vfill
-%%\pagestyle{empty}
-%\begin{minipage}[b]{0.9\textwidth}
-%\footnotesize\raggedright
-%\setlength{\parskip}{0.5\baselineskip}
-%Copyright \copyright \the\year\ R.D. Martin\par
-%This book is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-%
-%This book is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details, http://www.gnu.org/licenses/.
-%\end{minipage}
-%\vspace*{2\baselineskip}
-%\cleardoublepage
-%\rfoot{\thepage}}
 
-%\makeatletter
-%\g@addto@macro{\maketitle}{\secondpage}
-%\makeatother
+%%Checkpoint question in a box, with counter:
+\newcounter{checkpoint}[chapter]
+\def\thecheckpoint{\thechapter-\arabic{checkpoint}}
+
+\newenvironment{checkpoint}[1]{%
+\refstepcounter{checkpoint}%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=west,rectangle,fill=TBgreen!80, minimum width=5cm,rounded corners=0.2cm]
+        {\strut Checkpoint~\thecheckpoint};},
+    frametitlefont=\color{white}\sffamily\bfseries,
+    innertopmargin=0pt,linecolor=TBgreen!80,backgroundcolor=TBgreen!5,%
+    linewidth=1pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\vspace{10pt}
+\begin{mdframed}[nobreak=true]\relax #1}{%
+\end{mdframed}}
+
+
+%Student Opinion with option for student name
+\newenvironment{studentOpinion}[2]{%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=west,rectangle,fill=TBorange, minimum width=5cm,rounded corners=0.2cm]
+        {\strut #1's Thoughts};},
+    frametitlefont=\color{white}\sffamily\bfseries,
+    linecolor=TBorange,%
+    linewidth=1pt,topline=true,
+    skipabove=\strutbox,
+    innertopmargin={0.5cm},%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\vspace{10pt}
+\begin{mdframed}[]\relax #2}{%
+\end{mdframed}}
+
+%%Important Equations:
+\newenvironment{importantEquations}[1]{%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=west,rectangle,fill=TBblue, minimum width=5cm,rounded corners=0.2cm]
+        {\strut Important Equations};},
+    frametitlefont=\color{white}\sffamily\bfseries,
+    innertopmargin=0pt,linecolor=TBblue,%
+    linewidth=1pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\vspace{10pt}
+\begin{mdframed}[nobreak=false]\relax #1}{%
+\end{mdframed}}
+
+%%Key Takeaways:
+\newenvironment{chapterSummary}[1]{%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=west,rectangle,fill=TBblue, minimum width=5cm,rounded corners=0.2cm]
+        {\strut Key Takeaways};},
+    frametitlefont=\color{white}\sffamily\bfseries,
+    innertopmargin=0pt,linecolor=TBblue,backgroundcolor=TBblue!5,%
+    linewidth=1pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\vspace{10pt}
+\begin{mdframed}[]\relax #1}{%
+\end{mdframed}}
+
+\newcounter{solution}[chapter]
+\def\thesolution{\thechapter-\arabic{solution}}
+
+\newenvironment{solution}[2]{\refstepcounter{solution}\textbf{Solution to problem \ref{#1}:} #2}
+{\vspace{2ex}}
+
+\newenvironment{solutionParts}[2]{\refstepcounter{solution}\textbf{Solution to problem \ref{#1}:}
+  \begin{enumerate}[label=\alph*),topsep=-10pt] 
+   #2
+  \end{enumerate}}
+  {\vspace{2ex}}
+  
+%%Reflect and Research Questions with Counter
+\newcounter{tQuestion}[chapter]
+\def\therQuestion{\thechapter-\arabic{tQuestion}}
+
+\newenvironment{tQuestion}[1]{\refstepcounter{tQuestion}%
+    \textbf{Activity~\therQuestion: }#1}
           
+\usepackage[paper=letterpaper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=.0in,     % Length of section titles
+            marginparsep=.05in,       % Space between titles and text
+            margin=1in,               % 1 inch margins
+            includemp]{geometry}
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
@@ -239,6 +419,8 @@
 \pagenumbering{roman}
 \maketitle
 \frontmatter
+\pagenumbering{roman}
+\include{Preface}
 \tableofcontents
 \lstlistoflistings
 \pagenumbering{arabic}
