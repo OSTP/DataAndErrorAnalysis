@@ -133,7 +133,6 @@ import numpy as np
 from math import *
 import pylab as pl
 import scipy.stats as stats
-%matplotlib inline
 
 #Copy and paste data from the table in the notes, add commas:
 datalist=[
@@ -209,7 +208,7 @@ pl.show()
 Probability to get g 2.2 sigma or further from accepted value: 0.027
 (* \capfig{0.7\textwidth}{figures/gravmeasfit.png}{\label{fig:gravmeasfit} Measured time (squared) to fall a certain distance, using data from Table \ref{tab:gravmeas} and fit (solid red line) using equation \ref{eqn:LSmb}. The slope of the line is also shown for the values of the slope 1 standard deviation away from the mean value.} *)
 \end{poutput}
-The results of this code, are shown in Figure \ref{fig:gravmeasfit}. Since our formulas in equations \ref{eqn:LSmb} and \ref{eqn:LSmberror} assumed that all points had the same size vertical error bar, we used the mean of the values in the last column of table \ref{tab:gravmeas} as the error. We find that the measurement is $g=7.5\pm1.0\, m/s^2$ which is more than one standard deviation away from the accepted value of $g$ (9.81\,$m/s^2$). The value is $\frac{9.81-7.5}{1.0}\sigma=2.2\sigma$ away from the expected value, which has a 2.7\% change of occurring. It is not clear if this is due to pure chance or if there is a systematic effect. Given the low probability of obtaining such a shifted result, one should suspect a systematic effect. 
+The results of this code, are shown in Figure \ref{fig:gravmeasfit}. Since our formulas in equations \ref{eqn:LSmb} and \ref{eqn:LSmberror} assumed that all points had the same size vertical error bar, we used the mean of the values in the last column of table \ref{tab:gravmeas} as the error. We find that the measurement is $g=7.5\pm1.0\, m/s^2$ which is more than one standard deviation away from the accepted value of $g$ (9.81\,$m/s^2$). The value is $\frac{9.81-7.5}{1.0}\sigma=2.2\sigma$ away from the expected value, which has a 2.7\% probability of occurring. It is not clear if this is due to pure chance or if there is a systematic effect. Given the low probability of obtaining such a shifted result, one should suspect a systematic effect. 
 
 We should also note that the fit returned a non-zero value for the offset of the fit. Although our model expects the offset to be zero, we have found a value of $b=1.0\pm0.2\,s^2$ that is inconsistent with zero by 5$\sigma$. It is thus very likely that there is some systematic offset in the data leading to the time always being measured to be slightly high. Perhaps the person doing the timing systematically stopped the timer late, maybe due to their reaction time. This offset in the timing may also result in a systematic shift of the slope, leading to a systematic shift in the measured value of $g$. 
 
@@ -361,7 +360,7 @@ Since we can view each bin as a separate measurement, we can assign each bin an 
 
 \capfig{0.5\textwidth}{figures/resdata.png}{\label{fig:resdata}Simulated data from an accelerator experiment, showing the number of counts in 1\,MeV bins as a function of energy, from table \ref{tab:resdata}.}
 
-We will use the \code{scipy.optimize} module to fit the model to the data and to determine the value of the unknown parameters. The first step is specify the model in python as a function of the dependent variable (in our case the energy) and the unknown parameters. We can make the definition of our function slightly more general by passing the unknown parameters as a tuple:
+We will use the \code{scipy.optimize} module to fit the model to the data and to determine the value of the unknown parameters. The first step is to specify the model in python as a function of the dependent variable (in our case the energy) and the unknown parameters. We can make the definition of our function slightly more general by passing the unknown parameters as a tuple:
 \begin{python}[caption = Defining a function for a non-linear fit] 
 #Define a model for a gaussian + linear background, with 5 parameters:
 def model(x, *pars):

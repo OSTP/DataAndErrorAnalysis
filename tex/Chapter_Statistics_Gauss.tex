@@ -41,7 +41,7 @@ P^{binom}(k=140,N=300,p=0.5)=\frac{N!}{k!(N-k)!}p^k(1-p)^{N-k}=0.02367
 \end{align*}
 If you try to evaluate this with your calculator, it might crash when trying to evaluate $300!$, so this is best evaluated using a computer (see below).
 
-The parameters for the normal distribution in terms of the parameters from the binomial distribution are given by $\mu_x=Np=140$ and $\sigma_x=\sqrt{Np(1-p)}=8.7$. We can evaluate the probability for the normal distribution, $P^{norm}(x,\mu_x,\sigma_x)dx$ using $x=140$ and $dx=1$, which we interpret as the probability of obtaining $x$ between 140 and 141, since the probability of obtaining an exact value of $x$ is zero. Of course, with $dx=1$, we only really evaluate $P^{norm}(x,\mu_x,\sigma_x)$ at the given value of $x$, but we should always remember that we have implicitly chosen $dx=1$, and our result is the probability of having $x$ between $x$ and $x+dx$. 
+The parameters for the normal distribution in terms of the parameters from the binomial distribution are given by $\mu_x=Np=150$ and $\sigma_x=\sqrt{Np(1-p)}=8.7$. We can evaluate the probability for the normal distribution, $P^{norm}(x,\mu_x,\sigma_x)dx$ using $x=140$ and $dx=1$, which we interpret as the probability of obtaining $x$ between 140 and 141, since the probability of obtaining an exact value of $x$ is zero. Of course, with $dx=1$, we only really evaluate $P^{norm}(x,\mu_x,\sigma_x)$ at the given value of $x$, but we should always remember that we have implicitly chosen $dx=1$, and our result is the probability of having $x$ between $x$ and $x+dx$. 
 
 The simple python program below evaluates the two probabilities:  
 \begin{python}[caption = Comparison of probabilities from binomial and normal distributions]
@@ -375,7 +375,7 @@ Given a set of $N$ measurements, \{$x_1, x_2, \dots, x_N$\}, of a normally distr
 \subsection{The principle of maximum likelihood}
 Given a probability density function, $P(x,\vec\beta)$, we wish to determine the set of parameters (represented as a vector, $\vec\beta$) that best describes a set of data that is modelled by that pdf.  For example, the pdf may be that for the normal distribution, $P^{norm}(x,\mu_x,\sigma_x)$, for which we wish to estimate $\mu_x$ and $\sigma_x$, given a set of $N$ measurements, \{$x_1, x_2, \dots,x_N$\}.
 
-The ``principle of maximum likelihood'' is a procedure to determine the value of the parameters $\vec\beta$ for which the ``likelihood'' of the data is maximized. The likelihood, $L(x|\vec\beta)$, is essentially the probability of obtaining a particular data set given a particular set of parameters. For example, the likelihood of obtaining the $N$ data points \{$x_1, x_2, \dots,x_N$\} would be given by the joint probability of obtaining each individual data point:
+The ``principle of maximum likelihood'' is a procedure to determine the value of the parameters $\vec\beta$ for which the ``likelihood'' of the data is maximized. The likelihood, $L(x|\vec\beta)$, is essentially the probability of obtaining a particular data set given a particular set of parameters. For example, the likelihood of obtaining the $N$ data points \{$x_1, x_2, \dots,x_N$\} is given by the joint probability of obtaining each individual data point:
 \begin{align}
 L(x|\vec\beta)&=P(x_1,\vec\beta)P(x_2,\vec\beta)\dots P(x_N,\vec\beta)\nonumber\\
 &=\prod_{i=1}^{i=N}P(x_i,\vec\beta)
@@ -421,7 +421,7 @@ and the best estimate of the standard deviation, $\sigma_x$, from the data $\hat
 \die{}{\sigma_x}\left(-\ln(L)\right)=0
 \end{align}
 
-We call $\hat\mu_x$ and $\hat\sigma_x$ the ``maximum likelihood estimates'' of the true parameters. We used hats on the quantities to denote that these are estimated from the data as we do not know the ``true'' values, $\mu_x$ and $\sigma_x$. Also note that there are methods other than maximum likelihood that can be used to estimate parameters. It certainly makes intuitive sense to think of maximizing the probability of obtaining a given data set, but it is difficult to justify scientifically (e.g. what is really meant by ``probability''?). For this reason, you should remember to always specify the method used to estimate your parameters from data.
+We call $\hat\mu_x$ and $\hat\sigma_x$ the ``maximum likelihood estimates'' of the true parameters. We used hats on the quantities to denote that these are estimated from the data as we do not know the ``true'' values, $\mu_x$ and $\sigma_x$. Also, note that there are methods other than maximum likelihood that can be used to estimate parameters. It certainly makes intuitive sense to think of maximizing the probability of obtaining a given data set, but it is difficult to justify scientifically (e.g. what is really meant by ``probability''?). For this reason, you should remember to always specify the method used to estimate your parameters from data.
 
 Taking the derivative of the negative log-likelihood function with respect to $\mu_x$, we have:
 \begin{align}
@@ -526,7 +526,7 @@ where we have neglected the normalization factor for the probability, since we w
 We can evaluate the joint probability of obtaining both measurements, given by the product of the two probabilities:
 \begin{align}
 P(x_a,x_b|X)&\propto P(x_a) P(x_b) \nonumber\\
-&=\frac{1}{\sigma_a}e^{\frac{(x_a-X)^2}{2\sigma_a^2}}\frac{1}{\sigma_b}e^{\frac{(x_b-X)^2}{2\sigma_b^2}}\nonumber\\
+&=\frac{1}{\sigma_a}e^{-\frac{(x_a-X)^2}{2\sigma_a^2}}\frac{1}{\sigma_b}e^{-\frac{(x_b-X)^2}{2\sigma_b^2}}\nonumber\\
 &=\frac{1}{\sigma_a\sigma_b}e^{-\left(\frac{(x_a-X)^2}{2\sigma_a^2}+\frac{(x_b-X)^2}{2\sigma_b^2}\right)}\nonumber\\
 \end{align}
 and we can use this to define our estimate, $\hat X$, to be the value of $X$ that maximizes this joint probability (also called the likelihood of our measurements). Again, instead of maximizing the likelihood, we can minimize the negative of the logarithm of the likelihood, given by:
